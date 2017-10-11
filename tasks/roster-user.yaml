@@ -1,0 +1,2 @@
+- name: Add user to roster
+  lineinfile: line="{{name}} {{email}}" dest=~/roster.txt regexp={{regexp}}

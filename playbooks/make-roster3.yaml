@@ -1,0 +1,17 @@
+- hosts: arborian-01.class.arborian.com
+  become: true
+  vars:
+    users:
+        - name: Rick Copeland
+          email: rick@arborian.com
+          regexp: rick
+  tasks:
+    - name: Ensure file exists
+      file: path=~/roster.txt state=touch
+    - name: Perform some dynamic includes
+      include: tasks/roster-user.yaml
+      vars:
+        name: "{{item.name}}"
+        email: "{{item.email}}"
+        regexp: "{{item.regexp}}"
+      with_items: '{{users}}'

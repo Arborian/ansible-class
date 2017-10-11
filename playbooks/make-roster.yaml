@@ -1,0 +1,7 @@
+- hosts: arborian-01.class.arborian.com
+  become: true
+  tasks:
+    - name: Ensure file exists
+      file: path=~/roster.txt state=touch
+    - name: Include rick
+      include: tasks/roster-user.yaml name="Rick Copeland" email="rick@arborian.com" regexp=rick

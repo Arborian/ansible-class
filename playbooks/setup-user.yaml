@@ -1,0 +1,21 @@
+- hosts: web
+  remote_user: root
+  vars_prompt:
+    - name: username
+      prompt: What is your username?
+  tasks:
+  - name: Let the sudo group use sudo without a password
+    lineinfile: "dest=/etc/sudoers state=present regexp='^%sudo' line='%sudo ALL=(ALL) NOPASSWD: ALL'"
+  - name: create user
+    user:
+        name: '{{username}}'
+        groups: sudo
+        generate_ssh_key: yes
+        shell: /bin/bash
+  - name: Authorize the newly-created ssh key
+    copy:
+      remote_src: True
+      src: /home/{{username}}/.ssh/id_rsa.pub
+      dest: /home/{{username}}/.ssh/authorized_keys
+  - name: Retrieve newly-created ssh (private) key
+    fetch: dest=../{{username}}_id_rsa src=/home/{{username}}/.ssh/id_rsa flat=yes

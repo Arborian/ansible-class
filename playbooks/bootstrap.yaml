@@ -1,0 +1,6 @@
+- hosts: all
+  gather_facts: off
+  become: on
+  tasks:
+  - name: Boostrap Ansible requirements
+    raw: apt-get install -y python python-simplejson

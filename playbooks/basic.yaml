@@ -1,0 +1,15 @@
+- name: First play
+  hosts: web
+  remote_user: root
+  tasks:
+  - name: Say my name
+    command: whoami
+    notify: "demo notify"
+  - name: Get the system date and time
+    command: date
+    notify: "demo notify"
+  - name: Ping just for fun
+    ping: {}
+  handlers:
+  - name: demo notify
+    command: 'echo Running the demo notify'
