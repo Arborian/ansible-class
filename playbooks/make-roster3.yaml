@@ -9,7 +9,7 @@
     - name: Ensure file exists
       file: path=~/roster.txt state=touch
     - name: Perform some dynamic includes
-      include: tasks/roster-user.yaml
+      include_tasks: ../tasks/roster-user.yaml
       vars:
         name: "{{item.name}}"
         email: "{{item.email}}"
