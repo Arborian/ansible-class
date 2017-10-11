@@ -12004,6 +12004,18 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Topic-List">Topic List<a class="anchor-link" href="#Topic-List">&#182;</a></h1><ul>
+<li><a href="./Getting%20started%20with%20Ansible.ipynb">Getting Started with Ansible</a> (<a href="./Getting%20started%20with%20Ansible.slides.html">slides</a>)</li>
+<li>[Ad-Hoc Commands][adhoc] ([slides][adhoc-slides</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Why-and-How-of-Ansible">Why and How of Ansible<a class="anchor-link" href="#Why-and-How-of-Ansible">&#182;</a></h1><ul>
 <li>Manages the configuration of </li>
 <li>Python library / tool</li>
@@ -12049,7 +12061,7 @@ arborian-06.class.arborian.com</code></pre>
 
 </div>
 </div>
-</div>
+</div></div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
@@ -12064,7 +12076,7 @@ arborian-06.class.arborian.com</code></pre>
 
 </div>
 </div>
-</div></div></section></section><section><section>
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
@@ -12196,7 +12208,7 @@ hi
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
@@ -12231,7 +12243,7 @@ hi
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
@@ -12242,7 +12254,146 @@ ansible all -a <span class="s1">&#39;echo &quot;hi&quot;&#39;</span>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>arborian-01.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
+hi
+arborian-05.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
+hi
+arborian-02.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
+hi
+arborian-03.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
+hi
+arborian-04.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
+hi
+arborian-06.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
+hi
+</pre>
 </div>
+</div>
+
+</div>
+</div>
+
+</div></div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Lab-1:-Getting-started-with-Ansible">Lab 1: Getting started with Ansible<a class="anchor-link" href="#Lab-1:-Getting-started-with-Ansible">&#182;</a></h1><h2 id="Clone-the-class-repository">Clone the class repository<a class="anchor-link" href="#Clone-the-class-repository">&#182;</a></h2><p><a href="https://github.com/Arborian/ansible-class">https://github.com/Arborian/ansible-class</a></p>
+<p><code>git clone https://github.com/Arborian/ansible-class.git</code></p>
+<h2 id="Install-Ansible">Install Ansible<a class="anchor-link" href="#Install-Ansible">&#182;</a></h2><p><a href="http://docs.ansible.com/ansible/latest/intro_installation.html">http://docs.ansible.com/ansible/latest/intro_installation.html</a></p>
+<p>(For Python users, you can also just <code>pip install ansible</code>)</p>
+<h2 id="Verify-that-you-can-execute-some-ad-hoc-commands">Verify that you can execute some ad-hoc commands<a class="anchor-link" href="#Verify-that-you-can-execute-some-ad-hoc-commands">&#182;</a></h2><p><em>Make sure you enter the directory where you've checked out the class repository</em></p>
+<p>You'll need to unzip / decrypt the key files with the password given in class.</p>
+<ul>
+<li><code>ansible localhost -a 'echo hi'</code></li>
+<li><code>ansible all -a 'echo hi'</code></li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Ansible-class-configuration">Ansible class configuration<a class="anchor-link" href="#Ansible-class-configuration">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat</span> <span class="n">ansible</span><span class="o">.</span><span class="n">cfg</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[defaults]
+inventory = ./inventory
+remote_user = root
+private_key_file = ./training-ssh-key
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat</span> <span class="n">inventory</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[web]
+arborian-01.class.arborian.com
+arborian-02.class.arborian.com
+
+[db]
+arborian-03.class.arborian.com
+arborian-04.class.arborian.com
+
+[app]
+arborian-05.class.arborian.com
+arborian-06.class.arborian.com
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Grouping-commands-into-playbooks">Grouping commands into playbooks<a class="anchor-link" href="#Grouping-commands-into-playbooks">&#182;</a></h1>
+</div>
+</div>
+</div></section></section>
 </div>
 </div>
 
