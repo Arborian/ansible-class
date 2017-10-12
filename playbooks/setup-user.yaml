@@ -1,4 +1,4 @@
-- hosts: web
+- hosts: all
   remote_user: root
   vars_prompt:
     - name: username
@@ -10,12 +10,9 @@
     user:
         name: '{{username}}'
         groups: sudo
-        generate_ssh_key: yes
         shell: /bin/bash
-  - name: Authorize the newly-created ssh key
-    copy:
-      remote_src: True
-      src: /home/{{username}}/.ssh/id_rsa.pub
-      dest: /home/{{username}}/.ssh/authorized_keys
-  - name: Retrieve newly-created ssh (private) key
-    fetch: dest=../{{username}}_id_rsa src=/home/{{username}}/.ssh/id_rsa flat=yes
+  - name: Authorize the public key
+    authorized_key:
+      user: '{{username}}'
+      state: present
+      key: https://raw.githubusercontent.com/Arborian/ansible-class/master/training-ssh-key.pub
