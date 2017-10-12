@@ -1,3 +1,4 @@
+import os
 from ansible.module_utils.basic import AnsibleModule
 
 def run_module():
@@ -15,9 +16,10 @@ def run_module():
         supports_check_mode=True
     )
     if module.check_mode:
-        return result
+        return module.exit_json(**result)
     result['original_message'] = module.params['name']
     result['message'] = 'goodbye'
+    result['num_files'] = len(os.listdir(os.environ['HOME']))
     if module.params['new']:
         result['changed'] = True
     if module.params['name'] == 'fail me':
