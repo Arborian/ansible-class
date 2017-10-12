@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-<title>Getting started with Ansible slides</title>
+<title>PlaybookDebugging slides</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11905,112 +11905,267 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Getting-Started-with-Ansible">Getting Started with Ansible<a class="anchor-link" href="#Getting-Started-with-Ansible">&#182;</a></h1>
+<h1 id="Playbook-error-handling-and-debugging">Playbook error handling and debugging<a class="anchor-link" href="#Playbook-error-handling-and-debugging">&#182;</a></h1><p>What to do when it doesn't "just work"</p>
+
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Before-trying-it,-you-should-test-with-a-dry-run">Before trying it, you should test with a dry run<a class="anchor-link" href="#Before-trying-it,-you-should-test-with-a-dry-run">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+ansible-playbook --check playbooks/setup-user.yaml -e <span class="nv">user</span><span class="o">=</span>rick
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Process is interrupted.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Why-and-How-of-Ansible">Why and How of Ansible<a class="anchor-link" href="#Why-and-How-of-Ansible">&#182;</a></h1><ul>
-<li>Manages the configuration of </li>
-<li>Python library / tool</li>
-<li>"Push" model (generally via ssh)</li>
-<li>Managed hosts need minimal "bootstrapping"<ul>
-<li>Puppet, Chef, Salt, etc. all need an agent on the managed host.</li>
-<li>Ansible only needs sshd (Python is helpful, as well, but we can bootstrap that)</li>
-</ul>
-</li>
-</ul>
+<h2 id="First-Attempt:-Rerun-in-verbose-mode">First Attempt: Rerun in verbose mode<a class="anchor-link" href="#First-Attempt:-Rerun-in-verbose-mode">&#182;</a></h2><p>Sometimes you just need to see the actual commands that Ansible is running:</p>
 
 </div>
 </div>
 </div></section></section><section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+ansible-playbook -vv playbooks/setup-user.yaml -e <span class="nv">user</span><span class="o">=</span>rick
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>ansible-playbook 2.4.0.0
+  config file = /Users/rick446/src/Classes/Ansible/ansible.cfg
+  configured module search path = [&#39;/Users/rick446/src/Classes/Ansible/modules&#39;]
+  ansible python module location = /Users/rick446/.virtualenvs/ansible/lib/python3.6/site-packages/ansible
+  executable location = /Users/rick446/.virtualenvs/ansible/bin/ansible-playbook
+  python version = 3.6.0 (default, Dec 30 2016, 13:36:14) [GCC 4.2.1 Compatible Apple LLVM 8.0.0 (clang-800.0.42.1)]
+Using /Users/rick446/src/Classes/Ansible/ansible.cfg as config file
+
+PLAYBOOK: setup-user.yaml ******************************************************
+1 plays in playbooks/setup-user.yaml
+
+PLAY [all] *********************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [arborian-02.class.arborian.com]
+ok: [arborian-03.class.arborian.com]
+ok: [arborian-05.class.arborian.com]
+ok: [arborian-04.class.arborian.com]
+ok: [arborian-01.class.arborian.com]
+ok: [arborian-06.class.arborian.com]
+META: ran handlers
+
+TASK [Let the sudo group use sudo without a password] **************************
+task path: /Users/rick446/src/Classes/Ansible/playbooks/setup-user.yaml:7
+ok: [arborian-04.class.arborian.com] =&gt; {&#34;backup&#34;: &#34;&#34;, &#34;changed&#34;: false, &#34;failed&#34;: false, &#34;msg&#34;: &#34;&#34;}
+ok: [arborian-01.class.arborian.com] =&gt; {&#34;backup&#34;: &#34;&#34;, &#34;changed&#34;: false, &#34;failed&#34;: false, &#34;msg&#34;: &#34;&#34;}
+ok: [arborian-02.class.arborian.com] =&gt; {&#34;backup&#34;: &#34;&#34;, &#34;changed&#34;: false, &#34;failed&#34;: false, &#34;msg&#34;: &#34;&#34;}
+ok: [arborian-03.class.arborian.com] =&gt; {&#34;backup&#34;: &#34;&#34;, &#34;changed&#34;: false, &#34;failed&#34;: false, &#34;msg&#34;: &#34;&#34;}
+ok: [arborian-05.class.arborian.com] =&gt; {&#34;backup&#34;: &#34;&#34;, &#34;changed&#34;: false, &#34;failed&#34;: false, &#34;msg&#34;: &#34;&#34;}
+ok: [arborian-06.class.arborian.com] =&gt; {&#34;backup&#34;: &#34;&#34;, &#34;changed&#34;: false, &#34;failed&#34;: false, &#34;msg&#34;: &#34;&#34;}
+
+TASK [create user] *************************************************************
+task path: /Users/rick446/src/Classes/Ansible/playbooks/setup-user.yaml:9
+changed: [arborian-03.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: &#34;&#34;, &#34;createhome&#34;: true, &#34;failed&#34;: false, &#34;group&#34;: 1002, &#34;groups&#34;: &#34;sudo&#34;, &#34;home&#34;: &#34;/home/None&#34;, &#34;name&#34;: &#34;None&#34;, &#34;shell&#34;: &#34;/bin/bash&#34;, &#34;state&#34;: &#34;present&#34;, &#34;system&#34;: false, &#34;uid&#34;: 1002}
+changed: [arborian-05.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: &#34;&#34;, &#34;createhome&#34;: true, &#34;failed&#34;: false, &#34;group&#34;: 1002, &#34;groups&#34;: &#34;sudo&#34;, &#34;home&#34;: &#34;/home/None&#34;, &#34;name&#34;: &#34;None&#34;, &#34;shell&#34;: &#34;/bin/bash&#34;, &#34;state&#34;: &#34;present&#34;, &#34;system&#34;: false, &#34;uid&#34;: 1002}
+changed: [arborian-02.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: &#34;&#34;, &#34;createhome&#34;: true, &#34;failed&#34;: false, &#34;group&#34;: 1003, &#34;groups&#34;: &#34;sudo&#34;, &#34;home&#34;: &#34;/home/None&#34;, &#34;name&#34;: &#34;None&#34;, &#34;shell&#34;: &#34;/bin/bash&#34;, &#34;state&#34;: &#34;present&#34;, &#34;system&#34;: false, &#34;uid&#34;: 1003}
+changed: [arborian-04.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: &#34;&#34;, &#34;createhome&#34;: true, &#34;failed&#34;: false, &#34;group&#34;: 1002, &#34;groups&#34;: &#34;sudo&#34;, &#34;home&#34;: &#34;/home/None&#34;, &#34;name&#34;: &#34;None&#34;, &#34;shell&#34;: &#34;/bin/bash&#34;, &#34;state&#34;: &#34;present&#34;, &#34;system&#34;: false, &#34;uid&#34;: 1002}
+changed: [arborian-01.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: &#34;&#34;, &#34;createhome&#34;: true, &#34;failed&#34;: false, &#34;group&#34;: 1003, &#34;groups&#34;: &#34;sudo&#34;, &#34;home&#34;: &#34;/home/None&#34;, &#34;name&#34;: &#34;None&#34;, &#34;shell&#34;: &#34;/bin/bash&#34;, &#34;state&#34;: &#34;present&#34;, &#34;system&#34;: false, &#34;uid&#34;: 1003}
+changed: [arborian-06.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: &#34;&#34;, &#34;createhome&#34;: true, &#34;failed&#34;: false, &#34;group&#34;: 1002, &#34;groups&#34;: &#34;sudo&#34;, &#34;home&#34;: &#34;/home/None&#34;, &#34;name&#34;: &#34;None&#34;, &#34;shell&#34;: &#34;/bin/bash&#34;, &#34;state&#34;: &#34;present&#34;, &#34;system&#34;: false, &#34;uid&#34;: 1002}
+
+TASK [Authorize the public key] ************************************************
+task path: /Users/rick446/src/Classes/Ansible/playbooks/setup-user.yaml:14
+changed: [arborian-02.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: null, &#34;exclusive&#34;: false, &#34;failed&#34;: false, &#34;key&#34;: &#34;https://raw.githubusercontent.com/Arborian/ansible-class/master/training-ssh-key.pub&#34;, &#34;key_options&#34;: null, &#34;keyfile&#34;: &#34;/home/None/.ssh/authorized_keys&#34;, &#34;manage_dir&#34;: true, &#34;path&#34;: null, &#34;state&#34;: &#34;present&#34;, &#34;unique&#34;: false, &#34;user&#34;: &#34;None&#34;, &#34;validate_certs&#34;: true}
+changed: [arborian-01.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: null, &#34;exclusive&#34;: false, &#34;failed&#34;: false, &#34;key&#34;: &#34;https://raw.githubusercontent.com/Arborian/ansible-class/master/training-ssh-key.pub&#34;, &#34;key_options&#34;: null, &#34;keyfile&#34;: &#34;/home/None/.ssh/authorized_keys&#34;, &#34;manage_dir&#34;: true, &#34;path&#34;: null, &#34;state&#34;: &#34;present&#34;, &#34;unique&#34;: false, &#34;user&#34;: &#34;None&#34;, &#34;validate_certs&#34;: true}
+changed: [arborian-04.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: null, &#34;exclusive&#34;: false, &#34;failed&#34;: false, &#34;key&#34;: &#34;https://raw.githubusercontent.com/Arborian/ansible-class/master/training-ssh-key.pub&#34;, &#34;key_options&#34;: null, &#34;keyfile&#34;: &#34;/home/None/.ssh/authorized_keys&#34;, &#34;manage_dir&#34;: true, &#34;path&#34;: null, &#34;state&#34;: &#34;present&#34;, &#34;unique&#34;: false, &#34;user&#34;: &#34;None&#34;, &#34;validate_certs&#34;: true}
+changed: [arborian-03.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: null, &#34;exclusive&#34;: false, &#34;failed&#34;: false, &#34;key&#34;: &#34;https://raw.githubusercontent.com/Arborian/ansible-class/master/training-ssh-key.pub&#34;, &#34;key_options&#34;: null, &#34;keyfile&#34;: &#34;/home/None/.ssh/authorized_keys&#34;, &#34;manage_dir&#34;: true, &#34;path&#34;: null, &#34;state&#34;: &#34;present&#34;, &#34;unique&#34;: false, &#34;user&#34;: &#34;None&#34;, &#34;validate_certs&#34;: true}
+changed: [arborian-05.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: null, &#34;exclusive&#34;: false, &#34;failed&#34;: false, &#34;key&#34;: &#34;https://raw.githubusercontent.com/Arborian/ansible-class/master/training-ssh-key.pub&#34;, &#34;key_options&#34;: null, &#34;keyfile&#34;: &#34;/home/None/.ssh/authorized_keys&#34;, &#34;manage_dir&#34;: true, &#34;path&#34;: null, &#34;state&#34;: &#34;present&#34;, &#34;unique&#34;: false, &#34;user&#34;: &#34;None&#34;, &#34;validate_certs&#34;: true}
+changed: [arborian-06.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: null, &#34;exclusive&#34;: false, &#34;failed&#34;: false, &#34;key&#34;: &#34;https://raw.githubusercontent.com/Arborian/ansible-class/master/training-ssh-key.pub&#34;, &#34;key_options&#34;: null, &#34;keyfile&#34;: &#34;/home/None/.ssh/authorized_keys&#34;, &#34;manage_dir&#34;: true, &#34;path&#34;: null, &#34;state&#34;: &#34;present&#34;, &#34;unique&#34;: false, &#34;user&#34;: &#34;None&#34;, &#34;validate_certs&#34;: true}
+META: ran handlers
+META: ran handlers
+
+PLAY RECAP *********************************************************************
+arborian-01.class.arborian.com : ok=4    changed=2    unreachable=0    failed=0   
+arborian-02.class.arborian.com : ok=4    changed=2    unreachable=0    failed=0   
+arborian-03.class.arborian.com : ok=4    changed=2    unreachable=0    failed=0   
+arborian-04.class.arborian.com : ok=4    changed=2    unreachable=0    failed=0   
+arborian-05.class.arborian.com : ok=4    changed=2    unreachable=0    failed=0   
+arborian-06.class.arborian.com : ok=4    changed=2    unreachable=0    failed=0   
+
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre> [WARNING]: Not prompting as we are not in interactive mode
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Ansible-Inventory">Ansible Inventory<a class="anchor-link" href="#Ansible-Inventory">&#182;</a></h1><p>Ansible needs to know which hosts it manages. For this, it uses an <em>inventory</em>.</p>
+<h2 id="Second-attempt:-Playbook-debugger">Second attempt: Playbook debugger<a class="anchor-link" href="#Second-attempt:-Playbook-debugger">&#182;</a></h2><p>We can also add a <code>strategy: debug</code> to a play which will drop us into an interactive debugger if a task fails:</p>
 
 </div>
 </div>
 </div><div class="fragment">
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Static-inventory">Static inventory<a class="anchor-link" href="#Static-inventory">&#182;</a></h2><p>A static inventory is just a text file (by default, <code>/etc/ansible/hosts</code>, but we'll change that).</p>
-<p>The inventory lists the hosts that Ansible will manage, optionally collecting them into groups.
-One example is in the class repository as <code>inventory</code>:</p>
-
-<pre><code>[web]
-arborian-01.class.arborian.com
-arborian-02.class.arborian.com
-
-[db]
-arborian-03.class.arborian.com
-arborian-04.class.arborian.com
-
-[app]
-arborian-05.class.arborian.com
-arborian-06.class.arborian.com</code></pre>
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat</span> <span class="n">playbooks</span><span class="o">/</span><span class="n">debug</span><span class="o">-</span><span class="n">demo</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
 
 </div>
 </div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>- hosts: localhost
+  gather_facts: false
+  strategy: debug
+  tasks:
+  - name: Run my simple module
+    simple_module:
+      # name: fail me Missing name!
+      new: true
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div></div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Inventory:-Dynamic-Inventory">Inventory: Dynamic Inventory<a class="anchor-link" href="#Inventory:-Dynamic-Inventory">&#182;</a></h1><p>We can also use Python modules to create our inventory programmatically (as when we might want to enumerate all hosts on AWS, Azure, or Google Compute Engine)</p>
-<p>Any inventory file that is executable will be run to generate an inventory JSON result when fed certain command-line arguments.</p>
-<p>Some useful links:</p>
-<ul>
-<li><a href="http://docs.ansible.com/ansible/intro_dynamic_inventory.html">Dynamic Inventory</a></li>
-<li><a href="http://docs.ansible.com/ansible/dev_guide/developing_inventory.html">Developing your own inventory script</a></li>
-</ul>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Ad-hoc-Commands">Ad-hoc Commands<a class="anchor-link" href="#Ad-hoc-Commands">&#182;</a></h1><p>Ansible command line</p>
-<p><code>ansible &lt;host pattern&gt; [options]</code></p>
-<p>Frequently used options</p>
-<ul>
-<li><code>-m MODULE_NAME</code> (default is command)</li>
-<li><code>-a MODULE_ARGS</code></li>
-</ul>
-<p>Frequently used host patterns</p>
-<ul>
-<li><code>localhost</code></li>
-<li><code>all</code></li>
-<li><code>GROUP-NAME</code> (one of the groupings from your inventory)</li>
-</ul>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Ad-hoc-command-demos">Ad-hoc command demos<a class="anchor-link" href="#Ad-hoc-command-demos">&#182;</a></h1><p>The default module is <code>command</code>, so we can leave it out in the command line:</p>
+<h2 id="Third-attempt:-spam-debug-module-statements">Third attempt: spam <code>debug</code> module statements<a class="anchor-link" href="#Third-attempt:-spam-debug-module-statements">&#182;</a></h2><p>Sometimes when you need visibility, you can just have Ansible print out messages as it executes your playbook:</p>
 
 </div>
 </div>
 </div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat</span> <span class="n">playbooks</span><span class="o">/</span><span class="n">vault</span><span class="o">-</span><span class="n">demo2</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>- hosts: localhost
+  gather_facts: false
+  vars:
+    encrypted_value: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          31393366356333313566346465333839643761653065623062363230386662376262313663363539
+          6635366137386261353731323065313832303933313036630a613231363333643363373762373937
+          31623565316532323132346663343834306562386137313032313537613465336631656630616338
+          6639306530666464610a313061343966646262393530323931636639353163396637306334616133
+          36653830323234323330376531363537653965306137623033636136613534356363
+  tasks:
+    - name: Show the encrypted value
+      debug: var=encrypted_value
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible localhost -m <span class="nb">command</span> -a <span class="s1">&#39;echo &quot;hello&quot;&#39;</span>
+ansible web -m debug -a <span class="s1">&#39;msg=&quot;This is running on {{ansible_host}}&quot;&#39;</span>
 </pre></div>
 
 </div>
@@ -12027,152 +12182,12 @@ ansible localhost -m <span class="nb">command</span> -a <span class="s1">&#39;ec
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>localhost | SUCCESS | rc=0 &gt;&gt;
-hello
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible localhost -a <span class="s1">&#39;echo &quot;hello&quot;&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>localhost | SUCCESS | rc=0 &gt;&gt;
-hello
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></div></section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible arborian-01.class.arborian.com -a <span class="s1">&#39;echo &quot;hi&quot;&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>arborian-01.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible web -a <span class="s1">&#39;echo &quot;hi&quot;&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>arborian-01.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-02.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible all -a <span class="s1">&#39;echo &quot;hi&quot;&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>arborian-01.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-05.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-02.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-03.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-04.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-06.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
+<pre>arborian-01.class.arborian.com | SUCCESS =&gt; {
+    &#34;msg&#34;: &#34;This is running on arborian-01.class.arborian.com&#34;
+}
+arborian-02.class.arborian.com | SUCCESS =&gt; {
+    &#34;msg&#34;: &#34;This is running on arborian-02.class.arborian.com&#34;
+}
 </pre>
 </div>
 </div>
@@ -12185,20 +12200,95 @@ hi
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lab:-Getting-started-with-Ansible">Lab: Getting started with Ansible<a class="anchor-link" href="#Lab:-Getting-started-with-Ansible">&#182;</a></h1><h2 id="Clone-the-class-repository">Clone the class repository<a class="anchor-link" href="#Clone-the-class-repository">&#182;</a></h2><p><a href="https://github.com/Arborian/ansible-class">https://github.com/Arborian/ansible-class</a></p>
-<p><code>git clone https://github.com/Arborian/ansible-class.git</code></p>
-<h2 id="Install-Ansible">Install Ansible<a class="anchor-link" href="#Install-Ansible">&#182;</a></h2><p><a href="http://docs.ansible.com/ansible/latest/intro_installation.html">http://docs.ansible.com/ansible/latest/intro_installation.html</a></p>
-<p>(For Python users, you can also just <code>pip install ansible</code>)</p>
-<h2 id="Verify-that-you-can-execute-some-ad-hoc-commands">Verify that you can execute some ad-hoc commands<a class="anchor-link" href="#Verify-that-you-can-execute-some-ad-hoc-commands">&#182;</a></h2><p><em>Make sure you enter the directory where you've checked out the class repository</em></p>
-<p>You'll need to unzip / decrypt the key files with the password given in class.</p>
+<h2 id="Final-attempt:-single-stepping">Final attempt: single-stepping<a class="anchor-link" href="#Final-attempt:-single-stepping">&#182;</a></h2><p>Ansible supports single-stepping through a playbook, allowing you to manually examine the hosts as the playbook runs.</p>
+<p><code>ansible-playbook --step setup-stack-cached.yaml</code></p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Playbook-Error-Handling">Playbook Error Handling<a class="anchor-link" href="#Playbook-Error-Handling">&#182;</a></h1><p>How to handle cases where your playbook is fine, but the command running remotely had an error?</p>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Ignoring-failed-commands">Ignoring failed commands<a class="anchor-link" href="#Ignoring-failed-commands">&#182;</a></h3><p>You can always include <code>ignore_errors: true</code> on any task and Ansible just won't care</p>
+
+</div>
+</div>
+</div></div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Unreachable-hosts">Unreachable hosts<a class="anchor-link" href="#Unreachable-hosts">&#182;</a></h3><p>If a host is unreachable for <em>one</em> task, it is removed from <em>all</em> tasks and plays for that playbook. To re-enable it (and any other hosts that are being suppressed), you can include</p>
+
+<pre><code>meta: clear_host_errors</code></pre>
+<p>to re-activate all failed hosts.</p>
+
+</div>
+</div>
+</div></div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Handler-behavior-in-errors">Handler behavior in errors<a class="anchor-link" href="#Handler-behavior-in-errors">&#182;</a></h3><p>If a task fails in a play, any handlers which were notified will, by default, <em>not</em> run. To change this behavior, you can:</p>
 <ul>
-<li><code>ansible localhost -a 'echo hi'</code></li>
-<li><code>ansible all -a 'echo hi'</code></li>
+<li>Use the <code>--force-handlers</code> command-line option</li>
+<li>Include <code>force_handlers: true</code> in a play</li>
+<li>Include <code>force_handlers = True</code> in <code>ansible.cfg</code></li>
 </ul>
 
 </div>
 </div>
-</div></section></section>
+</div></div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="What-does-it-really-mean-to-&quot;fail&quot;,-anyway?">What does it really mean to "fail", anyway?<a class="anchor-link" href="#What-does-it-really-mean-to-&quot;fail&quot;,-anyway?">&#182;</a></h3><p>Normally, Ansible uses the result code of a command to define failure. Sometimes you want something else (like checking for some string in a command output). You can configure this using the <code>failed_when</code> flag on a task. Some examples from <a href="http://docs.ansible.com/ansible/latest/playbooks_error_handling.html">http://docs.ansible.com/ansible/latest/playbooks_error_handling.html</a>:</p>
+
+<pre><code>- name: Fail task when the command error output prints FAILED
+  command: /usr/bin/example-command -x -y -z
+  register: command_result
+  failed_when: "'FAILED' in command_result.stderr"
+- name: Fail task when both files are identical
+  raw: diff foo/file1 bar/file2
+  register: diff_cmd
+  failed_when: diff_cmd.rc == 0 or diff_cmd.rc &gt;= 2</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="And-what-about-&quot;changed&quot;?">And what about "changed"?<a class="anchor-link" href="#And-what-about-&quot;changed&quot;?">&#182;</a></h3><p>Ansible also similarly supports a <code>changed_when</code> key in tasks to determine when a task has changed something (and thus its notifiers should run). For instance, the following task will never report 'changed':</p>
+
+<pre><code>  - shell: wall 'beep'
+    changed_when: False</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Aborting-the-whole-play">Aborting the whole play<a class="anchor-link" href="#Aborting-the-whole-play">&#182;</a></h3><p>Normally, Ansible tries to complete a play for as many hosts as possible. You may instead have Ansible mark <em>all</em> hosts failed by including the <code>any_errors_fatal: true</code> flag in a play.</p>
+
+</div>
+</div>
+</div>
 </div>
 </div>
 

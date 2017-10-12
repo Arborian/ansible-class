@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-<title>Getting started with Ansible slides</title>
+<title>Modules slides</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11905,33 +11905,11 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Getting-Started-with-Ansible">Getting Started with Ansible<a class="anchor-link" href="#Getting-Started-with-Ansible">&#182;</a></h1>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Why-and-How-of-Ansible">Why and How of Ansible<a class="anchor-link" href="#Why-and-How-of-Ansible">&#182;</a></h1><ul>
-<li>Manages the configuration of </li>
-<li>Python library / tool</li>
-<li>"Push" model (generally via ssh)</li>
-<li>Managed hosts need minimal "bootstrapping"<ul>
-<li>Puppet, Chef, Salt, etc. all need an agent on the managed host.</li>
-<li>Ansible only needs sshd (Python is helpful, as well, but we can bootstrap that)</li>
-</ul>
-</li>
-</ul>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Ansible-Inventory">Ansible Inventory<a class="anchor-link" href="#Ansible-Inventory">&#182;</a></h1><p>Ansible needs to know which hosts it manages. For this, it uses an <em>inventory</em>.</p>
+<h1 id="Building-Custom-Ansible-Modules-in-Python">Building Custom Ansible Modules in Python<a class="anchor-link" href="#Building-Custom-Ansible-Modules-in-Python">&#182;</a></h1><p>Have you ever wanted to type</p>
+<p><code>ansible -m my-really-cool-custom-module -a 'param1=foo param2=bar'</code></p>
+<p>... and have it actually work?</p>
+<p>Then this section may be for you!</p>
+<p>(much of this material is taken from Redhat's <a href="http://docs.ansible.com/ansible/latest/dev_guide/developing_modules_general.html">Ansible Module Development Walkthrough</a>)</p>
 
 </div>
 </div>
@@ -11940,21 +11918,12 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Static-inventory">Static inventory<a class="anchor-link" href="#Static-inventory">&#182;</a></h2><p>A static inventory is just a text file (by default, <code>/etc/ansible/hosts</code>, but we'll change that).</p>
-<p>The inventory lists the hosts that Ansible will manage, optionally collecting them into groups.
-One example is in the class repository as <code>inventory</code>:</p>
-
-<pre><code>[web]
-arborian-01.class.arborian.com
-arborian-02.class.arborian.com
-
-[db]
-arborian-03.class.arborian.com
-arborian-04.class.arborian.com
-
-[app]
-arborian-05.class.arborian.com
-arborian-06.class.arborian.com</code></pre>
+<p><em>Don't</em> create a custom module until</p>
+<ul>
+<li>you've looked through all the built-in Ansible modules and can't find something that does what you want</li>
+<li>you've decided that using the <code>raw</code> and <code>script</code> modules is not powerful enough for what you need</li>
+<li>you know some Python</li>
+</ul>
 
 </div>
 </div>
@@ -11963,238 +11932,276 @@ arborian-06.class.arborian.com</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Inventory:-Dynamic-Inventory">Inventory: Dynamic Inventory<a class="anchor-link" href="#Inventory:-Dynamic-Inventory">&#182;</a></h1><p>We can also use Python modules to create our inventory programmatically (as when we might want to enumerate all hosts on AWS, Azure, or Google Compute Engine)</p>
-<p>Any inventory file that is executable will be run to generate an inventory JSON result when fed certain command-line arguments.</p>
-<p>Some useful links:</p>
-<ul>
-<li><a href="http://docs.ansible.com/ansible/intro_dynamic_inventory.html">Dynamic Inventory</a></li>
-<li><a href="http://docs.ansible.com/ansible/dev_guide/developing_inventory.html">Developing your own inventory script</a></li>
+<h1 id="Environment-setup">Environment setup<a class="anchor-link" href="#Environment-setup">&#182;</a></h1><ul>
+<li>Clone the Ansible repository: <code>$ git clone https://github.com/ansible/ansible.git</code></li>
+<li>Change directory into the repository root dir: <code>$ cd ansible</code></li>
+<li>Create a virtual environment: <code>$ python3 -m venv venv</code> (or for Python 2 $ `virtualenv venv`. Note, this requires you to install the virtualenv package: `$ pip install virtualenv`)</li>
+<li>Activate the virtual environment: <code>$ . venv/bin/activate</code></li>
+<li>Install development requirements: <code>$ pip install -r requirements.txt</code></li>
+<li>Run the environment setup script for each new dev shell process: <code>$ . hacking/env-setup</code></li>
 </ul>
 
 </div>
 </div>
 </div></section></section><section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+git clone https://github.com/ansible/ansible.git
+<span class="nb">cd</span> ansible
+python3 -m venv venv
+. venv/bin/activate
+pip install -r requirements.txt
+. hacking/env-setup
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Process is interrupted.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Ad-hoc-Commands">Ad-hoc Commands<a class="anchor-link" href="#Ad-hoc-Commands">&#182;</a></h1><p>Ansible command line</p>
-<p><code>ansible &lt;host pattern&gt; [options]</code></p>
-<p>Frequently used options</p>
-<ul>
-<li><code>-m MODULE_NAME</code> (default is command)</li>
-<li><code>-a MODULE_ARGS</code></li>
-</ul>
-<p>Frequently used host patterns</p>
-<ul>
-<li><code>localhost</code></li>
-<li><code>all</code></li>
-<li><code>GROUP-NAME</code> (one of the groupings from your inventory)</li>
-</ul>
+<p>A minimal module can be found in <code>modules/simple_module.py</code> (a commented version is available in <code>modules/my_new_test_module.py</code>):</p>
 
 </div>
 </div>
-</div></section></section><section><section>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat</span> <span class="n">modules</span><span class="o">/</span><span class="n">les</span><span class="o">/</span><span class="n">simple_module</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>from ansible.module_utils.basic import AnsibleModule
+
+def run_module():
+    module_args = dict(
+        name=dict(type=&#39;str&#39;, required=True),
+        new=dict(type=&#39;bool&#39;, required=False, default=False)
+    )
+    result = dict(
+        changed=False,
+        original_message=&#39;&#39;,
+        message=&#39;&#39;
+    )
+    module = AnsibleModule(
+        argument_spec=module_args,
+        supports_check_mode=True
+    )
+    if module.check_mode:
+        return result
+    result[&#39;original_message&#39;] = module.params[&#39;name&#39;]
+    result[&#39;message&#39;] = &#39;goodbye&#39;
+    if module.params[&#39;new&#39;]:
+        result[&#39;changed&#39;] = True
+    if module.params[&#39;name&#39;] == &#39;fail me&#39;:
+        module.fail_json(msg=&#39;You requested this to fail&#39;, **result)
+    module.exit_json(**result)
+
+
+if __name__ == &#39;__main__&#39;:
+    run_module()
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+ansible localhost -m simple_module
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>localhost | FAILED! =&gt; {
+    &#34;changed&#34;: false,
+    &#34;failed&#34;: true,
+    &#34;msg&#34;: &#34;missing required arguments: name&#34;
+}
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+ansible localhost -m simple_module -a <span class="nv">name</span><span class="o">=</span>foo
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>localhost | SUCCESS =&gt; {
+    &#34;changed&#34;: false,
+    &#34;failed&#34;: false,
+    &#34;message&#34;: &#34;goodbye&#34;,
+    &#34;original_message&#34;: &#34;foo&#34;
+}
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+ansible localhost -m simple_module -a <span class="s1">&#39;name=&quot;fail me&quot;&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>localhost | FAILED! =&gt; {
+    &#34;changed&#34;: false,
+    &#34;failed&#34;: true,
+    &#34;message&#34;: &#34;goodbye&#34;,
+    &#34;msg&#34;: &#34;You requested this to fail&#34;,
+    &#34;original_message&#34;: &#34;fail me&#34;
+}
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+ansible localhost -m simple_module -a <span class="s1">&#39;name=foo new=true&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>localhost | SUCCESS =&gt; {
+    &#34;changed&#34;: true,
+    &#34;failed&#34;: false,
+    &#34;message&#34;: &#34;goodbye&#34;,
+    &#34;original_message&#34;: &#34;foo&#34;
+}
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Ad-hoc-command-demos">Ad-hoc command demos<a class="anchor-link" href="#Ad-hoc-command-demos">&#182;</a></h1><p>The default module is <code>command</code>, so we can leave it out in the command line:</p>
-
-</div>
-</div>
-</div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible localhost -m <span class="nb">command</span> -a <span class="s1">&#39;echo &quot;hello&quot;&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>localhost | SUCCESS | rc=0 &gt;&gt;
-hello
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible localhost -a <span class="s1">&#39;echo &quot;hello&quot;&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>localhost | SUCCESS | rc=0 &gt;&gt;
-hello
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></div></section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible arborian-01.class.arborian.com -a <span class="s1">&#39;echo &quot;hi&quot;&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>arborian-01.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible web -a <span class="s1">&#39;echo &quot;hi&quot;&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>arborian-01.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-02.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible all -a <span class="s1">&#39;echo &quot;hi&quot;&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>arborian-01.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-05.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-02.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-03.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-04.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-06.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lab:-Getting-started-with-Ansible">Lab: Getting started with Ansible<a class="anchor-link" href="#Lab:-Getting-started-with-Ansible">&#182;</a></h1><h2 id="Clone-the-class-repository">Clone the class repository<a class="anchor-link" href="#Clone-the-class-repository">&#182;</a></h2><p><a href="https://github.com/Arborian/ansible-class">https://github.com/Arborian/ansible-class</a></p>
-<p><code>git clone https://github.com/Arborian/ansible-class.git</code></p>
-<h2 id="Install-Ansible">Install Ansible<a class="anchor-link" href="#Install-Ansible">&#182;</a></h2><p><a href="http://docs.ansible.com/ansible/latest/intro_installation.html">http://docs.ansible.com/ansible/latest/intro_installation.html</a></p>
-<p>(For Python users, you can also just <code>pip install ansible</code>)</p>
-<h2 id="Verify-that-you-can-execute-some-ad-hoc-commands">Verify that you can execute some ad-hoc commands<a class="anchor-link" href="#Verify-that-you-can-execute-some-ad-hoc-commands">&#182;</a></h2><p><em>Make sure you enter the directory where you've checked out the class repository</em></p>
-<p>You'll need to unzip / decrypt the key files with the password given in class.</p>
-<ul>
-<li><code>ansible localhost -a 'echo hi'</code></li>
-<li><code>ansible all -a 'echo hi'</code></li>
-</ul>
+<h1 id="Lab:-Modify-your-module">Lab: Modify your module<a class="anchor-link" href="#Lab:-Modify-your-module">&#182;</a></h1><p>Modify the module to report on the number of files in the user's home directory (hint: use <code>os.listdir()</code> and <code>os.environ['HOME']</code>. Confirm that it works locally.</p>
 
 </div>
 </div>

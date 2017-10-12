@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-<title>Getting started with Ansible slides</title>
+<title>Vault slides</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11905,24 +11905,14 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Getting-Started-with-Ansible">Getting Started with Ansible<a class="anchor-link" href="#Getting-Started-with-Ansible">&#182;</a></h1>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Why-and-How-of-Ansible">Why and How of Ansible<a class="anchor-link" href="#Why-and-How-of-Ansible">&#182;</a></h1><ul>
-<li>Manages the configuration of </li>
-<li>Python library / tool</li>
-<li>"Push" model (generally via ssh)</li>
-<li>Managed hosts need minimal "bootstrapping"<ul>
-<li>Puppet, Chef, Salt, etc. all need an agent on the managed host.</li>
-<li>Ansible only needs sshd (Python is helpful, as well, but we can bootstrap that)</li>
-</ul>
-</li>
-</ul>
+<h1 id="The-Ansible-Vault">The Ansible Vault<a class="anchor-link" href="#The-Ansible-Vault">&#182;</a></h1><p>We often need to store sensitive data but would prefer not to store it in clear-text (database credentials, third-party API keys, etc.). Ansible's solution to this is the <strong>Vault</strong></p>
+<p>Any Ansible yaml file can be encrypted and then used in a playbook. We can create encrypted yaml files using ansible-vault, e.g.:</p>
+
+<pre><code>ansible-vault create vault.yml</code></pre>
+<p>We can also edit existing vault files (if we have the <code>EDITOR</code> environment variable configured:</p>
+
+<pre><code>export EDITOR='subl -w'    # or vi or whatever
+ansible-vault edit stack-key.yml</code></pre>
 
 </div>
 </div>
@@ -11931,86 +11921,18 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Ansible-Inventory">Ansible Inventory<a class="anchor-link" href="#Ansible-Inventory">&#182;</a></h1><p>Ansible needs to know which hosts it manages. For this, it uses an <em>inventory</em>.</p>
+<p>We can also use the <code>--vault-password-file</code> option. Of course, you need to use restrictive permissions on this file and ensure it's never checked into source control. (The file is just a single line with the password, in plain text.)</p>
 
 </div>
 </div>
-</div><div class="fragment">
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Static-inventory">Static inventory<a class="anchor-link" href="#Static-inventory">&#182;</a></h2><p>A static inventory is just a text file (by default, <code>/etc/ansible/hosts</code>, but we'll change that).</p>
-<p>The inventory lists the hosts that Ansible will manage, optionally collecting them into groups.
-One example is in the class repository as <code>inventory</code>:</p>
-
-<pre><code>[web]
-arborian-01.class.arborian.com
-arborian-02.class.arborian.com
-
-[db]
-arborian-03.class.arborian.com
-arborian-04.class.arborian.com
-
-[app]
-arborian-05.class.arborian.com
-arborian-06.class.arborian.com</code></pre>
-
-</div>
-</div>
-</div></div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Inventory:-Dynamic-Inventory">Inventory: Dynamic Inventory<a class="anchor-link" href="#Inventory:-Dynamic-Inventory">&#182;</a></h1><p>We can also use Python modules to create our inventory programmatically (as when we might want to enumerate all hosts on AWS, Azure, or Google Compute Engine)</p>
-<p>Any inventory file that is executable will be run to generate an inventory JSON result when fed certain command-line arguments.</p>
-<p>Some useful links:</p>
-<ul>
-<li><a href="http://docs.ansible.com/ansible/intro_dynamic_inventory.html">Dynamic Inventory</a></li>
-<li><a href="http://docs.ansible.com/ansible/dev_guide/developing_inventory.html">Developing your own inventory script</a></li>
-</ul>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Ad-hoc-Commands">Ad-hoc Commands<a class="anchor-link" href="#Ad-hoc-Commands">&#182;</a></h1><p>Ansible command line</p>
-<p><code>ansible &lt;host pattern&gt; [options]</code></p>
-<p>Frequently used options</p>
-<ul>
-<li><code>-m MODULE_NAME</code> (default is command)</li>
-<li><code>-a MODULE_ARGS</code></li>
-</ul>
-<p>Frequently used host patterns</p>
-<ul>
-<li><code>localhost</code></li>
-<li><code>all</code></li>
-<li><code>GROUP-NAME</code> (one of the groupings from your inventory)</li>
-</ul>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Ad-hoc-command-demos">Ad-hoc command demos<a class="anchor-link" href="#Ad-hoc-command-demos">&#182;</a></h1><p>The default module is <code>command</code>, so we can leave it out in the command line:</p>
-
-</div>
-</div>
-</div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible localhost -m <span class="nb">command</span> -a <span class="s1">&#39;echo &quot;hello&quot;&#39;</span>
+ansible-vault --vault-password-file vault-password.txt view vault.yaml
 </pre></div>
 
 </div>
@@ -12027,8 +11949,11 @@ ansible localhost -m <span class="nb">command</span> -a <span class="s1">&#39;ec
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>localhost | SUCCESS | rc=0 &gt;&gt;
-hello
+<pre>foo: bar
+baz: bat
+anything: |
+  Can go here, but it&#39;s usually nice to have YAML so we
+  can use this in an &#34;include_vars&#34; statement....
 </pre>
 </div>
 </div>
@@ -12036,14 +11961,62 @@ hello
 </div>
 </div>
 
-</div></div><div class="fragment">
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Single-string-encryption">Single string encryption<a class="anchor-link" href="#Single-string-encryption">&#182;</a></h2><p>Sometimes you may just want to embed an encrypted value directly in your playbook. For that, we have</p>
+<p><code>ansible-vault encrypt_string</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+ansible-vault --vault-password-file vault-password.txt encrypt_string <span class="s2">&quot;this is super seekrit&quot;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>!vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          31393366356333313566346465333839643761653065623062363230386662376262313663363539
+          6635366137386261353731323065313832303933313036630a613231363333643363373762373937
+          31623565316532323132346663343834306562386137313032313537613465336631656630616338
+          6639306530666464610a313061343966646262393530323931636639353163396637306334616133
+          36653830323234323330376531363537653965306137623033636136613534356363
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible localhost -a <span class="s1">&#39;echo &quot;hello&quot;&#39;</span>
+ansible-playbook --vault-password-file vault-password.txt playbooks/vault-demo2.yaml
 </pre></div>
 
 </div>
@@ -12060,8 +12033,17 @@ ansible localhost -a <span class="s1">&#39;echo &quot;hello&quot;&#39;</span>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>localhost | SUCCESS | rc=0 &gt;&gt;
-hello
+<pre>
+PLAY [localhost] ***************************************************************
+
+TASK [Show the encrypted value] ************************************************
+ok: [localhost] =&gt; {
+    &#34;encrypted_value&#34;: &#34;this is super seekrit&#34;
+}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=1    changed=0    unreachable=0    failed=0   
+
 </pre>
 </div>
 </div>
@@ -12069,14 +12051,24 @@ hello
 </div>
 </div>
 
-</div></div></section><section>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Encrypting-an-existing-YAML-file">Encrypting an existing YAML file<a class="anchor-link" href="#Encrypting-an-existing-YAML-file">&#182;</a></h1><p>We can also encrypt and decrypt existing YAML files using <code>ansible-vault encrypt</code> and <code>ansible-vault decrypt</code>:</p>
+
+</div>
+</div>
+</div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible arborian-01.class.arborian.com -a <span class="s1">&#39;echo &quot;hi&quot;&#39;</span>
+ansible-vault --vault-password-file vault-password.txt decrypt vault.yaml
+cat vault.yaml
 </pre></div>
 
 </div>
@@ -12093,87 +12085,11 @@ ansible arborian-01.class.arborian.com -a <span class="s1">&#39;echo &quot;hi&qu
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>arborian-01.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible web -a <span class="s1">&#39;echo &quot;hi&quot;&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>arborian-01.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-02.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible all -a <span class="s1">&#39;echo &quot;hi&quot;&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>arborian-01.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-05.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-02.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-03.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-04.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-06.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-</pre>
+<pre>foo: bar
+baz: bat
+anything: |
+  Can go here, but it&#39;s usually nice to have YAML so we
+  can use this in an &#34;include_vars&#34; statement....</pre>
 </div>
 </div>
 
@@ -12181,19 +12097,62 @@ hi
 </div>
 
 </div></div></section></section><section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+ansible-vault --vault-password-file vault-password.txt encrypt vault.yaml
+cat vault.yaml
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>$ANSIBLE_VAULT;1.1;AES256
+30616165353363393535623863626534303063383661303864343164396631633263646365616165
+3466343464353461613363343366383238393766316339320a383539393933343064653364386164
+36313138646366333834376361613038646232646138643563356563383435663163363137316438
+6433323666386132630a326534346262343636303935373964386563363734646435303432653865
+38336166633461626662636130343136373237306461636565313466306461653464336161653536
+61313465323263396434633063613535323962343566313437643664333162323061366535393166
+33646535373662333533343863623261306530633235656238363237626366366666646638313138
+65373934666330373563303533356432306333306461653635353437393236653638303434646639
+35613034666562376236663833663435386633663632303066646663633563306337373064633231
+62643438373066363366313935343635333563353436646530356464623437373461666531396431
+333534626130666664633736383635626163
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lab:-Getting-started-with-Ansible">Lab: Getting started with Ansible<a class="anchor-link" href="#Lab:-Getting-started-with-Ansible">&#182;</a></h1><h2 id="Clone-the-class-repository">Clone the class repository<a class="anchor-link" href="#Clone-the-class-repository">&#182;</a></h2><p><a href="https://github.com/Arborian/ansible-class">https://github.com/Arborian/ansible-class</a></p>
-<p><code>git clone https://github.com/Arborian/ansible-class.git</code></p>
-<h2 id="Install-Ansible">Install Ansible<a class="anchor-link" href="#Install-Ansible">&#182;</a></h2><p><a href="http://docs.ansible.com/ansible/latest/intro_installation.html">http://docs.ansible.com/ansible/latest/intro_installation.html</a></p>
-<p>(For Python users, you can also just <code>pip install ansible</code>)</p>
-<h2 id="Verify-that-you-can-execute-some-ad-hoc-commands">Verify that you can execute some ad-hoc commands<a class="anchor-link" href="#Verify-that-you-can-execute-some-ad-hoc-commands">&#182;</a></h2><p><em>Make sure you enter the directory where you've checked out the class repository</em></p>
-<p>You'll need to unzip / decrypt the key files with the password given in class.</p>
+<h1 id="Lab">Lab<a class="anchor-link" href="#Lab">&#182;</a></h1><p>Practice using the various <code>ansible-vault</code> commands:</p>
 <ul>
-<li><code>ansible localhost -a 'echo hi'</code></li>
-<li><code>ansible all -a 'echo hi'</code></li>
+<li>encrypt</li>
+<li>decrypt</li>
+<li>create</li>
+<li>edit</li>
+<li>view</li>
+<li>encrypt_string</li>
 </ul>
 
 </div>

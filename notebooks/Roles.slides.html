@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-<title>Getting started with Ansible slides</title>
+<title>Roles slides</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11905,21 +11905,16 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Getting-Started-with-Ansible">Getting Started with Ansible<a class="anchor-link" href="#Getting-Started-with-Ansible">&#182;</a></h1>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Why-and-How-of-Ansible">Why and How of Ansible<a class="anchor-link" href="#Why-and-How-of-Ansible">&#182;</a></h1><ul>
-<li>Manages the configuration of </li>
-<li>Python library / tool</li>
-<li>"Push" model (generally via ssh)</li>
-<li>Managed hosts need minimal "bootstrapping"<ul>
-<li>Puppet, Chef, Salt, etc. all need an agent on the managed host.</li>
-<li>Ansible only needs sshd (Python is helpful, as well, but we can bootstrap that)</li>
+<h1 id="Roles:-Really-organizing-your-code">Roles: <em>Really</em> organizing your code<a class="anchor-link" href="#Roles:-Really-organizing-your-code">&#182;</a></h1><p>A <em>Role</em> is a directory structure organizing different parts of plays in ways that let them be included in other playbooks easily:</p>
+<ul>
+<li><strong>role_name</strong><ul>
+<li>files</li>
+<li>templates</li>
+<li>tasks</li>
+<li>handlers</li>
+<li>vars</li>
+<li>defaults</li>
+<li>meta</li>
 </ul>
 </li>
 </ul>
@@ -11931,7 +11926,12 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Ansible-Inventory">Ansible Inventory<a class="anchor-link" href="#Ansible-Inventory">&#182;</a></h1><p>Ansible needs to know which hosts it manages. For this, it uses an <em>inventory</em>.</p>
+<p>If you have a role defined, it cab be used in a play using the <code>roles:</code> key, e.g.:</p>
+
+<pre><code>---
+- hosts: all
+  roles:
+    - my_custom_role</code></pre>
 
 </div>
 </div>
@@ -11940,21 +11940,14 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Static-inventory">Static inventory<a class="anchor-link" href="#Static-inventory">&#182;</a></h2><p>A static inventory is just a text file (by default, <code>/etc/ansible/hosts</code>, but we'll change that).</p>
-<p>The inventory lists the hosts that Ansible will manage, optionally collecting them into groups.
-One example is in the class repository as <code>inventory</code>:</p>
-
-<pre><code>[web]
-arborian-01.class.arborian.com
-arborian-02.class.arborian.com
-
-[db]
-arborian-03.class.arborian.com
-arborian-04.class.arborian.com
-
-[app]
-arborian-05.class.arborian.com
-arborian-06.class.arborian.com</code></pre>
+<p>This means to look in <code>my_custom_role</code> files named <code>main.yml</code> and add them to the play. Particularly,</p>
+<ul>
+<li>If <code>my_custom_role/tasks/main.yml</code> exists, it is added to the <code>tasks:</code> part of the play</li>
+<li>If <code>my_custom_role/handlers/main.yml</code> exists, it is added to the <code>handlers:</code> part of the play</li>
+<li>If <code>my_custom_role/vars/main.yml</code> exists, it is added to the <code>vars:</code> part of the play</li>
+<li>If <code>my_custom_role/defaults/main.yml</code> exists, it is added to the <code>vars:</code> part of the play (as super-low priority)</li>
+<li>If <code>my_custom_role/meta/main.yml</code> exists, it is added to the <code>roles:</code> part of the play (think "sub-roles")</li>
+</ul>
 
 </div>
 </div>
@@ -11963,13 +11956,12 @@ arborian-06.class.arborian.com</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Inventory:-Dynamic-Inventory">Inventory: Dynamic Inventory<a class="anchor-link" href="#Inventory:-Dynamic-Inventory">&#182;</a></h1><p>We can also use Python modules to create our inventory programmatically (as when we might want to enumerate all hosts on AWS, Azure, or Google Compute Engine)</p>
-<p>Any inventory file that is executable will be run to generate an inventory JSON result when fed certain command-line arguments.</p>
-<p>Some useful links:</p>
-<ul>
-<li><a href="http://docs.ansible.com/ansible/intro_dynamic_inventory.html">Dynamic Inventory</a></li>
-<li><a href="http://docs.ansible.com/ansible/dev_guide/developing_inventory.html">Developing your own inventory script</a></li>
-</ul>
+<h1 id="Ansible-Galaxy:-A-shared-repository-of-Roles">Ansible Galaxy: A shared repository of Roles<a class="anchor-link" href="#Ansible-Galaxy:-A-shared-repository-of-Roles">&#182;</a></h1><p>To use Ansible Galaxy, we first should set up a <code>roles_path</code> in <code>ansible.cfg</code>. Mine looks like this now:</p>
+
+<pre><code>[defaults]
+# ...
+roles_path = ./roles</code></pre>
+<p>Now we can browse the <a href="https://galaxy.ansible.com/">Ansible Galaxy</a> website and use the <code>ansible-galaxy</code> command-line tool to install roles.</p>
 
 </div>
 </div>
@@ -11978,39 +11970,91 @@ arborian-06.class.arborian.com</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Ad-hoc-Commands">Ad-hoc Commands<a class="anchor-link" href="#Ad-hoc-Commands">&#182;</a></h1><p>Ansible command line</p>
-<p><code>ansible &lt;host pattern&gt; [options]</code></p>
-<p>Frequently used options</p>
-<ul>
-<li><code>-m MODULE_NAME</code> (default is command)</li>
-<li><code>-a MODULE_ARGS</code></li>
-</ul>
-<p>Frequently used host patterns</p>
-<ul>
-<li><code>localhost</code></li>
-<li><code>all</code></li>
-<li><code>GROUP-NAME</code> (one of the groupings from your inventory)</li>
-</ul>
+<h2 id="Examining-a-popular-Galaxy-role:-nginx">Examining a popular Galaxy role: nginx<a class="anchor-link" href="#Examining-a-popular-Galaxy-role:-nginx">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+ansible-galaxy install bennojoy.nginx
+tree roles
+</pre></div>
 
 </div>
 </div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>roles
+└── bennojoy.nginx
+    ├── README.md
+    ├── defaults
+    │   └── main.yml
+    ├── files
+    │   └── epel.repo
+    ├── handlers
+    │   └── main.yml
+    ├── meta
+    │   └── main.yml
+    ├── tasks
+    │   └── main.yml
+    ├── templates
+    │   ├── default.conf.j2
+    │   ├── default.j2
+    │   ├── nginx.conf.j2
+    │   └── site.j2
+    └── vars
+        └── main.yml
+
+8 directories, 11 files
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre> [WARNING]: - bennojoy.nginx (master) is already installed - use --force to
+change version to unspecified
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Ad-hoc-command-demos">Ad-hoc command demos<a class="anchor-link" href="#Ad-hoc-command-demos">&#182;</a></h1><p>The default module is <code>command</code>, so we can leave it out in the command line:</p>
+<p>To use the role, we just need to add it to the <code>roles</code> key in our playbook. In this case, we'll also add some role variables to it:</p>
 
 </div>
 </div>
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible localhost -m <span class="nb">command</span> -a <span class="s1">&#39;echo &quot;hello&quot;&#39;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat</span> <span class="n">playbooks</span><span class="o">/</span><span class="n">setup</span><span class="o">-</span><span class="n">webservers</span><span class="o">.</span><span class="n">yaml</span>
 </pre></div>
 
 </div>
@@ -12027,89 +12071,41 @@ ansible localhost -m <span class="nb">command</span> -a <span class="s1">&#39;ec
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>localhost | SUCCESS | rc=0 &gt;&gt;
-hello
-</pre>
+<pre>- hosts: web
+  roles:
+    - role: nginx
+      nginx_http_params:
+        sendfile: &#39;on&#39;
+        access_log: &#39;/var/log/nginx/access.log&#39;
+      nginx_sites:
+       - server:
+          file_name: foo
+          listen: 8080
+          server_name: localhost
+          root: &#39;/tmp/site1&#39;
+          location1: {name: /, try_files: &#39;$uri $uri/ /index.html&#39;}
+          location2: {name: /images/, try_files: &#39;$uri $uri/ /index.html&#39;}
+       - server:
+          file_name: bar
+          listen: 9090
+          server_name: ansible
+          root: &#39;/tmp/site2&#39;
+          location1: {name: /, try_files: &#39;$uri $uri/ /index.html&#39;}
+          location2: {name: /images/, try_files: &#39;$uri $uri/ /index.html&#39;}</pre>
 </div>
 </div>
 
 </div>
 </div>
 
-</div></div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible localhost -a <span class="s1">&#39;echo &quot;hello&quot;&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>localhost | SUCCESS | rc=0 &gt;&gt;
-hello
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></div></section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible arborian-01.class.arborian.com -a <span class="s1">&#39;echo &quot;hi&quot;&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>arborian-01.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div><div class="fragment">
+</div></div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible web -a <span class="s1">&#39;echo &quot;hi&quot;&#39;</span>
+ansible-playbook playbooks/setup-webservers.yaml
 </pre></div>
 
 </div>
@@ -12126,10 +12122,7 @@ ansible web -a <span class="s1">&#39;echo &quot;hi&quot;&#39;</span>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>arborian-01.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-02.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
+<pre>Process is interrupted.
 </pre>
 </div>
 </div>
@@ -12137,14 +12130,22 @@ hi
 </div>
 </div>
 
-</div></div><div class="fragment">
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here is another playbook to set up per-user directories on the web hosts:</p>
+
+</div>
+</div>
+</div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible all -a <span class="s1">&#39;echo &quot;hi&quot;&#39;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat</span> <span class="n">playbooks</span><span class="o">/</span><span class="n">make</span><span class="o">-</span><span class="n">site</span><span class="o">.</span><span class="n">yaml</span>
 </pre></div>
 
 </div>
@@ -12161,18 +12162,30 @@ ansible all -a <span class="s1">&#39;echo &quot;hi&quot;&#39;</span>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>arborian-01.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-05.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-02.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-03.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-04.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-06.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
+<pre>- hosts: web
+
+  pre_tasks:
+  - name: Ensure public_html exists
+    file: path=~/public_html state=directory mode=755
+  - name: Put a file in public_html
+    file: path=~/public_html/index.html state=touch mode=644
+  - name: Put a message in the file
+    lineinfile: line=&#34;Hello there {{ansible_ssh_user}}&#34; dest=~/public_html/index.html
+
+  roles:
+  - role: bennojoy.nginx
+    become: on
+    nginx_sites:
+    - server:
+        file_name: &#34;{{ansible_ssh_user}}-site&#34;
+        location1:
+          name: &#34;/&#34;
+          root: &#34;/usr/share/nginx/html&#34;
+        location2:
+          name: &#34;/~{{ansible_ssh_user}}&#34;
+          alias: &#34;/home/{{ansible_ssh_user}}/public_html&#34;
+          try_files: &#34;$uri $uri/ /index.html&#34;
+
 </pre>
 </div>
 </div>
@@ -12181,20 +12194,111 @@ hi
 </div>
 
 </div></div></section></section><section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+ansible-playbook playbooks/make-site.yaml
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+PLAY [web] *********************************************************************
+
+TASK [Gathering Facts] *********************************************************
+fatal: [arborian-01.class.arborian.com]: UNREACHABLE! =&gt; {&#34;changed&#34;: false, &#34;msg&#34;: &#34;Failed to connect to the host via ssh: Permission denied (publickey).\r\n&#34;, &#34;unreachable&#34;: true}
+ok: [arborian-02.class.arborian.com]
+
+TASK [Ensure public_html exists] ***********************************************
+ok: [arborian-02.class.arborian.com]
+
+TASK [Put a file in public_html] ***********************************************
+changed: [arborian-02.class.arborian.com]
+
+TASK [Put a message in the file] ***********************************************
+ok: [arborian-02.class.arborian.com]
+
+TASK [bennojoy.nginx : Install the selinux python module] **********************
+skipping: [arborian-02.class.arborian.com]
+
+TASK [bennojoy.nginx : Copy the epel packages] *********************************
+skipping: [arborian-02.class.arborian.com]
+
+TASK [bennojoy.nginx : Install the nginx packages] *****************************
+skipping: [arborian-02.class.arborian.com] =&gt; (item=[]) 
+
+TASK [bennojoy.nginx : Install the nginx packages] *****************************
+ok: [arborian-02.class.arborian.com] =&gt; (item=[&#39;python-selinux&#39;, &#39;nginx&#39;])
+
+TASK [bennojoy.nginx : Create the directories for site specific configurations] ***
+ok: [arborian-02.class.arborian.com] =&gt; (item=sites-available)
+ok: [arborian-02.class.arborian.com] =&gt; (item=sites-enabled)
+
+TASK [bennojoy.nginx : Copy the nginx configuration file] **********************
+changed: [arborian-02.class.arborian.com]
+
+TASK [bennojoy.nginx : Copy the nginx default configuration file] **************
+changed: [arborian-02.class.arborian.com]
+
+TASK [bennojoy.nginx : Copy the nginx default site configuration file] *********
+changed: [arborian-02.class.arborian.com]
+
+TASK [bennojoy.nginx : Create the link for site enabled specific configurations] ***
+ok: [arborian-02.class.arborian.com]
+
+TASK [bennojoy.nginx : Create the configurations for sites] ********************
+fatal: [arborian-02.class.arborian.com]: FAILED! =&gt; {&#34;failed&#34;: true, &#34;msg&#34;: &#34;The task includes an option with an undefined variable. The error was: &#39;ansible.utils.unsafe_proxy.AnsibleUnsafeText object&#39; has no attribute &#39;server&#39;\n\nThe error appears to have been in &#39;/Users/rick446/src/Classes/Ansible/roles/bennojoy.nginx/tasks/main.yml&#39;: line 42, column 3, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n\n- name: Create the configurations for sites\n  ^ here\n\nexception type: &lt;class &#39;ansible.errors.AnsibleUndefinedVariable&#39;&gt;\nexception: &#39;ansible.utils.unsafe_proxy.AnsibleUnsafeText object&#39; has no attribute &#39;server&#39;&#34;}
+
+RUNNING HANDLER [bennojoy.nginx : restart nginx] *******************************
+	to retry, use: --limit @/Users/rick446/src/Classes/Ansible/playbooks/make-site.retry
+
+PLAY RECAP *********************************************************************
+arborian-01.class.arborian.com : ok=0    changed=0    unreachable=1    failed=0   
+arborian-02.class.arborian.com : ok=10   changed=4    unreachable=0    failed=1   
+
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre> [WARNING]: could not parse environment value, skipping: [&#39;env&#39;]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lab:-Getting-started-with-Ansible">Lab: Getting started with Ansible<a class="anchor-link" href="#Lab:-Getting-started-with-Ansible">&#182;</a></h1><h2 id="Clone-the-class-repository">Clone the class repository<a class="anchor-link" href="#Clone-the-class-repository">&#182;</a></h2><p><a href="https://github.com/Arborian/ansible-class">https://github.com/Arborian/ansible-class</a></p>
-<p><code>git clone https://github.com/Arborian/ansible-class.git</code></p>
-<h2 id="Install-Ansible">Install Ansible<a class="anchor-link" href="#Install-Ansible">&#182;</a></h2><p><a href="http://docs.ansible.com/ansible/latest/intro_installation.html">http://docs.ansible.com/ansible/latest/intro_installation.html</a></p>
-<p>(For Python users, you can also just <code>pip install ansible</code>)</p>
-<h2 id="Verify-that-you-can-execute-some-ad-hoc-commands">Verify that you can execute some ad-hoc commands<a class="anchor-link" href="#Verify-that-you-can-execute-some-ad-hoc-commands">&#182;</a></h2><p><em>Make sure you enter the directory where you've checked out the class repository</em></p>
-<p>You'll need to unzip / decrypt the key files with the password given in class.</p>
-<ul>
-<li><code>ansible localhost -a 'echo hi'</code></li>
-<li><code>ansible all -a 'echo hi'</code></li>
-</ul>
+<h1 id="Lab:-Install-a-per-user-nginx-site">Lab: Install a per-user nginx site<a class="anchor-link" href="#Lab:-Install-a-per-user-nginx-site">&#182;</a></h1><p>Ensure that your username is set in the ansible.cfg</p>
+<p>Create your own personal home page using the make-site playbook:</p>
+
+<pre><code>ansible-playbook playbooks/make-site.yaml</code></pre>
+<p>Access your website: <a href="http://arborian-01.class.arborian.com/~rick/">http://arborian-01.class.arborian.com/~rick/</a> (use your username)</p>
 
 </div>
 </div>

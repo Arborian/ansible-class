@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-<title>Getting started with Ansible slides</title>
+<title>Intro-Mediate Ansible slides</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11905,7 +11905,19 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Getting-Started-with-Ansible">Getting Started with Ansible<a class="anchor-link" href="#Getting-Started-with-Ansible">&#182;</a></h1>
+<h1 id="&quot;Intro-mediate&quot;-Ansible">"Intro-mediate" Ansible<a class="anchor-link" href="#&quot;Intro-mediate&quot;-Ansible">&#182;</a></h1><h2 id="DevelopIntelligence">DevelopIntelligence<a class="anchor-link" href="#DevelopIntelligence">&#182;</a></h2><p>Instructor: Rick Copeland <a href="mailto:rick@arborian.com">rick@arborian.com</a></p>
+<p>Class Times</p>
+<ul>
+<li>09:00 - 05:00</li>
+<li>Lunch 11:45 - 12:45</li>
+</ul>
+<p>Class Format:</p>
+<ul>
+<li>Interactive demo / lecture</li>
+<li>Hands-on, with frequent labs</li>
+<li>In addition to lab times, breaks every 60 ~ 90 minutes</li>
+</ul>
+
 </div>
 </div>
 </div></section></section><section><section>
@@ -11913,13 +11925,74 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Why-and-How-of-Ansible">Why and How of Ansible<a class="anchor-link" href="#Why-and-How-of-Ansible">&#182;</a></h1><ul>
-<li>Manages the configuration of </li>
-<li>Python library / tool</li>
-<li>"Push" model (generally via ssh)</li>
-<li>Managed hosts need minimal "bootstrapping"<ul>
-<li>Puppet, Chef, Salt, etc. all need an agent on the managed host.</li>
-<li>Ansible only needs sshd (Python is helpful, as well, but we can bootstrap that)</li>
+<h1 id="Getting-to-Know-You">Getting to Know You<a class="anchor-link" href="#Getting-to-Know-You">&#182;</a></h1><ul>
+<li>Name</li>
+<li>Programming / operations experience? (e.g. Chef, Puppet, Salt, Fabric?)</li>
+<li>Job role</li>
+<li>Specific thing you'd like to learn</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Logistics">Logistics<a class="anchor-link" href="#Logistics">&#182;</a></h1><ul>
+<li>Please sign in each day!</li>
+<li>Each student will need to fill out a class evaluation via HIVE at the conclusion of the course</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="(Rough)-Outline">(Rough) Outline<a class="anchor-link" href="#(Rough)-Outline">&#182;</a></h1><h2 id="Day-1">Day 1<a class="anchor-link" href="#Day-1">&#182;</a></h2><ul>
+<li><p>Review of Intro to Ansible Topics</p>
+<ul>
+<li>Why and how of Ansible</li>
+<li>Inventory: static and dynamic</li>
+<li>Running ad-hoc commands</li>
+<li>Grouping operations into playbooks</li>
+<li>Grouping playbooks into roles + Ansible Galaxy</li>
+<li>Building custom modules in Python</li>
+</ul>
+</li>
+<li><p>Using the Ansible vault for storing sensitive data</p>
+</li>
+<li>Using fact caching to speed up playbooks</li>
+<li>Error handling and debugging playbooks</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Day-2">Day 2<a class="anchor-link" href="#Day-2">&#182;</a></h2><ul>
+<li>Playbook delegation</li>
+<li>Ansible Galaxy: Sharing your roles</li>
+<li>Ansible + Docker<ul>
+<li>Docker modules in core Ansible</li>
+<li><code>ansible-container</code></li>
+</ul>
+</li>
+<li>More Ansible modules<ul>
+<li>Cloud modules<ul>
+<li>VMware</li>
+<li>AWS</li>
+</ul>
+</li>
+<li>Notifications</li>
+<li>Source Control</li>
+<li>Databases</li>
+<li>Monitoring</li>
 </ul>
 </li>
 </ul>
@@ -11931,274 +12004,29 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Ansible-Inventory">Ansible Inventory<a class="anchor-link" href="#Ansible-Inventory">&#182;</a></h1><p>Ansible needs to know which hosts it manages. For this, it uses an <em>inventory</em>.</p>
-
-</div>
-</div>
-</div><div class="fragment">
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Static-inventory">Static inventory<a class="anchor-link" href="#Static-inventory">&#182;</a></h2><p>A static inventory is just a text file (by default, <code>/etc/ansible/hosts</code>, but we'll change that).</p>
-<p>The inventory lists the hosts that Ansible will manage, optionally collecting them into groups.
-One example is in the class repository as <code>inventory</code>:</p>
-
-<pre><code>[web]
-arborian-01.class.arborian.com
-arborian-02.class.arborian.com
-
-[db]
-arborian-03.class.arborian.com
-arborian-04.class.arborian.com
-
-[app]
-arborian-05.class.arborian.com
-arborian-06.class.arborian.com</code></pre>
-
-</div>
-</div>
-</div></div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Inventory:-Dynamic-Inventory">Inventory: Dynamic Inventory<a class="anchor-link" href="#Inventory:-Dynamic-Inventory">&#182;</a></h1><p>We can also use Python modules to create our inventory programmatically (as when we might want to enumerate all hosts on AWS, Azure, or Google Compute Engine)</p>
-<p>Any inventory file that is executable will be run to generate an inventory JSON result when fed certain command-line arguments.</p>
-<p>Some useful links:</p>
-<ul>
-<li><a href="http://docs.ansible.com/ansible/intro_dynamic_inventory.html">Dynamic Inventory</a></li>
-<li><a href="http://docs.ansible.com/ansible/dev_guide/developing_inventory.html">Developing your own inventory script</a></li>
+<h1 id="Topic-List">Topic List<a class="anchor-link" href="#Topic-List">&#182;</a></h1><ul>
+<li><a href="./Getting%20started%20with%20Ansible.ipynb">Getting Started with Ansible</a> (<a href="./Getting%20started%20with%20Ansible.slides.html">slides</a>)</li>
+<li><a href="./AdHoc.ipynb">Ad-Hoc Commands</a> (<a href="./Adhoc.slides.html">slides</a>)</li>
+<li><a href="./Playbooks.ipynb">Playbooks</a> (<a href="./Playbooks.slides.html">slides</a>)</li>
+<li><a href="./Roles.ipynb">Roles</a> (<a href="./Roles.slides.html">slides</a>)</li>
+<li><a href="./Modules.ipynb">Custom Modules</a> (<a href="./Modules.slides.html">slides</a>)</li>
+<li><a href="./Vault.ipynb">Using the Vault for Sensitive Data</a> (<a href="./Vault.slides.html">slides</a>)</li>
+<li><p><a href="./PlaybookDebugging.ipynb">Playbook Debugging</a> (<a href="./PlaybookDebugging.slides.html">slides</a>)</p>
+<hr></li>
+<li><p><a href="./PlaybookDelegation.ipynb">Playbook Delegation</a> (<a href="./PlaybookDelegation.slides.html">slides</a>)</p>
+</li>
+<li><a href="./Galaxy.ipynb">Ansible Galaxy: Sharing Roles</a> (<a href="./Galaxy.slides.html">slides</a>)</li>
+<li><a href="./AnsibleAndDocker.ipynb">Ansible and Docker</a> (<a href="./AnsibleAndDocker.slides.html">slides</a>)</li>
+<li><a href="./AnsibleCloud.ipynb">Cloud Modules</a> (<a href="./AnsibleCloud.slides.html">slides</a>)</li>
+<li><a href="./Notifications.ipynb">Notifications</a> (<a href="./Notifications.slides.html">slides</a>)</li>
+<li><a href="./SourceControl.ipynb">Source Control</a> (<a href="./SourceControl.slides.html">slides</a>)</li>
+<li><a href="./Databases.ipynb">Databases</a> (<a href="./Databases.slides.html">slides</a>)</li>
+<li><a href="./Monitoring.ipynb">Monitoring</a> (<a href="./Monitoring.slides.html">monitor</a>)</li>
 </ul>
 
 </div>
 </div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Ad-hoc-Commands">Ad-hoc Commands<a class="anchor-link" href="#Ad-hoc-Commands">&#182;</a></h1><p>Ansible command line</p>
-<p><code>ansible &lt;host pattern&gt; [options]</code></p>
-<p>Frequently used options</p>
-<ul>
-<li><code>-m MODULE_NAME</code> (default is command)</li>
-<li><code>-a MODULE_ARGS</code></li>
-</ul>
-<p>Frequently used host patterns</p>
-<ul>
-<li><code>localhost</code></li>
-<li><code>all</code></li>
-<li><code>GROUP-NAME</code> (one of the groupings from your inventory)</li>
-</ul>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Ad-hoc-command-demos">Ad-hoc command demos<a class="anchor-link" href="#Ad-hoc-command-demos">&#182;</a></h1><p>The default module is <code>command</code>, so we can leave it out in the command line:</p>
-
-</div>
-</div>
-</div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible localhost -m <span class="nb">command</span> -a <span class="s1">&#39;echo &quot;hello&quot;&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>localhost | SUCCESS | rc=0 &gt;&gt;
-hello
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible localhost -a <span class="s1">&#39;echo &quot;hello&quot;&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>localhost | SUCCESS | rc=0 &gt;&gt;
-hello
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></div></section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible arborian-01.class.arborian.com -a <span class="s1">&#39;echo &quot;hi&quot;&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>arborian-01.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible web -a <span class="s1">&#39;echo &quot;hi&quot;&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>arborian-01.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-02.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible all -a <span class="s1">&#39;echo &quot;hi&quot;&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>arborian-01.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-05.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-02.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-03.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-04.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-arborian-06.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
-hi
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lab:-Getting-started-with-Ansible">Lab: Getting started with Ansible<a class="anchor-link" href="#Lab:-Getting-started-with-Ansible">&#182;</a></h1><h2 id="Clone-the-class-repository">Clone the class repository<a class="anchor-link" href="#Clone-the-class-repository">&#182;</a></h2><p><a href="https://github.com/Arborian/ansible-class">https://github.com/Arborian/ansible-class</a></p>
-<p><code>git clone https://github.com/Arborian/ansible-class.git</code></p>
-<h2 id="Install-Ansible">Install Ansible<a class="anchor-link" href="#Install-Ansible">&#182;</a></h2><p><a href="http://docs.ansible.com/ansible/latest/intro_installation.html">http://docs.ansible.com/ansible/latest/intro_installation.html</a></p>
-<p>(For Python users, you can also just <code>pip install ansible</code>)</p>
-<h2 id="Verify-that-you-can-execute-some-ad-hoc-commands">Verify that you can execute some ad-hoc commands<a class="anchor-link" href="#Verify-that-you-can-execute-some-ad-hoc-commands">&#182;</a></h2><p><em>Make sure you enter the directory where you've checked out the class repository</em></p>
-<p>You'll need to unzip / decrypt the key files with the password given in class.</p>
-<ul>
-<li><code>ansible localhost -a 'echo hi'</code></li>
-<li><code>ansible all -a 'echo hi'</code></li>
-</ul>
-
-</div>
-</div>
-</div></section></section>
 </div>
 </div>
 

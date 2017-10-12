@@ -4,8 +4,10 @@
     - role: bennojoy.nginx
 - hosts: db
   become: true
+  ignore_errors: true
   roles:
     - role: geerlingguy.mysql
+      become: yes
 - hosts: app
   become: true
   roles:
