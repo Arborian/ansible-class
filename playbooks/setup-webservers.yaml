@@ -1,4 +1,5 @@
 - hosts: web
+  become: true
   roles:
     - role: bennojoy.nginx
       nginx_http_params:
