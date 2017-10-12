@@ -1,4 +1,7 @@
 training-*
+notebooks/.ipynb_checkpoints
+cachedir/*
+vault-password.txt
 .idea/
 .npm/
 .ansible

@@ -1,0 +1,7 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+  - name: Decrypt the RSA key
+    include_vars: ../rsa.yaml
+  - name: Save the key
+    copy: dest=../id_rsa content={{id_rsa}} mode=600

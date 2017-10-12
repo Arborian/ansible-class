@@ -1,0 +1,12 @@
+- hosts: web
+  become: true
+  roles:
+    - role: bennojoy.nginx
+- hosts: db
+  become: true
+  roles:
+    - role: geerlingguy.mysql
+- hosts: app
+  become: true
+  roles:
+    - role: geerlingguy.jenkins

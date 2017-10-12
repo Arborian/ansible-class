@@ -1,0 +1,15 @@
+- hosts: web
+  gather_facts: false
+  become: true
+  roles:
+    - role: bennojoy.nginx
+- hosts: db
+  gather_facts: false
+  become: true
+  roles:
+    - role: geerlingguy.mysql
+- hosts: app
+  gather_facts: false
+  become: true
+  roles:
+    - role: geerlingguy.jenkins
