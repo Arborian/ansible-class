@@ -1,4 +1,4 @@
 - hosts: web
   tasks:
   - name: Create a file using some facts
-    template: src=templates/dump-facts.j2 dest=~/dump-facts.txt
+    template: src=../templates/dump-facts.j2 dest=~/dump-facts.txt

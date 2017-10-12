@@ -4,8 +4,6 @@ set -e
 IMAGE=rick446/ansible
 COMMAND=$(basename $0)
 
-echo "COMMAND" "$COMMAND" "$@"
-
 exec docker run \
   --interactive --tty --rm \
   --volume "$PWD":/wd \
