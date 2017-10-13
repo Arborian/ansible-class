@@ -12161,6 +12161,15 @@ ansible-galaxy install Arborian.arborian
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Lab">Lab<a class="anchor-link" href="#Lab">&#182;</a></h1><p>Create a demo role and upload it to Ansible Galaxy</p>
+<ul>
+<li>Create a Github repository with the name <code>ansible-role-</code>ROLENAME, where you choose the ROLENAME</li>
+<li>Clone the github repository locally: <code>git clone &lt;&lt;repository url&gt;&gt; ROLENAME</code></li>
+<li>Run in the <em>parent directory</em> of ROLENAME: <code>ansible-galaxy init --force ROLENAME</code></li>
+<li>Edit <code>meta/main.yaml</code> in ROLENAME to have a few supported platforms</li>
+<li><code>git add . &amp;&amp; git commit -m 'initial commit' &amp;&amp; git push</code></li>
+<li>Verify that your github repository page looks (roughly) like <a href="https://github.com/rick446/ansible-role-testeroni">https://github.com/rick446/ansible-role-testeroni</a></li>
+<li>Log into galaxy.ansible.com with your github user (click the Github Octo-cat icon) and import your ROLENAME</li>
+</ul>
 
 </div>
 </div>

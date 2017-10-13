@@ -1,0 +1,10 @@
+- hosts: db
+  gather_facts: false
+  tasks:
+    - name: Create a mongo container
+      docker_container:
+        name: mongo-test
+        image: mongo
+      register: mongooutput
+    - name: Print mongo output
+      debug: msg="variable is {{mongooutput.ansible_facts.docker_container.NetworkSettings.IPAddress}}"
