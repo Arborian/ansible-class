@@ -1,17 +1,15 @@
-- hosts: db
-  gather_facts: false
-  become: true
-  vars:
-    mysql_root_password_update: true
-  ignore_errors: true
-  roles:
-    - role: geerlingguy.mysql
-      become: yes
 - hosts: web
   gather_facts: false
   become: true
   roles:
     - role: bennojoy.nginx
+- hosts: db
+  gather_facts: false
+  become: true
+  ignore_errors: true
+  roles:
+    - role: geerlingguy.mysql
+      become: yes
 - hosts: app
   gather_facts: false
   become: true
