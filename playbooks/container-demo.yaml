@@ -1,0 +1,8 @@
+- hosts: db
+  gather_facts: no
+  tasks:
+    - name: Start a MongoDB server
+      docker_container:
+        name: db
+        image: mongo:latest
+        published_ports: 27017:27017

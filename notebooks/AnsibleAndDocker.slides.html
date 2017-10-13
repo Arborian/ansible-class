@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-<title>Vault slides</title>
+<title>AnsibleAndDocker slides</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11905,14 +11905,17 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="The-Ansible-Vault">The Ansible Vault<a class="anchor-link" href="#The-Ansible-Vault">&#182;</a></h1><p>We often need to store sensitive data but would prefer not to store it in clear-text (database credentials, third-party API keys, etc.). Ansible's solution to this is the <strong>Vault</strong></p>
-<p>Any Ansible yaml file can be encrypted and then used in a playbook. We can create encrypted yaml files using ansible-vault, e.g.:</p>
-
-<pre><code>ansible-vault create vault.yml</code></pre>
-<p>We can also edit existing vault files (if we have the <code>EDITOR</code> environment variable configured:</p>
-
-<pre><code>export EDITOR='subl -w'    # or vi or whatever
-ansible-vault edit stack-key.yml</code></pre>
+<h1 id="Managing-Docker-via-Ansible">Managing Docker via Ansible<a class="anchor-link" href="#Managing-Docker-via-Ansible">&#182;</a></h1><p>Ansible includes several modules for running container commands on a host:</p>
+<ul>
+<li><code>docker_container</code> - manage docker containers</li>
+<li><code>docker_image</code> - Manage docker images.</li>
+<li><code>docker_image_facts</code> - Inspect docker images</li>
+<li><code>docker_login</code> - Log into a Docker registry.</li>
+<li><code>docker_network</code> - Manage Docker networks</li>
+<li><code>docker_secret</code> - Manage docker secrets.</li>
+<li><code>docker_service</code> - Manage docker services and containers.</li>
+<li><code>docker_volume</code> - Manage Docker volumes</li>
+</ul>
 
 </div>
 </div>
@@ -11921,18 +11924,22 @@ ansible-vault edit stack-key.yml</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can also use the <code>--vault-password-file</code> option. Of course, you need to use restrictive permissions on this file and ensure it's never checked into source control. (The file is just a single line with the password, in plain text.)</p>
+<h2 id="Bootstrapping-Docker">Bootstrapping Docker<a class="anchor-link" href="#Bootstrapping-Docker">&#182;</a></h2><p>Hosts require a few things to run the Ansible Docker modules. In particular, hosts must have:</p>
+<ul>
+<li>Docker installed</li>
+<li>docker-py installed</li>
+</ul>
+<p>To get these dependencies installed, we can use a playbook:</p>
 
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible-vault --vault-password-file vault-password.txt view vault.yaml
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat</span> <span class="n">playbooks</span><span class="o">/</span><span class="n">bootstrap</span><span class="o">-</span><span class="n">docker</span><span class="o">.</span><span class="n">yaml</span>
 </pre></div>
 
 </div>
@@ -11949,11 +11956,31 @@ ansible-vault --vault-password-file vault-password.txt view vault.yaml
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>foo: bar
-baz: bat
-anything: |
-  Can go here, but it&#39;s usually nice to have YAML so we
-  can use this in an &#34;include_vars&#34; statement....
+<pre>- hosts: db
+  gather_facts: no
+  become: yes
+  tasks:
+  - name: Install Docker
+    apt:
+      name: docker.io
+      state: installed
+  - name: start docker
+    service:
+      name: docker
+      state: started
+  - name: Adding user {{ ansible_ssh_user }} as a docker user
+    user:
+      name: &#39;{{ansible_ssh_user}}&#39;
+      groups: docker
+      append: yes
+  - name: Install pip
+    apt:
+      name: python-pip
+      state: installed
+  - name: Add docker dependencies
+    pip:
+      name: docker-py
+      state: latest
 </pre>
 </div>
 </div>
@@ -11962,61 +11989,13 @@ anything: |
 </div>
 
 </div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Single-string-encryption">Single string encryption<a class="anchor-link" href="#Single-string-encryption">&#182;</a></h2><p>Sometimes you may just want to embed an encrypted value directly in your playbook. For that, we have</p>
-<p><code>ansible-vault encrypt_string</code></p>
-
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible-vault --vault-password-file vault-password.txt encrypt_string <span class="s2">&quot;this is super seekrit&quot;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>!vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          31393366356333313566346465333839643761653065623062363230386662376262313663363539
-          6635366137386261353731323065313832303933313036630a613231363333643363373762373937
-          31623565316532323132346663343834306562386137313032313537613465336631656630616338
-          6639306530666464610a313061343966646262393530323931636639353163396637306334616133
-          36653830323234323330376531363537653965306137623033636136613534356363
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible-playbook --vault-password-file vault-password.txt playbooks/vault-demo2.yaml
+ansible-playbook playbooks/bootstrap-docker.yaml
 </pre></div>
 
 </div>
@@ -12034,15 +12013,31 @@ ansible-playbook --vault-password-file vault-password.txt playbooks/vault-demo2.
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
-PLAY [localhost] ***************************************************************
+PLAY [db] **********************************************************************
 
-TASK [Show the encrypted value] ************************************************
-ok: [localhost] =&gt; {
-    &#34;encrypted_value&#34;: &#34;this is super seekrit&#34;
-}
+TASK [Install Docker] **********************************************************
+ok: [arborian-03.class.arborian.com]
+ok: [arborian-04.class.arborian.com]
+
+TASK [start docker] ************************************************************
+ok: [arborian-03.class.arborian.com]
+ok: [arborian-04.class.arborian.com]
+
+TASK [Adding user {{ ansible_ssh_user }} as a docker user] *********************
+ok: [arborian-03.class.arborian.com]
+ok: [arborian-04.class.arborian.com]
+
+TASK [Install pip] *************************************************************
+ok: [arborian-03.class.arborian.com]
+ok: [arborian-04.class.arborian.com]
+
+TASK [Add docker dependencies] *************************************************
+ok: [arborian-03.class.arborian.com]
+ok: [arborian-04.class.arborian.com]
 
 PLAY RECAP *********************************************************************
-localhost                  : ok=1    changed=0    unreachable=0    failed=0   
+arborian-03.class.arborian.com : ok=5    changed=0    unreachable=0    failed=0   
+arborian-04.class.arborian.com : ok=5    changed=0    unreachable=0    failed=0   
 
 </pre>
 </div>
@@ -12056,19 +12051,18 @@ localhost                  : ok=1    changed=0    unreachable=0    failed=0
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Encrypting-an-existing-YAML-file">Encrypting an existing YAML file<a class="anchor-link" href="#Encrypting-an-existing-YAML-file">&#182;</a></h1><p>We can also encrypt and decrypt existing YAML files using <code>ansible-vault encrypt</code> and <code>ansible-vault decrypt</code>:</p>
+<p>Now that that's done, we can run playbooks with our <code>docker_container</code> module, or just invoke it as a one-off:</p>
 
 </div>
 </div>
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible-vault --vault-password-file vault-password.txt decrypt vault.yaml
-cat vault.yaml
+ansible db -m docker_container -a <span class="s1">&#39;name=redis image=redis:latest state=started&#39;</span>
 </pre></div>
 
 </div>
@@ -12085,11 +12079,393 @@ cat vault.yaml
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>foo: bar
-baz: bat
-anything: |
-  Can go here, but it&#39;s usually nice to have YAML so we
-  can use this in an &#34;include_vars&#34; statement....</pre>
+<pre>arborian-04.class.arborian.com | SUCCESS =&gt; {
+    &#34;ansible_facts&#34;: {
+        &#34;docker_container&#34;: {
+            &#34;AppArmorProfile&#34;: &#34;&#34;,
+            &#34;Args&#34;: [
+                &#34;redis-server&#34;
+            ],
+            &#34;Config&#34;: {
+                &#34;AttachStderr&#34;: false,
+                &#34;AttachStdin&#34;: false,
+                &#34;AttachStdout&#34;: false,
+                &#34;Cmd&#34;: [
+                    &#34;redis-server&#34;
+                ],
+                &#34;Domainname&#34;: &#34;&#34;,
+                &#34;Entrypoint&#34;: [
+                    &#34;docker-entrypoint.sh&#34;
+                ],
+                &#34;Env&#34;: [
+                    &#34;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&#34;,
+                    &#34;GOSU_VERSION=1.10&#34;,
+                    &#34;REDIS_VERSION=4.0.2&#34;,
+                    &#34;REDIS_DOWNLOAD_URL=http://download.redis.io/releases/redis-4.0.2.tar.gz&#34;,
+                    &#34;REDIS_DOWNLOAD_SHA=b1a0915dbc91b979d06df1977fe594c3fa9b189f1f3d38743a2948c9f7634813&#34;
+                ],
+                &#34;ExposedPorts&#34;: {
+                    &#34;6379/tcp&#34;: {}
+                },
+                &#34;Hostname&#34;: &#34;8d0173eba400&#34;,
+                &#34;Image&#34;: &#34;redis:latest&#34;,
+                &#34;Labels&#34;: {},
+                &#34;OnBuild&#34;: null,
+                &#34;OpenStdin&#34;: false,
+                &#34;StdinOnce&#34;: false,
+                &#34;Tty&#34;: false,
+                &#34;User&#34;: &#34;&#34;,
+                &#34;Volumes&#34;: {
+                    &#34;/data&#34;: {}
+                },
+                &#34;WorkingDir&#34;: &#34;/data&#34;
+            },
+            &#34;Created&#34;: &#34;2017-10-13T02:49:15.340064639Z&#34;,
+            &#34;Driver&#34;: &#34;aufs&#34;,
+            &#34;ExecIDs&#34;: null,
+            &#34;GraphDriver&#34;: {
+                &#34;Data&#34;: null,
+                &#34;Name&#34;: &#34;aufs&#34;
+            },
+            &#34;HostConfig&#34;: {
+                &#34;AutoRemove&#34;: false,
+                &#34;Binds&#34;: [],
+                &#34;BlkioDeviceReadBps&#34;: null,
+                &#34;BlkioDeviceReadIOps&#34;: null,
+                &#34;BlkioDeviceWriteBps&#34;: null,
+                &#34;BlkioDeviceWriteIOps&#34;: null,
+                &#34;BlkioWeight&#34;: 0,
+                &#34;BlkioWeightDevice&#34;: null,
+                &#34;CapAdd&#34;: null,
+                &#34;CapDrop&#34;: null,
+                &#34;Cgroup&#34;: &#34;&#34;,
+                &#34;CgroupParent&#34;: &#34;&#34;,
+                &#34;ConsoleSize&#34;: [
+                    0,
+                    0
+                ],
+                &#34;ContainerIDFile&#34;: &#34;&#34;,
+                &#34;CpuCount&#34;: 0,
+                &#34;CpuPercent&#34;: 0,
+                &#34;CpuPeriod&#34;: 0,
+                &#34;CpuQuota&#34;: 0,
+                &#34;CpuShares&#34;: 0,
+                &#34;CpusetCpus&#34;: &#34;&#34;,
+                &#34;CpusetMems&#34;: &#34;&#34;,
+                &#34;Devices&#34;: null,
+                &#34;DiskQuota&#34;: 0,
+                &#34;Dns&#34;: null,
+                &#34;DnsOptions&#34;: null,
+                &#34;DnsSearch&#34;: null,
+                &#34;ExtraHosts&#34;: null,
+                &#34;GroupAdd&#34;: null,
+                &#34;IOMaximumBandwidth&#34;: 0,
+                &#34;IOMaximumIOps&#34;: 0,
+                &#34;IpcMode&#34;: &#34;&#34;,
+                &#34;Isolation&#34;: &#34;&#34;,
+                &#34;KernelMemory&#34;: 0,
+                &#34;Links&#34;: null,
+                &#34;LogConfig&#34;: {
+                    &#34;Config&#34;: {},
+                    &#34;Type&#34;: &#34;json-file&#34;
+                },
+                &#34;Memory&#34;: 0,
+                &#34;MemoryReservation&#34;: 0,
+                &#34;MemorySwap&#34;: 0,
+                &#34;MemorySwappiness&#34;: -1,
+                &#34;NetworkMode&#34;: &#34;default&#34;,
+                &#34;OomKillDisable&#34;: false,
+                &#34;OomScoreAdj&#34;: 0,
+                &#34;PidMode&#34;: &#34;&#34;,
+                &#34;PidsLimit&#34;: 0,
+                &#34;PortBindings&#34;: null,
+                &#34;Privileged&#34;: false,
+                &#34;PublishAllPorts&#34;: false,
+                &#34;ReadonlyRootfs&#34;: false,
+                &#34;RestartPolicy&#34;: {
+                    &#34;MaximumRetryCount&#34;: 0,
+                    &#34;Name&#34;: &#34;&#34;
+                },
+                &#34;Runtime&#34;: &#34;runc&#34;,
+                &#34;SecurityOpt&#34;: null,
+                &#34;ShmSize&#34;: 67108864,
+                &#34;UTSMode&#34;: &#34;&#34;,
+                &#34;Ulimits&#34;: null,
+                &#34;UsernsMode&#34;: &#34;&#34;,
+                &#34;VolumeDriver&#34;: &#34;&#34;,
+                &#34;VolumesFrom&#34;: null
+            },
+            &#34;HostnamePath&#34;: &#34;/var/lib/docker/containers/8d0173eba400446f647c7bbb80ea5666780e5e9a0b7da113a87067b03c586010/hostname&#34;,
+            &#34;HostsPath&#34;: &#34;/var/lib/docker/containers/8d0173eba400446f647c7bbb80ea5666780e5e9a0b7da113a87067b03c586010/hosts&#34;,
+            &#34;Id&#34;: &#34;8d0173eba400446f647c7bbb80ea5666780e5e9a0b7da113a87067b03c586010&#34;,
+            &#34;Image&#34;: &#34;sha256:1fb7b6c8c0d0713640c99dc75f7f39849cb9fc5619c1ba4ff6da286e6af759ee&#34;,
+            &#34;LogPath&#34;: &#34;/var/lib/docker/containers/8d0173eba400446f647c7bbb80ea5666780e5e9a0b7da113a87067b03c586010/8d0173eba400446f647c7bbb80ea5666780e5e9a0b7da113a87067b03c586010-json.log&#34;,
+            &#34;MountLabel&#34;: &#34;&#34;,
+            &#34;Mounts&#34;: [
+                {
+                    &#34;Destination&#34;: &#34;/data&#34;,
+                    &#34;Driver&#34;: &#34;local&#34;,
+                    &#34;Mode&#34;: &#34;&#34;,
+                    &#34;Name&#34;: &#34;14edebf69f4ca34d9c5e0aa50cb2d96e4e7c55f9e85dd762be8e23b8f922d630&#34;,
+                    &#34;Propagation&#34;: &#34;&#34;,
+                    &#34;RW&#34;: true,
+                    &#34;Source&#34;: &#34;/var/lib/docker/volumes/14edebf69f4ca34d9c5e0aa50cb2d96e4e7c55f9e85dd762be8e23b8f922d630/_data&#34;
+                }
+            ],
+            &#34;Name&#34;: &#34;/redis&#34;,
+            &#34;NetworkSettings&#34;: {
+                &#34;Bridge&#34;: &#34;&#34;,
+                &#34;EndpointID&#34;: &#34;1b9ef8c478f856f651d1ab7685290c8584c37f053ef023423ef270e26a51d53c&#34;,
+                &#34;Gateway&#34;: &#34;172.17.0.1&#34;,
+                &#34;GlobalIPv6Address&#34;: &#34;&#34;,
+                &#34;GlobalIPv6PrefixLen&#34;: 0,
+                &#34;HairpinMode&#34;: false,
+                &#34;IPAddress&#34;: &#34;172.17.0.3&#34;,
+                &#34;IPPrefixLen&#34;: 16,
+                &#34;IPv6Gateway&#34;: &#34;&#34;,
+                &#34;LinkLocalIPv6Address&#34;: &#34;&#34;,
+                &#34;LinkLocalIPv6PrefixLen&#34;: 0,
+                &#34;MacAddress&#34;: &#34;02:42:ac:11:00:03&#34;,
+                &#34;Networks&#34;: {
+                    &#34;bridge&#34;: {
+                        &#34;Aliases&#34;: null,
+                        &#34;EndpointID&#34;: &#34;1b9ef8c478f856f651d1ab7685290c8584c37f053ef023423ef270e26a51d53c&#34;,
+                        &#34;Gateway&#34;: &#34;172.17.0.1&#34;,
+                        &#34;GlobalIPv6Address&#34;: &#34;&#34;,
+                        &#34;GlobalIPv6PrefixLen&#34;: 0,
+                        &#34;IPAMConfig&#34;: null,
+                        &#34;IPAddress&#34;: &#34;172.17.0.3&#34;,
+                        &#34;IPPrefixLen&#34;: 16,
+                        &#34;IPv6Gateway&#34;: &#34;&#34;,
+                        &#34;Links&#34;: null,
+                        &#34;MacAddress&#34;: &#34;02:42:ac:11:00:03&#34;,
+                        &#34;NetworkID&#34;: &#34;91619a5f7b1f18b6cd24584e856cd9524f3bffb227e856f0924ec940967388cc&#34;
+                    }
+                },
+                &#34;Ports&#34;: {
+                    &#34;6379/tcp&#34;: null
+                },
+                &#34;SandboxID&#34;: &#34;c8d7ec0d93873dd8611a2a902a00b08bcb86f6031981a9dc2b06bbade3fcc0ea&#34;,
+                &#34;SandboxKey&#34;: &#34;/var/run/docker/netns/c8d7ec0d9387&#34;,
+                &#34;SecondaryIPAddresses&#34;: null,
+                &#34;SecondaryIPv6Addresses&#34;: null
+            },
+            &#34;Path&#34;: &#34;docker-entrypoint.sh&#34;,
+            &#34;ProcessLabel&#34;: &#34;&#34;,
+            &#34;ResolvConfPath&#34;: &#34;/var/lib/docker/containers/8d0173eba400446f647c7bbb80ea5666780e5e9a0b7da113a87067b03c586010/resolv.conf&#34;,
+            &#34;RestartCount&#34;: 0,
+            &#34;State&#34;: {
+                &#34;Dead&#34;: false,
+                &#34;Error&#34;: &#34;&#34;,
+                &#34;ExitCode&#34;: 0,
+                &#34;FinishedAt&#34;: &#34;0001-01-01T00:00:00Z&#34;,
+                &#34;OOMKilled&#34;: false,
+                &#34;Paused&#34;: false,
+                &#34;Pid&#34;: 8384,
+                &#34;Restarting&#34;: false,
+                &#34;Running&#34;: true,
+                &#34;StartedAt&#34;: &#34;2017-10-13T02:49:15.623286123Z&#34;,
+                &#34;Status&#34;: &#34;running&#34;
+            }
+        }
+    },
+    &#34;changed&#34;: true,
+    &#34;failed&#34;: false
+}
+arborian-03.class.arborian.com | SUCCESS =&gt; {
+    &#34;ansible_facts&#34;: {
+        &#34;docker_container&#34;: {
+            &#34;AppArmorProfile&#34;: &#34;&#34;,
+            &#34;Args&#34;: [
+                &#34;redis-server&#34;
+            ],
+            &#34;Config&#34;: {
+                &#34;AttachStderr&#34;: false,
+                &#34;AttachStdin&#34;: false,
+                &#34;AttachStdout&#34;: false,
+                &#34;Cmd&#34;: [
+                    &#34;redis-server&#34;
+                ],
+                &#34;Domainname&#34;: &#34;&#34;,
+                &#34;Entrypoint&#34;: [
+                    &#34;docker-entrypoint.sh&#34;
+                ],
+                &#34;Env&#34;: [
+                    &#34;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&#34;,
+                    &#34;GOSU_VERSION=1.10&#34;,
+                    &#34;REDIS_VERSION=4.0.2&#34;,
+                    &#34;REDIS_DOWNLOAD_URL=http://download.redis.io/releases/redis-4.0.2.tar.gz&#34;,
+                    &#34;REDIS_DOWNLOAD_SHA=b1a0915dbc91b979d06df1977fe594c3fa9b189f1f3d38743a2948c9f7634813&#34;
+                ],
+                &#34;ExposedPorts&#34;: {
+                    &#34;6379/tcp&#34;: {}
+                },
+                &#34;Hostname&#34;: &#34;3abc8554cad5&#34;,
+                &#34;Image&#34;: &#34;redis:latest&#34;,
+                &#34;Labels&#34;: {},
+                &#34;OnBuild&#34;: null,
+                &#34;OpenStdin&#34;: false,
+                &#34;StdinOnce&#34;: false,
+                &#34;Tty&#34;: false,
+                &#34;User&#34;: &#34;&#34;,
+                &#34;Volumes&#34;: {
+                    &#34;/data&#34;: {}
+                },
+                &#34;WorkingDir&#34;: &#34;/data&#34;
+            },
+            &#34;Created&#34;: &#34;2017-10-13T02:49:16.419650946Z&#34;,
+            &#34;Driver&#34;: &#34;aufs&#34;,
+            &#34;ExecIDs&#34;: null,
+            &#34;GraphDriver&#34;: {
+                &#34;Data&#34;: null,
+                &#34;Name&#34;: &#34;aufs&#34;
+            },
+            &#34;HostConfig&#34;: {
+                &#34;AutoRemove&#34;: false,
+                &#34;Binds&#34;: [],
+                &#34;BlkioDeviceReadBps&#34;: null,
+                &#34;BlkioDeviceReadIOps&#34;: null,
+                &#34;BlkioDeviceWriteBps&#34;: null,
+                &#34;BlkioDeviceWriteIOps&#34;: null,
+                &#34;BlkioWeight&#34;: 0,
+                &#34;BlkioWeightDevice&#34;: null,
+                &#34;CapAdd&#34;: null,
+                &#34;CapDrop&#34;: null,
+                &#34;Cgroup&#34;: &#34;&#34;,
+                &#34;CgroupParent&#34;: &#34;&#34;,
+                &#34;ConsoleSize&#34;: [
+                    0,
+                    0
+                ],
+                &#34;ContainerIDFile&#34;: &#34;&#34;,
+                &#34;CpuCount&#34;: 0,
+                &#34;CpuPercent&#34;: 0,
+                &#34;CpuPeriod&#34;: 0,
+                &#34;CpuQuota&#34;: 0,
+                &#34;CpuShares&#34;: 0,
+                &#34;CpusetCpus&#34;: &#34;&#34;,
+                &#34;CpusetMems&#34;: &#34;&#34;,
+                &#34;Devices&#34;: null,
+                &#34;DiskQuota&#34;: 0,
+                &#34;Dns&#34;: null,
+                &#34;DnsOptions&#34;: null,
+                &#34;DnsSearch&#34;: null,
+                &#34;ExtraHosts&#34;: null,
+                &#34;GroupAdd&#34;: null,
+                &#34;IOMaximumBandwidth&#34;: 0,
+                &#34;IOMaximumIOps&#34;: 0,
+                &#34;IpcMode&#34;: &#34;&#34;,
+                &#34;Isolation&#34;: &#34;&#34;,
+                &#34;KernelMemory&#34;: 0,
+                &#34;Links&#34;: null,
+                &#34;LogConfig&#34;: {
+                    &#34;Config&#34;: {},
+                    &#34;Type&#34;: &#34;json-file&#34;
+                },
+                &#34;Memory&#34;: 0,
+                &#34;MemoryReservation&#34;: 0,
+                &#34;MemorySwap&#34;: 0,
+                &#34;MemorySwappiness&#34;: -1,
+                &#34;NetworkMode&#34;: &#34;default&#34;,
+                &#34;OomKillDisable&#34;: false,
+                &#34;OomScoreAdj&#34;: 0,
+                &#34;PidMode&#34;: &#34;&#34;,
+                &#34;PidsLimit&#34;: 0,
+                &#34;PortBindings&#34;: null,
+                &#34;Privileged&#34;: false,
+                &#34;PublishAllPorts&#34;: false,
+                &#34;ReadonlyRootfs&#34;: false,
+                &#34;RestartPolicy&#34;: {
+                    &#34;MaximumRetryCount&#34;: 0,
+                    &#34;Name&#34;: &#34;&#34;
+                },
+                &#34;Runtime&#34;: &#34;runc&#34;,
+                &#34;SecurityOpt&#34;: null,
+                &#34;ShmSize&#34;: 67108864,
+                &#34;UTSMode&#34;: &#34;&#34;,
+                &#34;Ulimits&#34;: null,
+                &#34;UsernsMode&#34;: &#34;&#34;,
+                &#34;VolumeDriver&#34;: &#34;&#34;,
+                &#34;VolumesFrom&#34;: null
+            },
+            &#34;HostnamePath&#34;: &#34;/var/lib/docker/containers/3abc8554cad5ca518c802d02e31eb45496a9ceb8f35da53b89cdd6fc3d249948/hostname&#34;,
+            &#34;HostsPath&#34;: &#34;/var/lib/docker/containers/3abc8554cad5ca518c802d02e31eb45496a9ceb8f35da53b89cdd6fc3d249948/hosts&#34;,
+            &#34;Id&#34;: &#34;3abc8554cad5ca518c802d02e31eb45496a9ceb8f35da53b89cdd6fc3d249948&#34;,
+            &#34;Image&#34;: &#34;sha256:1fb7b6c8c0d0713640c99dc75f7f39849cb9fc5619c1ba4ff6da286e6af759ee&#34;,
+            &#34;LogPath&#34;: &#34;/var/lib/docker/containers/3abc8554cad5ca518c802d02e31eb45496a9ceb8f35da53b89cdd6fc3d249948/3abc8554cad5ca518c802d02e31eb45496a9ceb8f35da53b89cdd6fc3d249948-json.log&#34;,
+            &#34;MountLabel&#34;: &#34;&#34;,
+            &#34;Mounts&#34;: [
+                {
+                    &#34;Destination&#34;: &#34;/data&#34;,
+                    &#34;Driver&#34;: &#34;local&#34;,
+                    &#34;Mode&#34;: &#34;&#34;,
+                    &#34;Name&#34;: &#34;9a4665bbcfb9e30ca041b85626a5054b2c91aec000688a484715cd6cfc44c750&#34;,
+                    &#34;Propagation&#34;: &#34;&#34;,
+                    &#34;RW&#34;: true,
+                    &#34;Source&#34;: &#34;/var/lib/docker/volumes/9a4665bbcfb9e30ca041b85626a5054b2c91aec000688a484715cd6cfc44c750/_data&#34;
+                }
+            ],
+            &#34;Name&#34;: &#34;/redis&#34;,
+            &#34;NetworkSettings&#34;: {
+                &#34;Bridge&#34;: &#34;&#34;,
+                &#34;EndpointID&#34;: &#34;f046c09955823d9de9ea931f3274f829ead940c49689f5be9834f6a6d3256108&#34;,
+                &#34;Gateway&#34;: &#34;172.17.0.1&#34;,
+                &#34;GlobalIPv6Address&#34;: &#34;&#34;,
+                &#34;GlobalIPv6PrefixLen&#34;: 0,
+                &#34;HairpinMode&#34;: false,
+                &#34;IPAddress&#34;: &#34;172.17.0.3&#34;,
+                &#34;IPPrefixLen&#34;: 16,
+                &#34;IPv6Gateway&#34;: &#34;&#34;,
+                &#34;LinkLocalIPv6Address&#34;: &#34;&#34;,
+                &#34;LinkLocalIPv6PrefixLen&#34;: 0,
+                &#34;MacAddress&#34;: &#34;02:42:ac:11:00:03&#34;,
+                &#34;Networks&#34;: {
+                    &#34;bridge&#34;: {
+                        &#34;Aliases&#34;: null,
+                        &#34;EndpointID&#34;: &#34;f046c09955823d9de9ea931f3274f829ead940c49689f5be9834f6a6d3256108&#34;,
+                        &#34;Gateway&#34;: &#34;172.17.0.1&#34;,
+                        &#34;GlobalIPv6Address&#34;: &#34;&#34;,
+                        &#34;GlobalIPv6PrefixLen&#34;: 0,
+                        &#34;IPAMConfig&#34;: null,
+                        &#34;IPAddress&#34;: &#34;172.17.0.3&#34;,
+                        &#34;IPPrefixLen&#34;: 16,
+                        &#34;IPv6Gateway&#34;: &#34;&#34;,
+                        &#34;Links&#34;: null,
+                        &#34;MacAddress&#34;: &#34;02:42:ac:11:00:03&#34;,
+                        &#34;NetworkID&#34;: &#34;b2133f1679afd72e3032bb9eacbf562784c37ec75d4ab11c4c2976e22bc7d8bd&#34;
+                    }
+                },
+                &#34;Ports&#34;: {
+                    &#34;6379/tcp&#34;: null
+                },
+                &#34;SandboxID&#34;: &#34;0a565ad1a0ba5fbad4c767a89997af7e0fbd68b44d20b2f77c66748060d91769&#34;,
+                &#34;SandboxKey&#34;: &#34;/var/run/docker/netns/0a565ad1a0ba&#34;,
+                &#34;SecondaryIPAddresses&#34;: null,
+                &#34;SecondaryIPv6Addresses&#34;: null
+            },
+            &#34;Path&#34;: &#34;docker-entrypoint.sh&#34;,
+            &#34;ProcessLabel&#34;: &#34;&#34;,
+            &#34;ResolvConfPath&#34;: &#34;/var/lib/docker/containers/3abc8554cad5ca518c802d02e31eb45496a9ceb8f35da53b89cdd6fc3d249948/resolv.conf&#34;,
+            &#34;RestartCount&#34;: 0,
+            &#34;State&#34;: {
+                &#34;Dead&#34;: false,
+                &#34;Error&#34;: &#34;&#34;,
+                &#34;ExitCode&#34;: 0,
+                &#34;FinishedAt&#34;: &#34;0001-01-01T00:00:00Z&#34;,
+                &#34;OOMKilled&#34;: false,
+                &#34;Paused&#34;: false,
+                &#34;Pid&#34;: 12408,
+                &#34;Restarting&#34;: false,
+                &#34;Running&#34;: true,
+                &#34;StartedAt&#34;: &#34;2017-10-13T02:49:16.794031862Z&#34;,
+                &#34;Status&#34;: &#34;running&#34;
+            }
+        }
+    },
+    &#34;changed&#34;: true,
+    &#34;failed&#34;: false
+}
+</pre>
 </div>
 </div>
 
@@ -12097,14 +12473,41 @@ anything: |
 </div>
 
 </div></div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Lab:-Starting-and-Stopping-Containers">Lab: Starting and Stopping Containers<a class="anchor-link" href="#Lab:-Starting-and-Stopping-Containers">&#182;</a></h1><p>Start (and then remove) a few containers on the <code>db</code> servers. Examine the output of the <code>docker_container</code> command.</p>
+<p>You can find many containers to start at <a href="https://hub.docker.com/explore/">https://hub.docker.com/explore/</a></p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Managing-Containers-using-Ansible-Container">Managing Containers using Ansible-Container<a class="anchor-link" href="#Managing-Containers-using-Ansible-Container">&#182;</a></h1><p>Where the Ansible docker_* modules allow you to manage Docker via command-line tools, the Ansible-Container project provides for the management and orchestration of containers via Ansible playbooks. (The container becomes the managed host).</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Creating-an-ansible-container-project">Creating an ansible-container project<a class="anchor-link" href="#Creating-an-ansible-container-project">&#182;</a></h2><p>To get started, we use the <code>ansible-container init</code> command.</p>
+<h3 id="Create-an-'empty'-project">Create an 'empty' project<a class="anchor-link" href="#Create-an-'empty'-project">&#182;</a></h3><p><code>$ ansible-container init</code> with no arguments will create a small set of files in the current directory with minimal configuration. I did this in the simple_container directory:</p>
+
+</div>
+</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible-vault --vault-password-file vault-password.txt encrypt vault.yaml
-cat vault.yaml
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ls</span> <span class="n">simple</span><span class="o">-</span><span class="n">container</span><span class="o">/</span>
 </pre></div>
 
 </div>
@@ -12121,18 +12524,8 @@ cat vault.yaml
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>$ANSIBLE_VAULT;1.1;AES256
-32383936333163633136343638393430666237393036376333373862303934326134313666313036
-6134393065396232333134303139643166313235383032660a323534633935353532633133643630
-63333935363566626235306233303731353033666134626535303364643338613565393131336639
-6235313939633337310a653739303635323739623634323365653031303438373230333466656236
-61303638313039363735306163616132663339653936303530386666373966363532633839663630
-61343831623431323161396336383038313063353336393332353435303032303437623465616165
-35346233396464613236303465303133653163613331626564363534623337643335323261333566
-63666434383262333961323462656235396633396463363131633830313534313734353434626536
-64646163383237336565623561616531386131656131653636343366633932323562643634626636
-36323866616566653331353339303733393238353532656330313666303236303033363062343165
-313563643938393665666135656234346231
+<pre><span class="ansi-blue-fg">ansible-deployment</span>/       ansible.cfg               meta.yml
+ansible-requirements.txt  container.yml             requirements.yml
 </pre>
 </div>
 </div>
@@ -12145,15 +12538,96 @@ cat vault.yaml
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lab">Lab<a class="anchor-link" href="#Lab">&#182;</a></h1><p>Practice using the various <code>ansible-vault</code> commands:</p>
-<ul>
-<li>encrypt</li>
-<li>decrypt</li>
-<li>create</li>
-<li>edit</li>
-<li>view</li>
-<li>encrypt_string</li>
+<p>To actually build our set of containers, we use the <code>build</code> and <code>run</code> commands:</p>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+<span class="nb">cd</span> simple-container/
+ansible-container build
+ansible-container run
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Building Docker Engine context...	
+Starting Docker build of Ansible Container Conductor image (please be patient)...	
+Parsing conductor CLI args.
+Docker™ daemon integration engine loaded. Build starting.	project=simple-container
+All images successfully built.
+Conductor terminated. Cleaning up.	command_rc=0 conductor_id=9312ab758b6862b06ca196675db5f253932bdd7a6c8e10038d2e98ce80b9d95b save_container=False
+Parsing conductor CLI args.
+Engine integration loaded. Preparing run.	engine=Docker™ daemon
+ [WARNING]: Could not match supplied host pattern, ignoring: all
+ [WARNING]: provided hosts list is empty, only localhost is available
+
+PLAY [Deploy simple-container] *************************************************
+
+TASK [docker_service] **********************************************************
+ok: [localhost]
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=1    changed=0    unreachable=0    failed=0
+
+All services running.	playbook_rc=0
+Conductor terminated. Cleaning up.	command_rc=0 conductor_id=4ff585ecd282f9409c24c80ed048a23169313f9287c2e74004cbb8e4cf725b5a save_container=False
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div></div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Starting-from-the-galaxy">Starting from the galaxy<a class="anchor-link" href="#Starting-from-the-galaxy">&#182;</a></h2><p>We can also start from a project on Ansible Galaxy by adding its name to our <code>ansible-container init</code> command. (I did this in the <code>container</code> directory:</p>
+<p><code>ansible-container init ansible.django-template</code></p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Lab:-Installing-and-using-Ansible-Container">Lab: Installing and using Ansible-Container<a class="anchor-link" href="#Lab:-Installing-and-using-Ansible-Container">&#182;</a></h2><ul>
+<li>Install Ansible-Container (or use the playbook playbooks/prepare-ansible-container.yaml)</li>
+<li>Install and run the ansible.django-template app in the <code>container</code> directory</li>
+<li>Change the database password in container.yml and rebuild and rerun the container</li>
 </ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Some-notes">Some notes<a class="anchor-link" href="#Some-notes">&#182;</a></h1><p><code>ansible-container build</code> creates a <strong>Conductor Container</strong> which is responsible for doing all the actual ansible work.</p>
+<p>The <em>conductor</em> will build the various containers ("Services") in your <code>container.yml</code> file. Each Ansible role for a service becomes a <em>layer</em> in the generated image.</p>
+<p>You can install various Ansible requirements in the <em>conductor</em> by adding them to the ansible-requirements.txt file</p>
+<p>There's much more, including deployment to Docker Swarm or K8S. See <a href="http://docs.ansible.com/ansible-container/">http://docs.ansible.com/ansible-container/</a> for more information.</p>
 
 </div>
 </div>

@@ -1,0 +1,25 @@
+- hosts: db
+  gather_facts: no
+  become: yes
+  tasks:
+  - name: Install Docker
+    apt:
+      name: docker.io
+      state: installed
+  - name: start docker
+    service:
+      name: docker
+      state: started
+  - name: Adding user {{ ansible_ssh_user }} as a docker user
+    user:
+      name: '{{ansible_ssh_user}}'
+      groups: docker
+      append: yes
+  - name: Install pip
+    apt:
+      name: python-pip
+      state: installed
+  - name: Add docker dependencies
+    pip:
+      name: docker-py
+      state: latest

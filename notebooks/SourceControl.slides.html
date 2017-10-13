@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-<title>Vault slides</title>
+<title>SourceControl slides</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11905,118 +11905,25 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="The-Ansible-Vault">The Ansible Vault<a class="anchor-link" href="#The-Ansible-Vault">&#182;</a></h1><p>We often need to store sensitive data but would prefer not to store it in clear-text (database credentials, third-party API keys, etc.). Ansible's solution to this is the <strong>Vault</strong></p>
-<p>Any Ansible yaml file can be encrypted and then used in a playbook. We can create encrypted yaml files using ansible-vault, e.g.:</p>
-
-<pre><code>ansible-vault create vault.yml</code></pre>
-<p>We can also edit existing vault files (if we have the <code>EDITOR</code> environment variable configured:</p>
-
-<pre><code>export EDITOR='subl -w'    # or vi or whatever
-ansible-vault edit stack-key.yml</code></pre>
+<h1 id="Source-Control-Modules">Source Control Modules<a class="anchor-link" href="#Source-Control-Modules">&#182;</a></h1><p>Ansible supports various source control systems:</p>
+<ul>
+<li><code>git</code> - Git DVCS</li>
+<li><code>bzr</code> - Bazaar DVCS</li>
+<li><code>hg</code> - Mercurial DVCS</li>
+<li><code>subversion</code> - Subversion VCS</li>
+</ul>
+<p>Additionally, several Github and Gitlab modules are also included.</p>
 
 </div>
 </div>
 </div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We can also use the <code>--vault-password-file</code> option. Of course, you need to use restrictive permissions on this file and ensure it's never checked into source control. (The file is just a single line with the password, in plain text.)</p>
-
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible-vault --vault-password-file vault-password.txt view vault.yaml
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>foo: bar
-baz: bat
-anything: |
-  Can go here, but it&#39;s usually nice to have YAML so we
-  can use this in an &#34;include_vars&#34; statement....
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Single-string-encryption">Single string encryption<a class="anchor-link" href="#Single-string-encryption">&#182;</a></h2><p>Sometimes you may just want to embed an encrypted value directly in your playbook. For that, we have</p>
-<p><code>ansible-vault encrypt_string</code></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible-vault --vault-password-file vault-password.txt encrypt_string <span class="s2">&quot;this is super seekrit&quot;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>!vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          31393366356333313566346465333839643761653065623062363230386662376262313663363539
-          6635366137386261353731323065313832303933313036630a613231363333643363373762373937
-          31623565316532323132346663343834306562386137313032313537613465336631656630616338
-          6639306530666464610a313061343966646262393530323931636639353163396637306334616133
-          36653830323234323330376531363537653965306137623033636136613534356363
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible-playbook --vault-password-file vault-password.txt playbooks/vault-demo2.yaml
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash 
+ansible-playbook playbooks/updated-repo.yaml
 </pre></div>
 
 </div>
@@ -12034,15 +11941,19 @@ ansible-playbook --vault-password-file vault-password.txt playbooks/vault-demo2.
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
-PLAY [localhost] ***************************************************************
+PLAY [web] *********************************************************************
 
-TASK [Show the encrypted value] ************************************************
-ok: [localhost] =&gt; {
-    &#34;encrypted_value&#34;: &#34;this is super seekrit&#34;
-}
+TASK [Gathering Facts] *********************************************************
+ok: [arborian-02.class.arborian.com]
+ok: [arborian-01.class.arborian.com]
+
+TASK [Get or update repo] ******************************************************
+changed: [arborian-02.class.arborian.com]
+changed: [arborian-01.class.arborian.com]
 
 PLAY RECAP *********************************************************************
-localhost                  : ok=1    changed=0    unreachable=0    failed=0   
+arborian-01.class.arborian.com : ok=2    changed=1    unreachable=0    failed=0   
+arborian-02.class.arborian.com : ok=2    changed=1    unreachable=0    failed=0   
 
 </pre>
 </div>
@@ -12056,105 +11967,7 @@ localhost                  : ok=1    changed=0    unreachable=0    failed=0
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Encrypting-an-existing-YAML-file">Encrypting an existing YAML file<a class="anchor-link" href="#Encrypting-an-existing-YAML-file">&#182;</a></h1><p>We can also encrypt and decrypt existing YAML files using <code>ansible-vault encrypt</code> and <code>ansible-vault decrypt</code>:</p>
-
-</div>
-</div>
-</div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible-vault --vault-password-file vault-password.txt decrypt vault.yaml
-cat vault.yaml
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>foo: bar
-baz: bat
-anything: |
-  Can go here, but it&#39;s usually nice to have YAML so we
-  can use this in an &#34;include_vars&#34; statement....</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></div></section></section><section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible-vault --vault-password-file vault-password.txt encrypt vault.yaml
-cat vault.yaml
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>$ANSIBLE_VAULT;1.1;AES256
-32383936333163633136343638393430666237393036376333373862303934326134313666313036
-6134393065396232333134303139643166313235383032660a323534633935353532633133643630
-63333935363566626235306233303731353033666134626535303364643338613565393131336639
-6235313939633337310a653739303635323739623634323365653031303438373230333466656236
-61303638313039363735306163616132663339653936303530386666373966363532633839663630
-61343831623431323161396336383038313063353336393332353435303032303437623465616165
-35346233396464613236303465303133653163613331626564363534623337643335323261333566
-63666434383262333961323462656235396633396463363131633830313534313734353434626536
-64646163383237336565623561616531386131656131653636343366633932323562643634626636
-36323866616566653331353339303733393238353532656330313666303236303033363062343165
-313563643938393665666135656234346231
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lab">Lab<a class="anchor-link" href="#Lab">&#182;</a></h1><p>Practice using the various <code>ansible-vault</code> commands:</p>
-<ul>
-<li>encrypt</li>
-<li>decrypt</li>
-<li>create</li>
-<li>edit</li>
-<li>view</li>
-<li>encrypt_string</li>
-</ul>
-
+<h1 id="Lab:-Update-your-checked-out-copy-of-this-repository-on-the-server">Lab: Update your checked-out copy of this repository on the server<a class="anchor-link" href="#Lab:-Update-your-checked-out-copy-of-this-repository-on-the-server">&#182;</a></h1>
 </div>
 </div>
 </div></section></section>
