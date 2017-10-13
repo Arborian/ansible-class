@@ -1,64 +1,8 @@
-
 <!DOCTYPE html>
 <html>
-<head>
-
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="chrome=1" />
-
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-
-<title>PlaybookDelegation slides</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<head><meta charset="utf-8" />
+<title>Getting started with Ansible</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-<!-- General and theme style sheets -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.1.0/css/reveal.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.1.0/css/theme/simple.css" id="theme">
-
-<!-- If the query includes 'print-pdf', include the PDF print sheet -->
-<script>
-if( window.location.search.match( /print-pdf/gi ) ) {
-        var link = document.createElement( 'link' );
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.1.0/css/print/pdf.css';
-        document.getElementsByTagName( 'head' )[0].appendChild( link );
-}
-
-</script>
-
-<!--[if lt IE 9]>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.1.0/lib/js/html5shiv.js"></script>
-<![endif]-->
-
-<!-- Loading the mathjax macro -->
-<!-- Load mathjax -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
-    <!-- MathJax configuration -->
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
-            processEscapes: true,
-            processEnvironments: true
-        },
-        // Center justify equations in code and markdown cells. Elsewhere
-        // we use CSS to left justify single line equations in code cells.
-        displayAlign: 'center',
-        "HTML-CSS": {
-            styles: {'.MathJax_Display': {"margin": 0}},
-            linebreaks: { automatic: true }
-        }
-    });
-    </script>
-    <!-- End of mathjax configuration -->
-
-<!-- Get Font-awesome from cdn -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.css">
 
 <style type="text/css">
     /*!
@@ -11774,657 +11718,200 @@ ul.typeahead-list > li > a {
 
 <style type="text/css">
 /* Overrides of notebook CSS for static HTML export */
-.reveal {
-  font-size: 160%;
+body {
+  overflow: visible;
+  padding: 8px;
 }
-.reveal pre {
-  width: inherit;
-  padding: 0.4em;
-  margin: 0px;
-  font-family: monospace, sans-serif;
-  font-size: 80%;
-  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
-}
-.reveal pre code {
-  padding: 0px;
-}
-.reveal section img {
-  border: 0px solid black;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0);
-}
-.reveal i {
-  font-style: normal;
-  font-family: FontAwesome;
-  font-size: 2em;
-}
-.reveal .slides {
-  text-align: left;
-}
-.reveal.fade {
-  opacity: 1;
-}
-.reveal .progress {
-  position: static;
-}
-.reveal .controls .navigate-left,
-.reveal .controls .navigate-left.enabled {
-  border-right-color: #727272;
-}
-.reveal .controls .navigate-left.enabled:hover,
-.reveal .controls .navigate-left.enabled.enabled:hover {
-  border-right-color: #dfdfdf;
-}
-.reveal .controls .navigate-right,
-.reveal .controls .navigate-right.enabled {
-  border-left-color: #727272;
-}
-.reveal .controls .navigate-right.enabled:hover,
-.reveal .controls .navigate-right.enabled.enabled:hover {
-  border-left-color: #dfdfdf;
-}
-.reveal .controls .navigate-up,
-.reveal .controls .navigate-up.enabled {
-  border-bottom-color: #727272;
-}
-.reveal .controls .navigate-up.enabled:hover,
-.reveal .controls .navigate-up.enabled.enabled:hover {
-  border-bottom-color: #dfdfdf;
-}
-.reveal .controls .navigate-down,
-.reveal .controls .navigate-down.enabled {
-  border-top-color: #727272;
-}
-.reveal .controls .navigate-down.enabled:hover,
-.reveal .controls .navigate-down.enabled.enabled:hover {
-  border-top-color: #dfdfdf;
-}
-.reveal .progress span {
-  background: #727272;
-}
-div.input_area {
-  padding: 0.06em;
-}
-div.code_cell {
-  background-color: transparent;
-}
-div.prompt {
-  width: 11ex;
-  padding: 0.4em;
-  margin: 0px;
-  font-family: monospace, sans-serif;
-  font-size: 80%;
-  text-align: right;
-}
-div.output_area pre {
-  font-family: monospace, sans-serif;
-  font-size: 80%;
-}
-div.output_prompt {
-  /* 5px right shift to account for margin in parent container */
-  margin: 5px 5px 0 0;
-}
-div.text_cell.rendered .rendered_html {
-  /* The H1 height seems miscalculated, we are just hidding the scrollbar */
-  overflow-y: hidden;
-}
-a.anchor-link {
-  /* There is still an anchor, we are only hidding it */
-  display: none;
-}
-.rendered_html p {
-  text-align: inherit;
-}
-::-webkit-scrollbar
-{
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar *
-{
-  background:transparent;
-}
-::-webkit-scrollbar-thumb
-{
-  background: #727272 !important;
+
+div#notebook {
+  overflow: visible;
+  border-top: none;
+}@media print {
+  div.cell {
+    display: block;
+    page-break-inside: avoid;
+  } 
+  div.output_wrapper { 
+    display: block;
+    page-break-inside: avoid; 
+  }
+  div.output { 
+    display: block;
+    page-break-inside: avoid; 
+  }
 }
 </style>
 
 <!-- Custom stylesheet, it must be in the same directory as the html file -->
 <link rel="stylesheet" href="custom.css">
 
-</head>
-
-
+<!-- Loading mathjax macro -->
+<!-- Load mathjax -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
+    <!-- MathJax configuration -->
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        // Center justify equations in code and markdown cells. Elsewhere
+        // we use CSS to left justify single line equations in code cells.
+        displayAlign: 'center',
+        "HTML-CSS": {
+            styles: {'.MathJax_Display': {"margin": 0}},
+            linebreaks: { automatic: true }
+        }
+    });
+    </script>
+    <!-- End of mathjax configuration --></head>
 <body>
+  <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
 
-
-<div class="reveal">
-<div class="slides">
-<section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Playbook-Delegation">Playbook Delegation<a class="anchor-link" href="#Playbook-Delegation">&#182;</a></h1><p>Sometimes we may want to run one (or more) tasks on a host that is <em>not</em> the targeted host.</p>
-<p>For instance, a common need is to do the following three steps when deploying an app server:</p>
-<ul>
-<li>remove a host from the load balancer</li>
-<li>update the code on the host</li>
-<li>add the host to the load balancer</li>
+<h1 id="Getting-Started-with-Ansible">Getting Started with Ansible<a class="anchor-link" href="#Getting-Started-with-Ansible">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Why-and-How-of-Ansible">Why and How of Ansible<a class="anchor-link" href="#Why-and-How-of-Ansible">&#182;</a></h1><ul>
+<li>Manages the configuration of </li>
+<li>Python library / tool</li>
+<li>"Push" model (generally via ssh)</li>
+<li>Managed hosts need minimal "bootstrapping"<ul>
+<li>Puppet, Chef, Salt, etc. all need an agent on the managed host.</li>
+<li>Ansible only needs sshd (Python is helpful, as well, but we can bootstrap that)</li>
 </ul>
-<p>While you <em>can</em> run the 'add/remove from load balancer' code on the app server, it's often better to run those API calls from another "control" server.</p>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat</span> <span class="n">playbooks</span><span class="o">/</span><span class="n">delegate</span><span class="o">-</span><span class="n">demo</span><span class="o">.</span><span class="n">yaml</span>
-</pre></div>
+</li>
+</ul>
 
 </div>
 </div>
 </div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>- hosts: web
-  become: true
-  tasks:
-    - name: Remove host from load balancer
-      debug:
-        msg: &#34;This would probably be a custom module or the ec2_elb module&#34;
-      delegate_to: arborian-06.class.arborian.com
-    - name: Deploy some code
-      debug:
-        msg: &#34;Hey, I&#39;m deploying code!&#34;
-    - name: Re-add host to load balancer
-      debug:
-        msg: &#34;This would probably be a custom module or the ec2_elb module&#34;
-      delegate_to: arborian-06.class.arborian.com
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></section></section><section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible-playbook playbooks/delegate-demo.yaml
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-PLAY [web] *********************************************************************
-
-TASK [Gathering Facts] *********************************************************
-ok: [arborian-01.class.arborian.com]
-ok: [arborian-02.class.arborian.com]
-
-TASK [Remove host from load balancer] ******************************************
-ok: [arborian-01.class.arborian.com -&gt; arborian-06.class.arborian.com] =&gt; {
-    &#34;msg&#34;: &#34;This would probably be a custom module or the ec2_elb module&#34;
-}
-ok: [arborian-02.class.arborian.com -&gt; arborian-06.class.arborian.com] =&gt; {
-    &#34;msg&#34;: &#34;This would probably be a custom module or the ec2_elb module&#34;
-}
-
-TASK [Deploy some code] ********************************************************
-ok: [arborian-01.class.arborian.com] =&gt; {
-    &#34;msg&#34;: &#34;Hey, I&#39;m deploying code!&#34;
-}
-ok: [arborian-02.class.arborian.com] =&gt; {
-    &#34;msg&#34;: &#34;Hey, I&#39;m deploying code!&#34;
-}
-
-TASK [Re-add host to load balancer] ********************************************
-ok: [arborian-01.class.arborian.com -&gt; arborian-06.class.arborian.com] =&gt; {
-    &#34;msg&#34;: &#34;This would probably be a custom module or the ec2_elb module&#34;
-}
-ok: [arborian-02.class.arborian.com -&gt; arborian-06.class.arborian.com] =&gt; {
-    &#34;msg&#34;: &#34;This would probably be a custom module or the ec2_elb module&#34;
-}
-
-PLAY RECAP *********************************************************************
-arborian-01.class.arborian.com : ok=4    changed=0    unreachable=0    failed=0   
-arborian-02.class.arborian.com : ok=4    changed=0    unreachable=0    failed=0   
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Frequently, delegation is done to the local machine (the machine running Ansible).</p>
-
-</div>
-</div>
-</div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat</span> <span class="n">playbooks</span><span class="o">/</span><span class="n">delegate</span><span class="o">-</span><span class="n">demo2</span><span class="o">.</span><span class="n">yaml</span>
-</pre></div>
+<h1 id="Ansible-Inventory">Ansible Inventory<a class="anchor-link" href="#Ansible-Inventory">&#182;</a></h1><p>Ansible needs to know which hosts it manages. For this, it uses an <em>inventory</em>.</p>
 
 </div>
 </div>
 </div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>- hosts: web
-  become: true
-  tasks:
-    - name: Remove host from load balancer
-      debug:
-        msg: &#34;This would probably be a custom module or the ec2_elb module&#34;
-      delegate_to: 127.0.0.1
-    - name: Deploy some code
-      debug:
-        msg: &#34;Hey, I&#39;m deploying code!&#34;
-    - name: Re-add host to load balancer
-      debug:
-        msg: &#34;This would probably be a custom module or the ec2_elb module&#34;
-      delegate_to: 127.0.0.1
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></div></section></section><section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible-playbook playbooks/delegate-demo2.yaml
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-PLAY [web] *********************************************************************
-
-TASK [Gathering Facts] *********************************************************
-ok: [arborian-02.class.arborian.com]
-ok: [arborian-01.class.arborian.com]
-
-TASK [Remove host from load balancer] ******************************************
-ok: [arborian-01.class.arborian.com -&gt; 127.0.0.1] =&gt; {
-    &#34;msg&#34;: &#34;This would probably be a custom module or the ec2_elb module&#34;
-}
-ok: [arborian-02.class.arborian.com -&gt; 127.0.0.1] =&gt; {
-    &#34;msg&#34;: &#34;This would probably be a custom module or the ec2_elb module&#34;
-}
-
-TASK [Deploy some code] ********************************************************
-ok: [arborian-01.class.arborian.com] =&gt; {
-    &#34;msg&#34;: &#34;Hey, I&#39;m deploying code!&#34;
-}
-ok: [arborian-02.class.arborian.com] =&gt; {
-    &#34;msg&#34;: &#34;Hey, I&#39;m deploying code!&#34;
-}
-
-TASK [Re-add host to load balancer] ********************************************
-ok: [arborian-01.class.arborian.com -&gt; 127.0.0.1] =&gt; {
-    &#34;msg&#34;: &#34;This would probably be a custom module or the ec2_elb module&#34;
-}
-ok: [arborian-02.class.arborian.com -&gt; 127.0.0.1] =&gt; {
-    &#34;msg&#34;: &#34;This would probably be a custom module or the ec2_elb module&#34;
-}
-
-PLAY RECAP *********************************************************************
-arborian-01.class.arborian.com : ok=4    changed=0    unreachable=0    failed=0   
-arborian-02.class.arborian.com : ok=4    changed=0    unreachable=0    failed=0   
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In the special case of delegation to localhost, we can use the <code>local_action</code> module:</p>
+<h2 id="Static-inventory">Static inventory<a class="anchor-link" href="#Static-inventory">&#182;</a></h2><p>A static inventory is just a text file (by default, <code>/etc/ansible/hosts</code>, but we'll change that).</p>
+<p>The inventory lists the hosts that Ansible will manage, optionally collecting them into groups.
+One example is in the class repository as <code>inventory</code>:</p>
 
-</div>
-</div>
-</div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat</span> <span class="n">playbooks</span><span class="o">/</span><span class="n">delegate</span><span class="o">-</span><span class="n">demo3</span><span class="o">.</span><span class="n">yaml</span>
-</pre></div>
+<pre><code>[web]
+arborian-01.class.arborian.com
+arborian-02.class.arborian.com
 
-</div>
-</div>
-</div>
+[db]
+arborian-03.class.arborian.com
+arborian-04.class.arborian.com
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>- hosts: web
-  become: true
-  tasks:
-    - name: Remove host from load balancer
-      local_action:
-        module: debug
-        msg: &#34;This would probably be a custom module or the ec2_elb module&#34;
-    - name: Deploy some code
-      debug:
-        msg: &#34;Hey, I&#39;m deploying code!&#34;
-    - name: Re-add host to load balancer
-      local_action:
-        module: debug
-        msg: &#34;This would probably be a custom module or the ec2_elb module&#34;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></div></section></section><section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible-playbook playbooks/delegate-demo3.yaml
-</pre></div>
+[app]
+arborian-05.class.arborian.com
+arborian-06.class.arborian.com</code></pre>
 
 </div>
 </div>
 </div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-PLAY [web] *********************************************************************
-
-TASK [Gathering Facts] *********************************************************
-ok: [arborian-02.class.arborian.com]
-ok: [arborian-01.class.arborian.com]
-
-TASK [Remove host from load balancer] ******************************************
-ok: [arborian-01.class.arborian.com -&gt; localhost] =&gt; {
-    &#34;msg&#34;: &#34;This would probably be a custom module or the ec2_elb module&#34;
-}
-ok: [arborian-02.class.arborian.com -&gt; localhost] =&gt; {
-    &#34;msg&#34;: &#34;This would probably be a custom module or the ec2_elb module&#34;
-}
-
-TASK [Deploy some code] ********************************************************
-ok: [arborian-01.class.arborian.com] =&gt; {
-    &#34;msg&#34;: &#34;Hey, I&#39;m deploying code!&#34;
-}
-ok: [arborian-02.class.arborian.com] =&gt; {
-    &#34;msg&#34;: &#34;Hey, I&#39;m deploying code!&#34;
-}
-
-TASK [Re-add host to load balancer] ********************************************
-ok: [arborian-01.class.arborian.com -&gt; localhost] =&gt; {
-    &#34;msg&#34;: &#34;This would probably be a custom module or the ec2_elb module&#34;
-}
-ok: [arborian-02.class.arborian.com -&gt; localhost] =&gt; {
-    &#34;msg&#34;: &#34;This would probably be a custom module or the ec2_elb module&#34;
-}
-
-PLAY RECAP *********************************************************************
-arborian-01.class.arborian.com : ok=4    changed=0    unreachable=0    failed=0   
-arborian-02.class.arborian.com : ok=4    changed=0    unreachable=0    failed=0   
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Serializing-tasks">Serializing tasks<a class="anchor-link" href="#Serializing-tasks">&#182;</a></h2><p>By default, Ansible will run tasks in parallel across all hosts targeted.</p>
-<p>If you'd prefer some level of serialization, Ansible provides the <code>serial</code> key in plays. The value is the number of hosts to execute in parallel.</p>
-
-</div>
-</div>
-</div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat</span> <span class="n">playbooks</span><span class="o">/</span><span class="n">serialize</span><span class="o">.</span><span class="n">yaml</span>
-</pre></div>
+<h1 id="Inventory:-Dynamic-Inventory">Inventory: Dynamic Inventory<a class="anchor-link" href="#Inventory:-Dynamic-Inventory">&#182;</a></h1><p>We can also use Python modules to create our inventory programmatically (as when we might want to enumerate all hosts on AWS, Azure, or Google Compute Engine)</p>
+<p>Any inventory file that is executable will be run to generate an inventory JSON result when fed certain command-line arguments.</p>
+<p>Some useful links:</p>
+<ul>
+<li><a href="http://docs.ansible.com/ansible/intro_dynamic_inventory.html">Dynamic Inventory</a></li>
+<li><a href="http://docs.ansible.com/ansible/dev_guide/developing_inventory.html">Developing your own inventory script</a></li>
+</ul>
 
 </div>
 </div>
 </div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>- hosts: all
-  serial: 1
-  tasks:
-    - name: Do something to each host, one at a time
-      debug: &#34;I am on host {{ansible_host}}&#34;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></div></section></section><section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible-playbook playbooks/serialize.yaml
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-PLAY [all] *********************************************************************
-
-TASK [Gathering Facts] *********************************************************
-ok: [arborian-01.class.arborian.com]
-
-TASK [Do something to each host, one at a time] ********************************
-ok: [arborian-01.class.arborian.com] =&gt; {
-    &#34;msg&#34;: &#34;Hello world!&#34;
-}
-
-PLAY [all] *********************************************************************
-
-TASK [Gathering Facts] *********************************************************
-ok: [arborian-02.class.arborian.com]
-
-TASK [Do something to each host, one at a time] ********************************
-ok: [arborian-02.class.arborian.com] =&gt; {
-    &#34;msg&#34;: &#34;Hello world!&#34;
-}
-
-PLAY [all] *********************************************************************
-
-TASK [Gathering Facts] *********************************************************
-ok: [arborian-03.class.arborian.com]
-
-TASK [Do something to each host, one at a time] ********************************
-ok: [arborian-03.class.arborian.com] =&gt; {
-    &#34;msg&#34;: &#34;Hello world!&#34;
-}
-
-PLAY [all] *********************************************************************
-
-TASK [Gathering Facts] *********************************************************
-ok: [arborian-04.class.arborian.com]
-
-TASK [Do something to each host, one at a time] ********************************
-ok: [arborian-04.class.arborian.com] =&gt; {
-    &#34;msg&#34;: &#34;Hello world!&#34;
-}
-
-PLAY [all] *********************************************************************
-
-TASK [Gathering Facts] *********************************************************
-ok: [arborian-05.class.arborian.com]
-
-TASK [Do something to each host, one at a time] ********************************
-ok: [arborian-05.class.arborian.com] =&gt; {
-    &#34;msg&#34;: &#34;Hello world!&#34;
-}
-
-PLAY [all] *********************************************************************
-
-TASK [Gathering Facts] *********************************************************
-ok: [arborian-06.class.arborian.com]
-
-TASK [Do something to each host, one at a time] ********************************
-ok: [arborian-06.class.arborian.com] =&gt; {
-    &#34;msg&#34;: &#34;Hello world!&#34;
-}
-
-PLAY RECAP *********************************************************************
-arborian-01.class.arborian.com : ok=2    changed=0    unreachable=0    failed=0   
-arborian-02.class.arborian.com : ok=2    changed=0    unreachable=0    failed=0   
-arborian-03.class.arborian.com : ok=2    changed=0    unreachable=0    failed=0   
-arborian-04.class.arborian.com : ok=2    changed=0    unreachable=0    failed=0   
-arborian-05.class.arborian.com : ok=2    changed=0    unreachable=0    failed=0   
-arborian-06.class.arborian.com : ok=2    changed=0    unreachable=0    failed=0   
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can also give Ansible a list of values for <code>serial</code> to enable gradual rolling deployments:</p>
+<h1 id="Ad-hoc-Commands">Ad-hoc Commands<a class="anchor-link" href="#Ad-hoc-Commands">&#182;</a></h1><p>Ansible command line</p>
+<p><code>ansible &lt;host pattern&gt; [options]</code></p>
+<p>Frequently used options</p>
+<ul>
+<li><code>-m MODULE_NAME</code> (default is command)</li>
+<li><code>-a MODULE_ARGS</code></li>
+</ul>
+<p>Frequently used host patterns</p>
+<ul>
+<li><code>localhost</code></li>
+<li><code>all</code></li>
+<li><code>GROUP-NAME</code> (one of the groupings from your inventory)</li>
+</ul>
 
 </div>
 </div>
-</div><div class="fragment">
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">src</span><span class="o">/</span><span class="n">Classes</span><span class="o">/</span><span class="n">Ansible</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>/Users/rick446/src/Classes/Ansible
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Ad-hoc-command-demos">Ad-hoc command demos<a class="anchor-link" href="#Ad-hoc-command-demos">&#182;</a></h1><p>The default module is <code>command</code>, so we can leave it out in the command line:</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat</span> <span class="n">playbooks</span><span class="o">/</span><span class="n">serialize2</span><span class="o">.</span><span class="n">yaml</span>
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+ansible localhost -m <span class="nb">command</span> -a <span class="s1">&#39;echo &quot;hello&quot;&#39;</span>
 </pre></div>
 
 </div>
@@ -12441,14 +11928,8 @@ arborian-06.class.arborian.com : ok=2    changed=0    unreachable=0    failed=0
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>- hosts: all
-  serial:
-    - 1
-    - 20%
-    - 100%
-  tasks:
-    - name: Do something to each host, one at a time
-      debug: &#34;I am on host {{ansible_host}}&#34;
+<pre>localhost | SUCCESS | rc=0 &gt;&gt;
+hello
 </pre>
 </div>
 </div>
@@ -12456,14 +11937,14 @@ arborian-06.class.arborian.com : ok=2    changed=0    unreachable=0    failed=0
 </div>
 </div>
 
-</div></div></section></section><section><section>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible-playbook playbooks/serialize2.yaml
+ansible localhost -a <span class="s1">&#39;echo &quot;hello&quot;&#39;</span>
 </pre></div>
 
 </div>
@@ -12480,57 +11961,8 @@ ansible-playbook playbooks/serialize2.yaml
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>
-PLAY [all] *********************************************************************
-
-TASK [Gathering Facts] *********************************************************
-ok: [arborian-01.class.arborian.com]
-
-TASK [Do something to each host, one at a time] ********************************
-ok: [arborian-01.class.arborian.com] =&gt; {
-    &#34;msg&#34;: &#34;Hello world!&#34;
-}
-
-PLAY [all] *********************************************************************
-
-TASK [Gathering Facts] *********************************************************
-ok: [arborian-02.class.arborian.com]
-
-TASK [Do something to each host, one at a time] ********************************
-ok: [arborian-02.class.arborian.com] =&gt; {
-    &#34;msg&#34;: &#34;Hello world!&#34;
-}
-
-PLAY [all] *********************************************************************
-
-TASK [Gathering Facts] *********************************************************
-ok: [arborian-03.class.arborian.com]
-ok: [arborian-06.class.arborian.com]
-ok: [arborian-04.class.arborian.com]
-ok: [arborian-05.class.arborian.com]
-
-TASK [Do something to each host, one at a time] ********************************
-ok: [arborian-03.class.arborian.com] =&gt; {
-    &#34;msg&#34;: &#34;Hello world!&#34;
-}
-ok: [arborian-04.class.arborian.com] =&gt; {
-    &#34;msg&#34;: &#34;Hello world!&#34;
-}
-ok: [arborian-05.class.arborian.com] =&gt; {
-    &#34;msg&#34;: &#34;Hello world!&#34;
-}
-ok: [arborian-06.class.arborian.com] =&gt; {
-    &#34;msg&#34;: &#34;Hello world!&#34;
-}
-
-PLAY RECAP *********************************************************************
-arborian-01.class.arborian.com : ok=2    changed=0    unreachable=0    failed=0   
-arborian-02.class.arborian.com : ok=2    changed=0    unreachable=0    failed=0   
-arborian-03.class.arborian.com : ok=2    changed=0    unreachable=0    failed=0   
-arborian-04.class.arborian.com : ok=2    changed=0    unreachable=0    failed=0   
-arborian-05.class.arborian.com : ok=2    changed=0    unreachable=0    failed=0   
-arborian-06.class.arborian.com : ok=2    changed=0    unreachable=0    failed=0   
-
+<pre>localhost | SUCCESS | rc=0 &gt;&gt;
+hello
 </pre>
 </div>
 </div>
@@ -12538,92 +11970,141 @@ arborian-06.class.arborian.com : ok=2    changed=0    unreachable=0    failed=0
 </div>
 </div>
 
-</div></section></section><section><section>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+ansible arborian-01.class.arborian.com -a <span class="s1">&#39;echo &quot;hi&quot;&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>arborian-01.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
+hi
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+ansible web -a <span class="s1">&#39;echo &quot;hi&quot;&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>arborian-01.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
+hi
+arborian-02.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
+hi
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+ansible all -a <span class="s1">&#39;echo &quot;hi&quot;&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>arborian-01.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
+hi
+arborian-05.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
+hi
+arborian-02.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
+hi
+arborian-03.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
+hi
+arborian-04.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
+hi
+arborian-06.class.arborian.com | SUCCESS | rc=0 &gt;&gt;
+hi
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lab">Lab<a class="anchor-link" href="#Lab">&#182;</a></h1><p>Using <code>serial</code> and <code>delegate_to</code> (or <code>local_action</code>), write a playbook that simulates a rolling deployment of application servers.</p>
+<h1 id="Lab:-Getting-started-with-Ansible">Lab: Getting started with Ansible<a class="anchor-link" href="#Lab:-Getting-started-with-Ansible">&#182;</a></h1><h2 id="Clone-the-class-repository">Clone the class repository<a class="anchor-link" href="#Clone-the-class-repository">&#182;</a></h2><p><a href="https://github.com/Arborian/ansible-class">https://github.com/Arborian/ansible-class</a></p>
+<p><code>git clone https://github.com/Arborian/ansible-class.git</code></p>
+<h2 id="Install-Ansible">Install Ansible<a class="anchor-link" href="#Install-Ansible">&#182;</a></h2><p><a href="http://docs.ansible.com/ansible/latest/intro_installation.html">http://docs.ansible.com/ansible/latest/intro_installation.html</a></p>
+<p>(For Python users, you can also just <code>pip install ansible</code>)</p>
+<h2 id="Verify-that-you-can-execute-some-ad-hoc-commands">Verify that you can execute some ad-hoc commands<a class="anchor-link" href="#Verify-that-you-can-execute-some-ad-hoc-commands">&#182;</a></h2><p><em>Make sure you enter the directory where you've checked out the class repository</em></p>
+<p>You'll need to unzip / decrypt the key files with the password given in class.</p>
+<ul>
+<li><code>ansible localhost -a 'echo hi'</code></li>
+<li><code>ansible all -a 'echo hi'</code></li>
+</ul>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Some-additional-notes">Some additional notes<a class="anchor-link" href="#Some-additional-notes">&#182;</a></h1><p>A list of "magic" variables can be found at <a href="http://docs.ansible.com/ansible/latest/playbooks_variables.html">http://docs.ansible.com/ansible/latest/playbooks_variables.html</a></p>
-
-</div>
-</div>
-</div></section></section>
-</div>
-</div>
-
-<script>
-
-require(
-    {
-      // it makes sense to wait a little bit when you are loading
-      // reveal from a cdn in a slow connection environment
-      waitSeconds: 15
-    },
-    [
-      "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.1.0/lib/js/head.min.js",
-      "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.1.0/js/reveal.js"
-    ],
-
-    function(head, Reveal){
-
-        // Full list of configuration options available here: https://github.com/hakimel/reveal.js#configuration
-        Reveal.initialize({
-            controls: true,
-            progress: true,
-            history: true,
-
-            transition: "slide",
-
-            // Optional libraries used to extend on reveal.js
-            dependencies: [
-                { src: "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.1.0/lib/js/classList.js",
-                  condition: function() { return !document.body.classList; } },
-                { src: "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.1.0/plugin/notes/notes.js",
-                  async: true,
-                  condition: function() { return !!document.body.classList; } }
-            ]
-        });
-
-        var update = function(event){
-          if(MathJax.Hub.getAllJax(Reveal.getCurrentSlide())){
-            MathJax.Hub.Rerender(Reveal.getCurrentSlide());
-          }
-        };
-
-        Reveal.addEventListener('slidechanged', update);
-
-        function setScrollingSlide() {
-            var scroll = false
-            if (scroll === true) {
-              var h = $('.reveal').height() * 0.95;
-              $('section.present').find('section')
-                .filter(function() {
-                  return $(this).height() > h;
-                })
-                .css('height', 'calc(95vh)')
-                .css('overflow-y', 'scroll')
-                .css('margin-top', '20px');
-            }
-        }
-
-        // check and set the scrolling slide every time the slide change
-        Reveal.addEventListener('slidechanged', setScrollingSlide);
-
-    }
-
-);
-</script>
-
+    </div>
+  </div>
 </body>
+
+ 
 
 
 </html>
