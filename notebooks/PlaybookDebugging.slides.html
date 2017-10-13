@@ -11920,11 +11920,11 @@ a.anchor-link {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible-playbook --check playbooks/setup-user.yaml -e <span class="nv">user</span><span class="o">=</span>rick
+ansible-playbook --check playbooks/setup-user.yaml -e <span class="nv">username</span><span class="o">=</span>rick
 </pre></div>
 
 </div>
@@ -11941,7 +11941,49 @@ ansible-playbook --check playbooks/setup-user.yaml -e <span class="nv">user</spa
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Process is interrupted.
+<pre>
+PLAY [all] *********************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [arborian-03.class.arborian.com]
+ok: [arborian-01.class.arborian.com]
+ok: [arborian-02.class.arborian.com]
+ok: [arborian-05.class.arborian.com]
+ok: [arborian-04.class.arborian.com]
+ok: [arborian-06.class.arborian.com]
+
+TASK [Let the sudo group use sudo without a password] **************************
+ok: [arborian-05.class.arborian.com]
+ok: [arborian-01.class.arborian.com]
+ok: [arborian-04.class.arborian.com]
+ok: [arborian-03.class.arborian.com]
+ok: [arborian-02.class.arborian.com]
+ok: [arborian-06.class.arborian.com]
+
+TASK [create user] *************************************************************
+changed: [arborian-03.class.arborian.com]
+ok: [arborian-02.class.arborian.com]
+ok: [arborian-01.class.arborian.com]
+changed: [arborian-04.class.arborian.com]
+ok: [arborian-05.class.arborian.com]
+ok: [arborian-06.class.arborian.com]
+
+TASK [Authorize the public key] ************************************************
+ok: [arborian-02.class.arborian.com]
+ok: [arborian-01.class.arborian.com]
+ok: [arborian-03.class.arborian.com]
+ok: [arborian-05.class.arborian.com]
+ok: [arborian-04.class.arborian.com]
+ok: [arborian-06.class.arborian.com]
+
+PLAY RECAP *********************************************************************
+arborian-01.class.arborian.com : ok=4    changed=0    unreachable=0    failed=0   
+arborian-02.class.arborian.com : ok=4    changed=0    unreachable=0    failed=0   
+arborian-03.class.arborian.com : ok=4    changed=1    unreachable=0    failed=0   
+arborian-04.class.arborian.com : ok=4    changed=1    unreachable=0    failed=0   
+arborian-05.class.arborian.com : ok=4    changed=0    unreachable=0    failed=0   
+arborian-06.class.arborian.com : ok=4    changed=0    unreachable=0    failed=0   
+
 </pre>
 </div>
 </div>
@@ -11965,7 +12007,7 @@ ansible-playbook --check playbooks/setup-user.yaml -e <span class="nv">user</spa
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible-playbook -vv playbooks/setup-user.yaml -e <span class="nv">user</span><span class="o">=</span>rick
+ansible-playbook -vv playbooks/setup-user.yaml -e <span class="nv">username</span><span class="o">=</span>rick
 </pre></div>
 
 </div>
