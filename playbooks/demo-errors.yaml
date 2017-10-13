@@ -1,0 +1,18 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+    - name: Hostname
+      debug:
+        var: item
+      with_items:
+        - ansible_host
+        - ansible_hostname
+        - ansible_user
+    - name: The task
+      simple_module:
+        # name: "{%if ansible_host == 'arborian-03.class.arborian.com' %}fail me{%else%}ok{%endif%}"
+        name: "{{ansible_host == 'arborian-03.class.arborian.com' and 'fail me' or 'ok'}}"
+    - name: Clear the errors
+      meta: clear_host_errors
+    - name: Another task
+      debug: msg="Running another task on {{ansible_host}}"

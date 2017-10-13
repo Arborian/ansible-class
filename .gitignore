@@ -1,3 +1,4 @@
+ansible-digital_ocean.cache
 training-*
 notebooks/.ipynb_checkpoints
 cachedir/*
