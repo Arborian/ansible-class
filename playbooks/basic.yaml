@@ -5,6 +5,10 @@
   - name: Say my name
     command: whoami
     notify: "demo notify"
+    register: whoami_result
+  - name: Show some vars
+    debug:
+      msg: I_am={{whoami_result}}
   - name: Get the system date and time
     command: date
     notify: "demo notify"
