@@ -2,7 +2,9 @@
   gather_facts: false
   strategy: debug
   tasks:
+  - name: Run a simple command
+    debug:
+      var=ansible_host
   - name: Run my simple module
     simple_module:
-      # name: fail me Missing name!
       new: true

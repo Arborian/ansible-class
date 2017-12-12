@@ -1,6 +1,6 @@
 - hosts: web
   tasks:
     - name: Ensure file exists
-      file: path=~/roster.txt state=file
+      file: path=~/roster.txt state=touch
     - name: Include rick
-      import_tasks: ../tasks/roster-user.yaml name="Rick Copeland" email="rick@arborian.com" regexp=rick
+      include_tasks: ../tasks/roster-user.yaml name="Rick Copeland" email="rick@arborian.com" regexp=rick

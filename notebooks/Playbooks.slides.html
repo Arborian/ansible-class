@@ -11914,7 +11914,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat</span> <span class="n">playbooks</span><span class="o">/</span><span class="n">basic</span><span class="o">.</span><span class="n">yaml</span>
@@ -11968,7 +11968,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
@@ -11992,6 +11992,9 @@ ansible-playbook playbooks/basic.yaml
 <pre>
 PLAY [First play] **************************************************************
 
+TASK [Gathering Facts] *********************************************************
+ok: [web]
+
 TASK [Say my name] *************************************************************
 changed: [web]
 
@@ -12005,7 +12008,7 @@ RUNNING HANDLER [demo notify] **************************************************
 changed: [web]
 
 PLAY RECAP *********************************************************************
-web                        : ok=4    changed=3    unreachable=0    failed=0   
+web                        : ok=5    changed=3    unreachable=0    failed=0   
 
 </pre>
 </div>
@@ -12026,7 +12029,7 @@ web                        : ok=4    changed=3    unreachable=0    failed=0
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
@@ -12050,22 +12053,21 @@ ansible-playbook -v playbooks/basic.yaml
 <pre>Using /Users/rick446/src/Classes/Ansible/ansible.cfg as config file
 
 PLAY [First play] **************************************************************
-
-TASK [Say my name] *************************************************************
-changed: [web] =&gt; {&#34;changed&#34;: true, &#34;cmd&#34;: [&#34;whoami&#34;], &#34;delta&#34;: &#34;0:00:00.001991&#34;, &#34;end&#34;: &#34;2017-12-12 00:42:21.978943&#34;, &#34;failed&#34;: false, &#34;rc&#34;: 0, &#34;start&#34;: &#34;2017-12-12 00:42:21.976952&#34;, &#34;stderr&#34;: &#34;&#34;, &#34;stderr_lines&#34;: [], &#34;stdout&#34;: &#34;vagrant&#34;, &#34;stdout_lines&#34;: [&#34;vagrant&#34;]}
-
-TASK [Get the system date and time] ********************************************
-changed: [web] =&gt; {&#34;changed&#34;: true, &#34;cmd&#34;: [&#34;date&#34;], &#34;delta&#34;: &#34;0:00:00.001467&#34;, &#34;end&#34;: &#34;2017-12-12 00:42:22.293795&#34;, &#34;failed&#34;: false, &#34;rc&#34;: 0, &#34;start&#34;: &#34;2017-12-12 00:42:22.292328&#34;, &#34;stderr&#34;: &#34;&#34;, &#34;stderr_lines&#34;: [], &#34;stdout&#34;: &#34;Tue Dec 12 00:42:22 UTC 2017&#34;, &#34;stdout_lines&#34;: [&#34;Tue Dec 12 00:42:22 UTC 2017&#34;]}
-
-TASK [Ping just for fun] *******************************************************
-ok: [web] =&gt; {&#34;changed&#34;: false, &#34;failed&#34;: false, &#34;ping&#34;: &#34;pong&#34;}
-
-RUNNING HANDLER [demo notify] **************************************************
-changed: [web] =&gt; {&#34;changed&#34;: true, &#34;cmd&#34;: [&#34;echo&#34;, &#34;Running&#34;, &#34;the&#34;, &#34;demo&#34;, &#34;notify&#34;], &#34;delta&#34;: &#34;0:00:00.001898&#34;, &#34;end&#34;: &#34;2017-12-12 00:42:22.996145&#34;, &#34;failed&#34;: false, &#34;rc&#34;: 0, &#34;start&#34;: &#34;2017-12-12 00:42:22.994247&#34;, &#34;stderr&#34;: &#34;&#34;, &#34;stderr_lines&#34;: [], &#34;stdout&#34;: &#34;Running the demo notify&#34;, &#34;stdout_lines&#34;: [&#34;Running the demo notify&#34;]}
+skipping: no hosts matched
 
 PLAY RECAP *********************************************************************
-web                        : ok=4    changed=3    unreachable=0    failed=0   
 
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre> [WARNING]: Could not match supplied host pattern, ignoring: r-web
 </pre>
 </div>
 </div>
@@ -12147,8 +12149,8 @@ ansible-playbook -v playbooks/bootstrap.yaml
 PLAY [all] *********************************************************************
 
 TASK [Boostrap Ansible requirements] *******************************************
-changed: [db] =&gt; {&#34;changed&#34;: true, &#34;failed&#34;: false, &#34;rc&#34;: 0, &#34;stderr&#34;: &#34;Shared connection to 127.0.0.1 closed.\r\n&#34;, &#34;stdout&#34;: &#34;\rReading package lists... 0%\r\rReading package lists... 100%\r\rReading package lists... Done\r\r\n\rBuilding dependency tree... 0%\r\rBuilding dependency tree... 0%\r\rBuilding dependency tree... 50%\r\rBuilding dependency tree... 50%\r\rBuilding dependency tree       \r\r\n\rReading state information... 0%\r\rReading state information... 0%\r\rReading state information... Done\r\r\npython is already the newest version.\r\npython-simplejson is already the newest version.\r\n0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\r\n&#34;, &#34;stdout_lines&#34;: [&#34;&#34;, &#34;Reading package lists... 0%&#34;, &#34;&#34;, &#34;Reading package lists... 100%&#34;, &#34;&#34;, &#34;Reading package lists... Done&#34;, &#34;&#34;, &#34;&#34;, &#34;Building dependency tree... 0%&#34;, &#34;&#34;, &#34;Building dependency tree... 0%&#34;, &#34;&#34;, &#34;Building dependency tree... 50%&#34;, &#34;&#34;, &#34;Building dependency tree... 50%&#34;, &#34;&#34;, &#34;Building dependency tree       &#34;, &#34;&#34;, &#34;&#34;, &#34;Reading state information... 0%&#34;, &#34;&#34;, &#34;Reading state information... 0%&#34;, &#34;&#34;, &#34;Reading state information... Done&#34;, &#34;&#34;, &#34;python is already the newest version.&#34;, &#34;python-simplejson is already the newest version.&#34;, &#34;0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.&#34;]}
-changed: [web] =&gt; {&#34;changed&#34;: true, &#34;failed&#34;: false, &#34;rc&#34;: 0, &#34;stderr&#34;: &#34;Shared connection to 127.0.0.1 closed.\r\n&#34;, &#34;stdout&#34;: &#34;\rReading package lists... 0%\r\rReading package lists... 100%\r\rReading package lists... Done\r\r\n\rBuilding dependency tree... 0%\r\rBuilding dependency tree... 0%\r\rBuilding dependency tree... 50%\r\rBuilding dependency tree... 50%\r\rBuilding dependency tree       \r\r\n\rReading state information... 0%\r\rReading state information... 0%\r\rReading state information... Done\r\r\npython is already the newest version.\r\npython-simplejson is already the newest version.\r\n0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\r\n&#34;, &#34;stdout_lines&#34;: [&#34;&#34;, &#34;Reading package lists... 0%&#34;, &#34;&#34;, &#34;Reading package lists... 100%&#34;, &#34;&#34;, &#34;Reading package lists... Done&#34;, &#34;&#34;, &#34;&#34;, &#34;Building dependency tree... 0%&#34;, &#34;&#34;, &#34;Building dependency tree... 0%&#34;, &#34;&#34;, &#34;Building dependency tree... 50%&#34;, &#34;&#34;, &#34;Building dependency tree... 50%&#34;, &#34;&#34;, &#34;Building dependency tree       &#34;, &#34;&#34;, &#34;&#34;, &#34;Reading state information... 0%&#34;, &#34;&#34;, &#34;Reading state information... 0%&#34;, &#34;&#34;, &#34;Reading state information... Done&#34;, &#34;&#34;, &#34;python is already the newest version.&#34;, &#34;python-simplejson is already the newest version.&#34;, &#34;0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.&#34;]}
+changed: [db] =&gt; {&#34;changed&#34;: true, &#34;rc&#34;: 0, &#34;stderr&#34;: &#34;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\r\n@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @\r\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\r\nIT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!\r\nSomeone could be eavesdropping on you right now (man-in-the-middle attack)!\r\nIt is also possible that a host key has just been changed.\r\nThe fingerprint for the ECDSA key sent by the remote host is\nSHA256:GGHDNfEIhC26RJ2FGzYJrWy2C2XBZPLQ511nidBkVhk.\r\nPlease contact your system administrator.\r\nAdd correct host key in /Users/rick446/.ssh/known_hosts to get rid of this message.\r\nOffending ECDSA key in /Users/rick446/.ssh/known_hosts:2704\r\nChallenge/response authentication is disabled to avoid man-in-the-middle attacks.\r\nAgent forwarding is disabled to avoid man-in-the-middle attacks.\r\nX11 forwarding is disabled to avoid man-in-the-middle attacks.\r\nShared connection to 127.0.0.1 closed.\r\n&#34;, &#34;stdout&#34;: &#34;\rReading package lists... 0%\r\rReading package lists... 100%\r\rReading package lists... Done\r\r\n\rBuilding dependency tree... 0%\r\rBuilding dependency tree... 0%\r\rBuilding dependency tree... 50%\r\rBuilding dependency tree... 50%\r\rBuilding dependency tree       \r\r\n\rReading state information... 0%\r\rReading state information... 0%\r\rReading state information... Done\r\r\npython is already the newest version.\r\npython-simplejson is already the newest version.\r\n0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\r\n&#34;, &#34;stdout_lines&#34;: [&#34;&#34;, &#34;Reading package lists... 0%&#34;, &#34;&#34;, &#34;Reading package lists... 100%&#34;, &#34;&#34;, &#34;Reading package lists... Done&#34;, &#34;&#34;, &#34;&#34;, &#34;Building dependency tree... 0%&#34;, &#34;&#34;, &#34;Building dependency tree... 0%&#34;, &#34;&#34;, &#34;Building dependency tree... 50%&#34;, &#34;&#34;, &#34;Building dependency tree... 50%&#34;, &#34;&#34;, &#34;Building dependency tree       &#34;, &#34;&#34;, &#34;&#34;, &#34;Reading state information... 0%&#34;, &#34;&#34;, &#34;Reading state information... 0%&#34;, &#34;&#34;, &#34;Reading state information... Done&#34;, &#34;&#34;, &#34;python is already the newest version.&#34;, &#34;python-simplejson is already the newest version.&#34;, &#34;0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.&#34;]}
+changed: [web] =&gt; {&#34;changed&#34;: true, &#34;rc&#34;: 0, &#34;stderr&#34;: &#34;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\r\n@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @\r\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\r\nIT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!\r\nSomeone could be eavesdropping on you right now (man-in-the-middle attack)!\r\nIt is also possible that a host key has just been changed.\r\nThe fingerprint for the ECDSA key sent by the remote host is\nSHA256:kDVfpeIEftjEkB0TOiwl6gdlAxsdhm779dw3MAHGJjg.\r\nPlease contact your system administrator.\r\nAdd correct host key in /Users/rick446/.ssh/known_hosts to get rid of this message.\r\nOffending ECDSA key in /Users/rick446/.ssh/known_hosts:2703\r\nChallenge/response authentication is disabled to avoid man-in-the-middle attacks.\r\nAgent forwarding is disabled to avoid man-in-the-middle attacks.\r\nX11 forwarding is disabled to avoid man-in-the-middle attacks.\r\nShared connection to 127.0.0.1 closed.\r\n&#34;, &#34;stdout&#34;: &#34;\r\n\rReading package lists... 0%\r\rReading package lists... 100%\r\rReading package lists... Done\r\r\n\rBuilding dependency tree... 0%\r\rBuilding dependency tree... 0%\r\rBuilding dependency tree... 50%\r\rBuilding dependency tree... 50%\r\rBuilding dependency tree       \r\r\n\rReading state information... 0%\r\rReading state information... 0%\r\rReading state information... Done\r\r\npython is already the newest version.\r\npython-simplejson is already the newest version.\r\n0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\r\n&#34;, &#34;stdout_lines&#34;: [&#34;&#34;, &#34;&#34;, &#34;Reading package lists... 0%&#34;, &#34;&#34;, &#34;Reading package lists... 100%&#34;, &#34;&#34;, &#34;Reading package lists... Done&#34;, &#34;&#34;, &#34;&#34;, &#34;Building dependency tree... 0%&#34;, &#34;&#34;, &#34;Building dependency tree... 0%&#34;, &#34;&#34;, &#34;Building dependency tree... 50%&#34;, &#34;&#34;, &#34;Building dependency tree... 50%&#34;, &#34;&#34;, &#34;Building dependency tree       &#34;, &#34;&#34;, &#34;&#34;, &#34;Reading state information... 0%&#34;, &#34;&#34;, &#34;Reading state information... 0%&#34;, &#34;&#34;, &#34;Reading state information... Done&#34;, &#34;&#34;, &#34;python is already the newest version.&#34;, &#34;python-simplejson is already the newest version.&#34;, &#34;0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.&#34;]}
 
 PLAY RECAP *********************************************************************
 db                         : ok=1    changed=1    unreachable=0    failed=0   
@@ -12255,6 +12257,7 @@ ansible-playbook playbooks/setup-user.yaml -e <span class="nv">username</span><s
 <h1 id="Lab:-Update-Ansible-to-update-your-user-on-the-remote-server">Lab: Update Ansible to update your user on the remote server<a class="anchor-link" href="#Lab:-Update-Ansible-to-update-your-user-on-the-remote-server">&#182;</a></h1><ul>
 <li><code>git pull</code> to update your checkout of the <code>ansible-class</code> repository</li>
 <li>Use the playbook in <code>playbooks/setup-user.yaml</code> to update your user account on the class server (<code>ansible-playbook playbooks/setup-user.yaml -e username=YOUR-USER-NAME</code>)</li>
+<li>[windows] (because you should be in the ~/ansible-class/windows directory...) <code>ansible-playbook ../playbooks/setup-user.yaml</code></li>
 </ul>
 
 </div>
@@ -12901,7 +12904,7 @@ web                        : ok=1    changed=0    unreachable=0    failed=0
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat</span> <span class="n">playbooks</span><span class="o">/</span><span class="n">make</span><span class="o">-</span><span class="n">roster</span><span class="o">.</span><span class="n">yaml</span>
@@ -12924,9 +12927,9 @@ web                        : ok=1    changed=0    unreachable=0    failed=0
 <pre>- hosts: web
   tasks:
     - name: Ensure file exists
-      file: path=~/roster.txt state=file
+      file: path=~/roster.txt state=touch
     - name: Include rick
-      import_tasks: ../tasks/roster-user.yaml name=&#34;Rick Copeland&#34; email=&#34;rick@arborian.com&#34; regexp=rick
+      include_tasks: ../tasks/roster-user.yaml name=&#34;Rick Copeland&#34; email=&#34;rick@arborian.com&#34; regexp=rick
 </pre>
 </div>
 </div>
@@ -12937,7 +12940,7 @@ web                        : ok=1    changed=0    unreachable=0    failed=0
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat</span> <span class="n">tasks</span><span class="o">/</span><span class="n">roster</span><span class="o">-</span><span class="n">user</span><span class="o">.</span><span class="n">yaml</span>
@@ -12957,7 +12960,9 @@ web                        : ok=1    changed=0    unreachable=0    failed=0
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>- name: Add user to roster
+<pre>- name: Look at variables
+  debug: var=name
+- name: Add user to roster
   lineinfile: line=&#34;{{name}} {{email}}&#34; dest=~/roster.txt regexp={{regexp}}
 </pre>
 </div>
@@ -12969,7 +12974,7 @@ web                        : ok=1    changed=0    unreachable=0    failed=0
 </div></div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
@@ -12993,12 +12998,25 @@ ansible-playbook playbooks/make-roster.yaml
 <pre>
 PLAY [web] *********************************************************************
 
+TASK [Gathering Facts] *********************************************************
+ok: [web]
+
 TASK [Ensure file exists] ******************************************************
-fatal: [web]: FAILED! =&gt; {&#34;changed&#34;: false, &#34;failed&#34;: true, &#34;msg&#34;: &#34;file (/home/vagrant/roster.txt) is absent, cannot continue&#34;, &#34;path&#34;: &#34;/home/vagrant/roster.txt&#34;, &#34;state&#34;: &#34;absent&#34;}
-	to retry, use: --limit @/Users/rick446/src/Classes/Ansible/playbooks/make-roster.retry
+changed: [web]
+
+TASK [Include rick] ************************************************************
+included: /Users/rick446/src/Classes/Ansible/tasks/roster-user.yaml for web
+
+TASK [Look at variables] *******************************************************
+ok: [web] =&gt; {
+    &#34;name&#34;: &#34;Rick Copeland&#34;
+}
+
+TASK [Add user to roster] ******************************************************
+ok: [web]
 
 PLAY RECAP *********************************************************************
-web                        : ok=0    changed=0    unreachable=0    failed=1   
+web                        : ok=5    changed=1    unreachable=0    failed=0   
 
 </pre>
 </div>
@@ -13213,7 +13231,8 @@ web                        : ok=0    changed=0    unreachable=0    failed=1
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lab:-Add-yourself-to-the-roster">Lab: Add yourself to the roster<a class="anchor-link" href="#Lab:-Add-yourself-to-the-roster">&#182;</a></h1><p>Using the <code>make-roster.yaml</code> files as templates, create a class roster in your home directory on <code>web</code></p>
+<h1 id="Lab:-Add-yourself-to-the-roster">Lab: Add yourself to the roster<a class="anchor-link" href="#Lab:-Add-yourself-to-the-roster">&#182;</a></h1><p>Using the <code>make-roster.yaml</code> files as templates, create a class roster in your home directory on <code>r-web</code></p>
+<p><em>Mac and Linux</em> - use the <code>ansible-playbook -i inventory</code> command instead of just <code>ansible-playbook</code></p>
 
 </div>
 </div>
@@ -13237,6 +13256,7 @@ web                        : ok=0    changed=0    unreachable=0    failed=1
 <li><code>handlers</code> - list of handlers to run <em>if notified by a task</em></li>
 <li><code>gather_facts</code> - allows you to disable running <code>setup</code> on each host at the beginning of a play</li>
 <li><code>become</code> - if True, become root during the play</li>
+<li><code>become_user</code> - the user to become (default <code>root</code>)</li>
 <li><code>remote_user</code> - override the default remote_user</li>
 <li><code>vars</code> - variables which can be used later via Jinja</li>
 <li><code>vars_files</code> - files to look in for extra variables</li>

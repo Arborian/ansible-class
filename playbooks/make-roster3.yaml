@@ -1,5 +1,4 @@
 - hosts: web
-  become: true
   vars:
     users:
         - name: Rick Copeland
@@ -13,7 +12,7 @@
           regexp: pat
   tasks:
     - name: Ensure file exists
-      file: path=~/roster.txt state=file
+      file: path=~/roster.txt state=touch
     - name: Perform some dynamic includes
       include_tasks: ../tasks/roster-user.yaml
       vars:

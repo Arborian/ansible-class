@@ -11920,11 +11920,11 @@ a.anchor-link {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible-playbook --check playbooks/setup-user.yaml -e <span class="nv">username</span><span class="o">=</span>rick
+ansible-playbook -i inventory --check playbooks/setup-user.yaml -e <span class="nv">username</span><span class="o">=</span>rick
 </pre></div>
 
 </div>
@@ -11945,33 +11945,41 @@ ansible-playbook --check playbooks/setup-user.yaml -e <span class="nv">username<
 PLAY [all] *********************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [arborian-03.class.arborian.com]
-ok: [arborian-01.class.arborian.com]
+ok: [db]
+ok: [web]
 ok: [arborian-02.class.arborian.com]
+ok: [arborian-03.class.arborian.com]
 ok: [arborian-05.class.arborian.com]
-ok: [arborian-04.class.arborian.com]
 ok: [arborian-06.class.arborian.com]
+ok: [arborian-04.class.arborian.com]
+ok: [arborian-01.class.arborian.com]
 
 TASK [Let the sudo group use sudo without a password] **************************
-ok: [arborian-05.class.arborian.com]
-ok: [arborian-01.class.arborian.com]
-ok: [arborian-04.class.arborian.com]
-ok: [arborian-03.class.arborian.com]
+ok: [db]
+ok: [web]
 ok: [arborian-02.class.arborian.com]
+ok: [arborian-03.class.arborian.com]
+ok: [arborian-01.class.arborian.com]
+ok: [arborian-05.class.arborian.com]
+ok: [arborian-04.class.arborian.com]
 ok: [arborian-06.class.arborian.com]
 
 TASK [create user] *************************************************************
-changed: [arborian-03.class.arborian.com]
-ok: [arborian-02.class.arborian.com]
-ok: [arborian-01.class.arborian.com]
-changed: [arborian-04.class.arborian.com]
-ok: [arborian-05.class.arborian.com]
-ok: [arborian-06.class.arborian.com]
-
-TASK [Authorize the public key] ************************************************
+ok: [db]
+ok: [web]
 ok: [arborian-02.class.arborian.com]
 ok: [arborian-01.class.arborian.com]
 ok: [arborian-03.class.arborian.com]
+ok: [arborian-05.class.arborian.com]
+ok: [arborian-04.class.arborian.com]
+ok: [arborian-06.class.arborian.com]
+
+TASK [Authorize the public key] ************************************************
+ok: [web]
+ok: [db]
+ok: [arborian-02.class.arborian.com]
+ok: [arborian-03.class.arborian.com]
+ok: [arborian-01.class.arborian.com]
 ok: [arborian-05.class.arborian.com]
 ok: [arborian-04.class.arborian.com]
 ok: [arborian-06.class.arborian.com]
@@ -11979,10 +11987,12 @@ ok: [arborian-06.class.arborian.com]
 PLAY RECAP *********************************************************************
 arborian-01.class.arborian.com : ok=4    changed=0    unreachable=0    failed=0   
 arborian-02.class.arborian.com : ok=4    changed=0    unreachable=0    failed=0   
-arborian-03.class.arborian.com : ok=4    changed=1    unreachable=0    failed=0   
-arborian-04.class.arborian.com : ok=4    changed=1    unreachable=0    failed=0   
+arborian-03.class.arborian.com : ok=4    changed=0    unreachable=0    failed=0   
+arborian-04.class.arborian.com : ok=4    changed=0    unreachable=0    failed=0   
 arborian-05.class.arborian.com : ok=4    changed=0    unreachable=0    failed=0   
 arborian-06.class.arborian.com : ok=4    changed=0    unreachable=0    failed=0   
+db                         : ok=4    changed=0    unreachable=0    failed=0   
+web                        : ok=4    changed=0    unreachable=0    failed=0   
 
 </pre>
 </div>
@@ -12024,9 +12034,9 @@ ansible-playbook -vv playbooks/setup-user.yaml -e <span class="nv">username</spa
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>ansible-playbook 2.4.0.0
+<pre>ansible-playbook 2.4.2.0
   config file = /Users/rick446/src/Classes/Ansible/ansible.cfg
-  configured module search path = [&#39;/Users/rick446/src/Classes/Ansible/modules&#39;]
+  configured module search path = [&#39;/Users/rick446/.ansible/plugins/modules&#39;, &#39;/usr/share/ansible/plugins/modules&#39;]
   ansible python module location = /Users/rick446/.virtualenvs/ansible/lib/python3.6/site-packages/ansible
   executable location = /Users/rick446/.virtualenvs/ansible/bin/ansible-playbook
   python version = 3.6.0 (default, Dec 30 2016, 13:36:14) [GCC 4.2.1 Compatible Apple LLVM 8.0.0 (clang-800.0.42.1)]
@@ -12038,62 +12048,31 @@ PLAYBOOK: setup-user.yaml ******************************************************
 PLAY [all] *********************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [arborian-02.class.arborian.com]
-ok: [arborian-03.class.arborian.com]
-ok: [arborian-05.class.arborian.com]
-ok: [arborian-04.class.arborian.com]
-ok: [arborian-01.class.arborian.com]
-ok: [arborian-06.class.arborian.com]
+ok: [db]
+ok: [web]
 META: ran handlers
 
 TASK [Let the sudo group use sudo without a password] **************************
-task path: /Users/rick446/src/Classes/Ansible/playbooks/setup-user.yaml:7
-ok: [arborian-04.class.arborian.com] =&gt; {&#34;backup&#34;: &#34;&#34;, &#34;changed&#34;: false, &#34;failed&#34;: false, &#34;msg&#34;: &#34;&#34;}
-ok: [arborian-01.class.arborian.com] =&gt; {&#34;backup&#34;: &#34;&#34;, &#34;changed&#34;: false, &#34;failed&#34;: false, &#34;msg&#34;: &#34;&#34;}
-ok: [arborian-02.class.arborian.com] =&gt; {&#34;backup&#34;: &#34;&#34;, &#34;changed&#34;: false, &#34;failed&#34;: false, &#34;msg&#34;: &#34;&#34;}
-ok: [arborian-03.class.arborian.com] =&gt; {&#34;backup&#34;: &#34;&#34;, &#34;changed&#34;: false, &#34;failed&#34;: false, &#34;msg&#34;: &#34;&#34;}
-ok: [arborian-05.class.arborian.com] =&gt; {&#34;backup&#34;: &#34;&#34;, &#34;changed&#34;: false, &#34;failed&#34;: false, &#34;msg&#34;: &#34;&#34;}
-ok: [arborian-06.class.arborian.com] =&gt; {&#34;backup&#34;: &#34;&#34;, &#34;changed&#34;: false, &#34;failed&#34;: false, &#34;msg&#34;: &#34;&#34;}
+task path: /Users/rick446/src/Classes/Ansible/playbooks/setup-user.yaml:8
+ok: [db] =&gt; {&#34;backup&#34;: &#34;&#34;, &#34;changed&#34;: false, &#34;msg&#34;: &#34;&#34;}
+ok: [web] =&gt; {&#34;backup&#34;: &#34;&#34;, &#34;changed&#34;: false, &#34;msg&#34;: &#34;&#34;}
 
 TASK [create user] *************************************************************
-task path: /Users/rick446/src/Classes/Ansible/playbooks/setup-user.yaml:9
-changed: [arborian-03.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: &#34;&#34;, &#34;createhome&#34;: true, &#34;failed&#34;: false, &#34;group&#34;: 1002, &#34;groups&#34;: &#34;sudo&#34;, &#34;home&#34;: &#34;/home/None&#34;, &#34;name&#34;: &#34;None&#34;, &#34;shell&#34;: &#34;/bin/bash&#34;, &#34;state&#34;: &#34;present&#34;, &#34;system&#34;: false, &#34;uid&#34;: 1002}
-changed: [arborian-05.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: &#34;&#34;, &#34;createhome&#34;: true, &#34;failed&#34;: false, &#34;group&#34;: 1002, &#34;groups&#34;: &#34;sudo&#34;, &#34;home&#34;: &#34;/home/None&#34;, &#34;name&#34;: &#34;None&#34;, &#34;shell&#34;: &#34;/bin/bash&#34;, &#34;state&#34;: &#34;present&#34;, &#34;system&#34;: false, &#34;uid&#34;: 1002}
-changed: [arborian-02.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: &#34;&#34;, &#34;createhome&#34;: true, &#34;failed&#34;: false, &#34;group&#34;: 1003, &#34;groups&#34;: &#34;sudo&#34;, &#34;home&#34;: &#34;/home/None&#34;, &#34;name&#34;: &#34;None&#34;, &#34;shell&#34;: &#34;/bin/bash&#34;, &#34;state&#34;: &#34;present&#34;, &#34;system&#34;: false, &#34;uid&#34;: 1003}
-changed: [arborian-04.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: &#34;&#34;, &#34;createhome&#34;: true, &#34;failed&#34;: false, &#34;group&#34;: 1002, &#34;groups&#34;: &#34;sudo&#34;, &#34;home&#34;: &#34;/home/None&#34;, &#34;name&#34;: &#34;None&#34;, &#34;shell&#34;: &#34;/bin/bash&#34;, &#34;state&#34;: &#34;present&#34;, &#34;system&#34;: false, &#34;uid&#34;: 1002}
-changed: [arborian-01.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: &#34;&#34;, &#34;createhome&#34;: true, &#34;failed&#34;: false, &#34;group&#34;: 1003, &#34;groups&#34;: &#34;sudo&#34;, &#34;home&#34;: &#34;/home/None&#34;, &#34;name&#34;: &#34;None&#34;, &#34;shell&#34;: &#34;/bin/bash&#34;, &#34;state&#34;: &#34;present&#34;, &#34;system&#34;: false, &#34;uid&#34;: 1003}
-changed: [arborian-06.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: &#34;&#34;, &#34;createhome&#34;: true, &#34;failed&#34;: false, &#34;group&#34;: 1002, &#34;groups&#34;: &#34;sudo&#34;, &#34;home&#34;: &#34;/home/None&#34;, &#34;name&#34;: &#34;None&#34;, &#34;shell&#34;: &#34;/bin/bash&#34;, &#34;state&#34;: &#34;present&#34;, &#34;system&#34;: false, &#34;uid&#34;: 1002}
+task path: /Users/rick446/src/Classes/Ansible/playbooks/setup-user.yaml:10
+ok: [db] =&gt; {&#34;append&#34;: false, &#34;changed&#34;: false, &#34;comment&#34;: &#34;&#34;, &#34;group&#34;: 1002, &#34;groups&#34;: &#34;sudo&#34;, &#34;home&#34;: &#34;/home/rick&#34;, &#34;move_home&#34;: false, &#34;name&#34;: &#34;rick&#34;, &#34;shell&#34;: &#34;/bin/bash&#34;, &#34;state&#34;: &#34;present&#34;, &#34;uid&#34;: 1002}
+ok: [web] =&gt; {&#34;append&#34;: false, &#34;changed&#34;: false, &#34;comment&#34;: &#34;&#34;, &#34;group&#34;: 1002, &#34;groups&#34;: &#34;sudo&#34;, &#34;home&#34;: &#34;/home/rick&#34;, &#34;move_home&#34;: false, &#34;name&#34;: &#34;rick&#34;, &#34;shell&#34;: &#34;/bin/bash&#34;, &#34;state&#34;: &#34;present&#34;, &#34;uid&#34;: 1002}
 
 TASK [Authorize the public key] ************************************************
-task path: /Users/rick446/src/Classes/Ansible/playbooks/setup-user.yaml:14
-changed: [arborian-02.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: null, &#34;exclusive&#34;: false, &#34;failed&#34;: false, &#34;key&#34;: &#34;https://raw.githubusercontent.com/Arborian/ansible-class/master/training-ssh-key.pub&#34;, &#34;key_options&#34;: null, &#34;keyfile&#34;: &#34;/home/None/.ssh/authorized_keys&#34;, &#34;manage_dir&#34;: true, &#34;path&#34;: null, &#34;state&#34;: &#34;present&#34;, &#34;unique&#34;: false, &#34;user&#34;: &#34;None&#34;, &#34;validate_certs&#34;: true}
-changed: [arborian-01.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: null, &#34;exclusive&#34;: false, &#34;failed&#34;: false, &#34;key&#34;: &#34;https://raw.githubusercontent.com/Arborian/ansible-class/master/training-ssh-key.pub&#34;, &#34;key_options&#34;: null, &#34;keyfile&#34;: &#34;/home/None/.ssh/authorized_keys&#34;, &#34;manage_dir&#34;: true, &#34;path&#34;: null, &#34;state&#34;: &#34;present&#34;, &#34;unique&#34;: false, &#34;user&#34;: &#34;None&#34;, &#34;validate_certs&#34;: true}
-changed: [arborian-04.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: null, &#34;exclusive&#34;: false, &#34;failed&#34;: false, &#34;key&#34;: &#34;https://raw.githubusercontent.com/Arborian/ansible-class/master/training-ssh-key.pub&#34;, &#34;key_options&#34;: null, &#34;keyfile&#34;: &#34;/home/None/.ssh/authorized_keys&#34;, &#34;manage_dir&#34;: true, &#34;path&#34;: null, &#34;state&#34;: &#34;present&#34;, &#34;unique&#34;: false, &#34;user&#34;: &#34;None&#34;, &#34;validate_certs&#34;: true}
-changed: [arborian-03.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: null, &#34;exclusive&#34;: false, &#34;failed&#34;: false, &#34;key&#34;: &#34;https://raw.githubusercontent.com/Arborian/ansible-class/master/training-ssh-key.pub&#34;, &#34;key_options&#34;: null, &#34;keyfile&#34;: &#34;/home/None/.ssh/authorized_keys&#34;, &#34;manage_dir&#34;: true, &#34;path&#34;: null, &#34;state&#34;: &#34;present&#34;, &#34;unique&#34;: false, &#34;user&#34;: &#34;None&#34;, &#34;validate_certs&#34;: true}
-changed: [arborian-05.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: null, &#34;exclusive&#34;: false, &#34;failed&#34;: false, &#34;key&#34;: &#34;https://raw.githubusercontent.com/Arborian/ansible-class/master/training-ssh-key.pub&#34;, &#34;key_options&#34;: null, &#34;keyfile&#34;: &#34;/home/None/.ssh/authorized_keys&#34;, &#34;manage_dir&#34;: true, &#34;path&#34;: null, &#34;state&#34;: &#34;present&#34;, &#34;unique&#34;: false, &#34;user&#34;: &#34;None&#34;, &#34;validate_certs&#34;: true}
-changed: [arborian-06.class.arborian.com] =&gt; {&#34;changed&#34;: true, &#34;comment&#34;: null, &#34;exclusive&#34;: false, &#34;failed&#34;: false, &#34;key&#34;: &#34;https://raw.githubusercontent.com/Arborian/ansible-class/master/training-ssh-key.pub&#34;, &#34;key_options&#34;: null, &#34;keyfile&#34;: &#34;/home/None/.ssh/authorized_keys&#34;, &#34;manage_dir&#34;: true, &#34;path&#34;: null, &#34;state&#34;: &#34;present&#34;, &#34;unique&#34;: false, &#34;user&#34;: &#34;None&#34;, &#34;validate_certs&#34;: true}
+task path: /Users/rick446/src/Classes/Ansible/playbooks/setup-user.yaml:15
+ok: [db] =&gt; {&#34;changed&#34;: false, &#34;comment&#34;: null, &#34;exclusive&#34;: false, &#34;key&#34;: &#34;https://raw.githubusercontent.com/Arborian/ansible-class/master/training-ssh-key.pub&#34;, &#34;key_options&#34;: null, &#34;keyfile&#34;: &#34;/home/rick/.ssh/authorized_keys&#34;, &#34;manage_dir&#34;: true, &#34;path&#34;: null, &#34;state&#34;: &#34;present&#34;, &#34;unique&#34;: false, &#34;user&#34;: &#34;rick&#34;, &#34;validate_certs&#34;: true}
+ok: [web] =&gt; {&#34;changed&#34;: false, &#34;comment&#34;: null, &#34;exclusive&#34;: false, &#34;key&#34;: &#34;https://raw.githubusercontent.com/Arborian/ansible-class/master/training-ssh-key.pub&#34;, &#34;key_options&#34;: null, &#34;keyfile&#34;: &#34;/home/rick/.ssh/authorized_keys&#34;, &#34;manage_dir&#34;: true, &#34;path&#34;: null, &#34;state&#34;: &#34;present&#34;, &#34;unique&#34;: false, &#34;user&#34;: &#34;rick&#34;, &#34;validate_certs&#34;: true}
 META: ran handlers
 META: ran handlers
 
 PLAY RECAP *********************************************************************
-arborian-01.class.arborian.com : ok=4    changed=2    unreachable=0    failed=0   
-arborian-02.class.arborian.com : ok=4    changed=2    unreachable=0    failed=0   
-arborian-03.class.arborian.com : ok=4    changed=2    unreachable=0    failed=0   
-arborian-04.class.arborian.com : ok=4    changed=2    unreachable=0    failed=0   
-arborian-05.class.arborian.com : ok=4    changed=2    unreachable=0    failed=0   
-arborian-06.class.arborian.com : ok=4    changed=2    unreachable=0    failed=0   
+db                         : ok=4    changed=0    unreachable=0    failed=0   
+web                        : ok=4    changed=0    unreachable=0    failed=0   
 
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> [WARNING]: Not prompting as we are not in interactive mode
 </pre>
 </div>
 </div>
@@ -12160,7 +12139,7 @@ arborian-06.class.arborian.com : ok=4    changed=2    unreachable=0    failed=0
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat</span> <span class="n">playbooks</span><span class="o">/</span><span class="n">vault</span><span class="o">-</span><span class="n">demo2</span><span class="o">.</span><span class="n">yaml</span>
@@ -12203,7 +12182,7 @@ arborian-06.class.arborian.com : ok=4    changed=2    unreachable=0    failed=0
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
@@ -12224,11 +12203,9 @@ ansible web -m debug -a <span class="s1">&#39;msg=&quot;This is running on {{ans
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>arborian-01.class.arborian.com | SUCCESS =&gt; {
-    &#34;msg&#34;: &#34;This is running on arborian-01.class.arborian.com&#34;
-}
-arborian-02.class.arborian.com | SUCCESS =&gt; {
-    &#34;msg&#34;: &#34;This is running on arborian-02.class.arborian.com&#34;
+<pre>web | SUCCESS =&gt; {
+    &#34;changed&#34;: false,
+    &#34;msg&#34;: &#34;This is running on 127.0.0.1&#34;
 }
 </pre>
 </div>

@@ -12139,7 +12139,38 @@ Shared connection to 127.0.0.1 closed.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cd</span> <span class="o">..</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>/Users/rick446/src/Classes/Ansible
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
@@ -12172,7 +12203,7 @@ faramir.local rick446
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
@@ -12222,7 +12253,7 @@ faramir.local rick446
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
@@ -12272,7 +12303,7 @@ db | SUCCESS =&gt; {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
@@ -12296,7 +12327,7 @@ ansible localhost -m setup
 <pre>localhost | SUCCESS =&gt; {
     &#34;ansible_facts&#34;: {
         &#34;ansible_all_ipv4_addresses&#34;: [
-            &#34;172.19.131.79&#34;
+            &#34;10.118.248.231&#34;
         ],
         &#34;ansible_all_ipv6_addresses&#34;: [
             &#34;fe80::7450:7ff:fea1:e38e%awdl0&#34;,
@@ -12360,28 +12391,28 @@ ansible localhost -m setup
             &#34;type&#34;: &#34;ether&#34;
         },
         &#34;ansible_date_time&#34;: {
-            &#34;date&#34;: &#34;2017-12-11&#34;,
-            &#34;day&#34;: &#34;11&#34;,
-            &#34;epoch&#34;: &#34;1513038561&#34;,
-            &#34;hour&#34;: &#34;19&#34;,
-            &#34;iso8601&#34;: &#34;2017-12-12T00:29:21Z&#34;,
-            &#34;iso8601_basic&#34;: &#34;20171211T192921535899&#34;,
-            &#34;iso8601_basic_short&#34;: &#34;20171211T192921&#34;,
-            &#34;iso8601_micro&#34;: &#34;2017-12-12T00:29:21.536023Z&#34;,
-            &#34;minute&#34;: &#34;29&#34;,
+            &#34;date&#34;: &#34;2017-12-12&#34;,
+            &#34;day&#34;: &#34;12&#34;,
+            &#34;epoch&#34;: &#34;1513103881&#34;,
+            &#34;hour&#34;: &#34;13&#34;,
+            &#34;iso8601&#34;: &#34;2017-12-12T18:38:01Z&#34;,
+            &#34;iso8601_basic&#34;: &#34;20171212T133801356198&#34;,
+            &#34;iso8601_basic_short&#34;: &#34;20171212T133801&#34;,
+            &#34;iso8601_micro&#34;: &#34;2017-12-12T18:38:01.356311Z&#34;,
+            &#34;minute&#34;: &#34;38&#34;,
             &#34;month&#34;: &#34;12&#34;,
-            &#34;second&#34;: &#34;21&#34;,
-            &#34;time&#34;: &#34;19:29:21&#34;,
+            &#34;second&#34;: &#34;01&#34;,
+            &#34;time&#34;: &#34;13:38:01&#34;,
             &#34;tz&#34;: &#34;EST&#34;,
             &#34;tz_offset&#34;: &#34;-0500&#34;,
-            &#34;weekday&#34;: &#34;Monday&#34;,
-            &#34;weekday_number&#34;: &#34;1&#34;,
+            &#34;weekday&#34;: &#34;Tuesday&#34;,
+            &#34;weekday_number&#34;: &#34;2&#34;,
             &#34;weeknumber&#34;: &#34;50&#34;,
             &#34;year&#34;: &#34;2017&#34;
         },
         &#34;ansible_default_ipv4&#34;: {
-            &#34;address&#34;: &#34;172.19.131.79&#34;,
-            &#34;broadcast&#34;: &#34;172.19.131.255&#34;,
+            &#34;address&#34;: &#34;10.118.248.231&#34;,
+            &#34;broadcast&#34;: &#34;10.118.249.255&#34;,
             &#34;device&#34;: &#34;en0&#34;,
             &#34;flags&#34;: [
                 &#34;UP&#34;,
@@ -12391,14 +12422,14 @@ ansible localhost -m setup
                 &#34;SIMPLEX&#34;,
                 &#34;MULTICAST&#34;
             ],
-            &#34;gateway&#34;: &#34;172.19.131.2&#34;,
+            &#34;gateway&#34;: &#34;10.118.249.254&#34;,
             &#34;interface&#34;: &#34;en0&#34;,
             &#34;macaddress&#34;: &#34;98:01:a7:99:07:a3&#34;,
             &#34;media&#34;: &#34;Unknown&#34;,
             &#34;media_select&#34;: &#34;autoselect&#34;,
             &#34;mtu&#34;: &#34;1500&#34;,
             &#34;netmask&#34;: &#34;255.255.254.0&#34;,
-            &#34;network&#34;: &#34;172.19.130.0&#34;,
+            &#34;network&#34;: &#34;10.118.248.0&#34;,
             &#34;status&#34;: &#34;active&#34;,
             &#34;type&#34;: &#34;ether&#34;
         },
@@ -12408,7 +12439,9 @@ ansible localhost -m setup
         &#34;ansible_distribution_version&#34;: &#34;10.12.6&#34;,
         &#34;ansible_dns&#34;: {
             &#34;nameservers&#34;: [
-                &#34;172.19.134.2&#34;
+                &#34;8.8.8.8&#34;,
+                &#34;8.8.4.4&#34;,
+                &#34;4.4.4.4&#34;
             ]
         },
         &#34;ansible_domain&#34;: &#34;local&#34;,
@@ -12426,10 +12459,10 @@ ansible localhost -m setup
             ],
             &#34;ipv4&#34;: [
                 {
-                    &#34;address&#34;: &#34;172.19.131.79&#34;,
-                    &#34;broadcast&#34;: &#34;172.19.131.255&#34;,
+                    &#34;address&#34;: &#34;10.118.248.231&#34;,
+                    &#34;broadcast&#34;: &#34;10.118.249.255&#34;,
                     &#34;netmask&#34;: &#34;255.255.254.0&#34;,
-                    &#34;network&#34;: &#34;172.19.130.0&#34;
+                    &#34;network&#34;: &#34;10.118.248.0&#34;
                 }
             ],
             &#34;ipv6&#34;: [],
@@ -12597,7 +12630,7 @@ ansible localhost -m setup
         &#34;ansible_local&#34;: {},
         &#34;ansible_lsb&#34;: {},
         &#34;ansible_machine&#34;: &#34;x86_64&#34;,
-        &#34;ansible_memfree_mb&#34;: -820,
+        &#34;ansible_memfree_mb&#34;: -982,
         &#34;ansible_memtotal_mb&#34;: 16384,
         &#34;ansible_model&#34;: &#34;MacBookPro11,5&#34;,
         &#34;ansible_nodename&#34;: &#34;faramir.local&#34;,
@@ -12739,7 +12772,7 @@ ansible localhost -m setup
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
@@ -12763,16 +12796,16 @@ ansible web -b -m file -a <span class="s2">&quot;dest=/root/ansible.cfg mode=060
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>web | SUCCESS =&gt; {
     &#34;changed&#34;: true,
-    &#34;checksum&#34;: &#34;2c6d1d2153e73037c491c16c1aaefceadc9616ba&#34;,
+    &#34;checksum&#34;: &#34;25ce25426d737c4834c243d5d645106abb4e4766&#34;,
     &#34;dest&#34;: &#34;/root/ansible.cfg&#34;,
     &#34;failed&#34;: false,
     &#34;gid&#34;: 0,
     &#34;group&#34;: &#34;root&#34;,
-    &#34;md5sum&#34;: &#34;e251a3154b57923fa335488ae67054c7&#34;,
+    &#34;md5sum&#34;: &#34;d8b675768504445c6334afa0c91f0f5a&#34;,
     &#34;mode&#34;: &#34;0644&#34;,
     &#34;owner&#34;: &#34;root&#34;,
-    &#34;size&#34;: 465,
-    &#34;src&#34;: &#34;/home/vagrant/.ansible/tmp/ansible-tmp-1513038582.6011899-80016329712842/source&#34;,
+    &#34;size&#34;: 691,
+    &#34;src&#34;: &#34;/home/vagrant/.ansible/tmp/ansible-tmp-1513104057.594638-226391247449081/source&#34;,
     &#34;state&#34;: &#34;file&#34;,
     &#34;uid&#34;: 0
 }
@@ -12784,7 +12817,7 @@ web | SUCCESS =&gt; {
     &#34;mode&#34;: &#34;0600&#34;,
     &#34;owner&#34;: &#34;nobody&#34;,
     &#34;path&#34;: &#34;/root/ansible.cfg&#34;,
-    &#34;size&#34;: 465,
+    &#34;size&#34;: 691,
     &#34;state&#34;: &#34;file&#34;,
     &#34;uid&#34;: 65534
 }
@@ -12807,7 +12840,7 @@ web | SUCCESS =&gt; {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat</span> <span class="n">templates</span><span class="o">/</span><span class="n">welcome</span><span class="o">.</span><span class="n">j2</span>
@@ -12843,7 +12876,7 @@ That is all.</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
@@ -12866,16 +12899,16 @@ ansible web -m template -a <span class="s1">&#39;src=templates/welcome.j2 dest=~
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>web | SUCCESS =&gt; {
     &#34;changed&#34;: true,
-    &#34;checksum&#34;: &#34;9752059111787f30ffc14a93800c642f6d54cbf0&#34;,
+    &#34;checksum&#34;: &#34;4148ad70de2ebec059fbde4203925b33300965f8&#34;,
     &#34;dest&#34;: &#34;/home/vagrant/welcome.txt&#34;,
     &#34;failed&#34;: false,
     &#34;gid&#34;: 1000,
     &#34;group&#34;: &#34;vagrant&#34;,
-    &#34;md5sum&#34;: &#34;990ad3a4f5a324dfa54d92cd3d7095e1&#34;,
+    &#34;md5sum&#34;: &#34;8ef44ff0bab99fe29478829b3da9bf2d&#34;,
     &#34;mode&#34;: &#34;0664&#34;,
     &#34;owner&#34;: &#34;vagrant&#34;,
-    &#34;size&#34;: 84,
-    &#34;src&#34;: &#34;/home/vagrant/.ansible/tmp/ansible-tmp-1513038593.616334-63489290244051/source&#34;,
+    &#34;size&#34;: 85,
+    &#34;src&#34;: &#34;/home/vagrant/.ansible/tmp/ansible-tmp-1513104182.6464572-132264241412900/source&#34;,
     &#34;state&#34;: &#34;file&#34;,
     &#34;uid&#34;: 1000
 }
@@ -12898,7 +12931,7 @@ ansible web -m template -a <span class="s1">&#39;src=templates/welcome.j2 dest=~
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
@@ -12926,7 +12959,7 @@ ansible web -b -m apt -a <span class="s1">&#39;name=nginx state=latest&#39;</spa
     &#34;failed&#34;: false,
     &#34;stderr&#34;: &#34;&#34;,
     &#34;stderr_lines&#34;: [],
-    &#34;stdout&#34;: &#34;Reading package lists...\nBuilding dependency tree...\nReading state information...\nThe following extra packages will be installed:\n  libxslt1.1 nginx-common nginx-core\nSuggested packages:\n  fcgiwrap nginx-doc\nThe following NEW packages will be installed:\n  libxslt1.1 nginx nginx-common nginx-core\n0 upgraded, 4 newly installed, 0 to remove and 0 not upgraded.\nNeed to get 495 kB of archives.\nAfter this operation, 1802 kB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu/ trusty-updates/main libxslt1.1 amd64 1.1.28-2ubuntu0.1 [145 kB]\nGet:2 http://archive.ubuntu.com/ubuntu/ trusty-updates/main nginx-common all 1.4.6-1ubuntu3.8 [19.1 kB]\nGet:3 http://archive.ubuntu.com/ubuntu/ trusty-updates/main nginx-core amd64 1.4.6-1ubuntu3.8 [325 kB]\nGet:4 http://archive.ubuntu.com/ubuntu/ trusty-updates/main nginx all 1.4.6-1ubuntu3.8 [5394 B]\nPreconfiguring packages ...\nFetched 495 kB in 24s (20.3 kB/s)\nSelecting previously unselected package libxslt1.1:amd64.\n(Reading database ... 63105 files and directories currently installed.)\nPreparing to unpack .../libxslt1.1_1.1.28-2ubuntu0.1_amd64.deb ...\nUnpacking libxslt1.1:amd64 (1.1.28-2ubuntu0.1) ...\nSelecting previously unselected package nginx-common.\nPreparing to unpack .../nginx-common_1.4.6-1ubuntu3.8_all.deb ...\nUnpacking nginx-common (1.4.6-1ubuntu3.8) ...\nSelecting previously unselected package nginx-core.\nPreparing to unpack .../nginx-core_1.4.6-1ubuntu3.8_amd64.deb ...\nUnpacking nginx-core (1.4.6-1ubuntu3.8) ...\nSelecting previously unselected package nginx.\nPreparing to unpack .../nginx_1.4.6-1ubuntu3.8_all.deb ...\nUnpacking nginx (1.4.6-1ubuntu3.8) ...\nProcessing triggers for ufw (0.34~rc-0ubuntu2) ...\nProcessing triggers for ureadahead (0.100.0-16) ...\nProcessing triggers for man-db (2.6.7.1-1ubuntu1) ...\nSetting up libxslt1.1:amd64 (1.1.28-2ubuntu0.1) ...\nSetting up nginx-common (1.4.6-1ubuntu3.8) ...\nProcessing triggers for ufw (0.34~rc-0ubuntu2) ...\nProcessing triggers for ureadahead (0.100.0-16) ...\nSetting up nginx-core (1.4.6-1ubuntu3.8) ...\nSetting up nginx (1.4.6-1ubuntu3.8) ...\nProcessing triggers for libc-bin (2.19-0ubuntu6.13) ...\n&#34;,
+    &#34;stdout&#34;: &#34;Reading package lists...\nBuilding dependency tree...\nReading state information...\nThe following extra packages will be installed:\n  libxslt1.1 nginx-common nginx-core\nSuggested packages:\n  fcgiwrap nginx-doc\nThe following NEW packages will be installed:\n  libxslt1.1 nginx nginx-common nginx-core\n0 upgraded, 4 newly installed, 0 to remove and 0 not upgraded.\nNeed to get 495 kB of archives.\nAfter this operation, 1802 kB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu/ trusty-updates/main libxslt1.1 amd64 1.1.28-2ubuntu0.1 [145 kB]\nGet:2 http://archive.ubuntu.com/ubuntu/ trusty-updates/main nginx-common all 1.4.6-1ubuntu3.8 [19.1 kB]\nGet:3 http://archive.ubuntu.com/ubuntu/ trusty-updates/main nginx-core amd64 1.4.6-1ubuntu3.8 [325 kB]\nGet:4 http://archive.ubuntu.com/ubuntu/ trusty-updates/main nginx all 1.4.6-1ubuntu3.8 [5394 B]\nPreconfiguring packages ...\nFetched 495 kB in 0s (605 kB/s)\nSelecting previously unselected package libxslt1.1:amd64.\n(Reading database ... 63105 files and directories currently installed.)\nPreparing to unpack .../libxslt1.1_1.1.28-2ubuntu0.1_amd64.deb ...\nUnpacking libxslt1.1:amd64 (1.1.28-2ubuntu0.1) ...\nSelecting previously unselected package nginx-common.\nPreparing to unpack .../nginx-common_1.4.6-1ubuntu3.8_all.deb ...\nUnpacking nginx-common (1.4.6-1ubuntu3.8) ...\nSelecting previously unselected package nginx-core.\nPreparing to unpack .../nginx-core_1.4.6-1ubuntu3.8_amd64.deb ...\nUnpacking nginx-core (1.4.6-1ubuntu3.8) ...\nSelecting previously unselected package nginx.\nPreparing to unpack .../nginx_1.4.6-1ubuntu3.8_all.deb ...\nUnpacking nginx (1.4.6-1ubuntu3.8) ...\nProcessing triggers for ufw (0.34~rc-0ubuntu2) ...\nProcessing triggers for ureadahead (0.100.0-16) ...\nProcessing triggers for man-db (2.6.7.1-1ubuntu1) ...\nSetting up libxslt1.1:amd64 (1.1.28-2ubuntu0.1) ...\nSetting up nginx-common (1.4.6-1ubuntu3.8) ...\nProcessing triggers for ufw (0.34~rc-0ubuntu2) ...\nProcessing triggers for ureadahead (0.100.0-16) ...\nSetting up nginx-core (1.4.6-1ubuntu3.8) ...\nSetting up nginx (1.4.6-1ubuntu3.8) ...\nProcessing triggers for libc-bin (2.19-0ubuntu6.13) ...\n&#34;,
     &#34;stdout_lines&#34;: [
         &#34;Reading package lists...&#34;,
         &#34;Building dependency tree...&#34;,
@@ -12945,7 +12978,7 @@ ansible web -b -m apt -a <span class="s1">&#39;name=nginx state=latest&#39;</spa
         &#34;Get:3 http://archive.ubuntu.com/ubuntu/ trusty-updates/main nginx-core amd64 1.4.6-1ubuntu3.8 [325 kB]&#34;,
         &#34;Get:4 http://archive.ubuntu.com/ubuntu/ trusty-updates/main nginx all 1.4.6-1ubuntu3.8 [5394 B]&#34;,
         &#34;Preconfiguring packages ...&#34;,
-        &#34;Fetched 495 kB in 24s (20.3 kB/s)&#34;,
+        &#34;Fetched 495 kB in 0s (605 kB/s)&#34;,
         &#34;Selecting previously unselected package libxslt1.1:amd64.&#34;,
         &#34;(Reading database ... 63105 files and directories currently installed.)&#34;,
         &#34;Preparing to unpack .../libxslt1.1_1.1.28-2ubuntu0.1_amd64.deb ...&#34;,
@@ -13053,6 +13086,118 @@ web | SUCCESS =&gt; {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><code>user</code> for creating/managing users</p>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+ansible web -b -m user -a <span class="s1">&#39;name=rick state=absent remove=true&#39;</span>
+ansible web -b -m file -a <span class="s1">&#39;name=/home/rick state=absent&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>web | SUCCESS =&gt; {
+    &#34;changed&#34;: false,
+    &#34;failed&#34;: false,
+    &#34;name&#34;: &#34;rick&#34;,
+    &#34;state&#34;: &#34;absent&#34;
+}
+web | SUCCESS =&gt; {
+    &#34;changed&#34;: true,
+    &#34;failed&#34;: false,
+    &#34;path&#34;: &#34;/home/rick&#34;,
+    &#34;state&#34;: &#34;absent&#34;
+}
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div></div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+ansible web -b -m user -a <span class="s1">&#39;name=rick shell=/bin/bash&#39;</span>
+ansible web -b -m authorized_key <span class="se">\</span>
+    -a <span class="s1">&#39;user=rick state=present key=https://raw.githubusercontent.com/Arborian/ansible-class/master/training-ssh-key.pub&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>web | SUCCESS =&gt; {
+    &#34;append&#34;: false,
+    &#34;changed&#34;: false,
+    &#34;comment&#34;: &#34;&#34;,
+    &#34;group&#34;: 1002,
+    &#34;home&#34;: &#34;/home/rick&#34;,
+    &#34;move_home&#34;: false,
+    &#34;name&#34;: &#34;rick&#34;,
+    &#34;shell&#34;: &#34;/bin/bash&#34;,
+    &#34;state&#34;: &#34;present&#34;,
+    &#34;uid&#34;: 1002
+}
+web | SUCCESS =&gt; {
+    &#34;changed&#34;: true,
+    &#34;comment&#34;: null,
+    &#34;exclusive&#34;: false,
+    &#34;key&#34;: &#34;https://raw.githubusercontent.com/Arborian/ansible-class/master/training-ssh-key.pub&#34;,
+    &#34;key_options&#34;: null,
+    &#34;keyfile&#34;: &#34;/home/rick/.ssh/authorized_keys&#34;,
+    &#34;manage_dir&#34;: true,
+    &#34;path&#34;: null,
+    &#34;state&#34;: &#34;present&#34;,
+    &#34;unique&#34;: false,
+    &#34;user&#34;: &#34;rick&#34;,
+    &#34;validate_certs&#34;: true
+}
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div></div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><code>git</code> for deploying from source control</p>
 
 </div>
@@ -13060,7 +13205,7 @@ web | SUCCESS =&gt; {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
@@ -13089,7 +13234,7 @@ ansible web -m git -b --become-user<span class="o">=</span>rick -a <span class="
     &#34;failed&#34;: false
 }
 web | SUCCESS =&gt; {
-    &#34;after&#34;: &#34;d7b0d90dd98726e6327faa421db0eaedfda19fdf&#34;,
+    &#34;after&#34;: &#34;ecfddfa00dbba0a7d5e5a97172982e2fbfd54274&#34;,
     &#34;before&#34;: null,
     &#34;changed&#34;: true,
     &#34;failed&#34;: false
@@ -13113,11 +13258,11 @@ web | SUCCESS =&gt; {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible web -m service -a <span class="s1">&#39;name=nginx state=started&#39;</span>
+ansible web --become --become-user rick -m service -a <span class="s1">&#39;name=nginx state=started&#39;</span>
 </pre></div>
 
 </div>
@@ -13136,7 +13281,6 @@ ansible web -m service -a <span class="s1">&#39;name=nginx state=started&#39;</s
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>web | SUCCESS =&gt; {
     &#34;changed&#34;: false,
-    &#34;failed&#34;: false,
     &#34;name&#34;: &#34;nginx&#34;,
     &#34;state&#34;: &#34;started&#34;
 }

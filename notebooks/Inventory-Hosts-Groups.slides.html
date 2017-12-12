@@ -11994,7 +11994,7 @@ datacenter=atl</code></pre>
 
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
@@ -12021,7 +12021,7 @@ datacenter=atl</code></pre>
 
 </div>
 </div>
-</div>
+</div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
@@ -12052,7 +12052,7 @@ datacenter=atl</code></pre>
 </div>
 </div>
 
-</div>
+</div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
@@ -12086,22 +12086,7 @@ ansible web -m debug -a <span class="s1">&#39;var=proxy&#39;</span>
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Inventory:-Dynamic-Inventory">Inventory: Dynamic Inventory<a class="anchor-link" href="#Inventory:-Dynamic-Inventory">&#182;</a></h1><p>We can also use Python modules to create our inventory programmatically (as when we might want to enumerate all hosts on AWS, Azure, or Google Compute Engine)</p>
-<p>Any inventory file that is executable will be run to generate an inventory JSON result when fed certain command-line arguments.</p>
-<p>Some useful links:</p>
-<ul>
-<li><a href="http://docs.ansible.com/ansible/intro_dynamic_inventory.html">Dynamic Inventory</a></li>
-<li><a href="http://docs.ansible.com/ansible/dev_guide/developing_inventory.html">Developing your own inventory script</a></li>
-</ul>
-
-</div>
-</div>
-</div>
+</div></div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
@@ -12115,6 +12100,7 @@ ansible web -m debug -a <span class="s1">&#39;var=proxy&#39;</span>
 </ul>
 <p>Frequently used host patterns</p>
 <ul>
+<li>Specific hostname</li>
 <li><code>localhost</code></li>
 <li><code>all</code></li>
 <li><code>GROUP-NAME</code> (one of the groupings from your inventory)</li>
@@ -12122,7 +12108,7 @@ ansible web -m debug -a <span class="s1">&#39;var=proxy&#39;</span>
 
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
@@ -12140,13 +12126,25 @@ Ansible, however, gives us <a href="http://docs.ansible.com/ansible/latest/intro
 
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Lab">Lab<a class="anchor-link" href="#Lab">&#182;</a></h1><h2 id="Update-some-of-the-groups-and-variables-in-the-Vagrant-ansible-config-(in-the-class-directory)">Update some of the groups and variables in the Vagrant ansible config (in the class directory)<a class="anchor-link" href="#Update-some-of-the-groups-and-variables-in-the-Vagrant-ansible-config-(in-the-class-directory)">&#182;</a></h2><p>(To apply changes to the <code>Vagrantfile</code>, the following command is handy:)</p>
 <p><code>vagrant reload --provision</code></p>
+<p>Check your updates using <code>vagrant all -m debug var=VARNAME</code></p>
+<h2 id="Use-different-patterns-to-target-different-sets-of-your-infrastructure.">Use different patterns to target different sets of your infrastructure.<a class="anchor-link" href="#Use-different-patterns-to-target-different-sets-of-your-infrastructure.">&#182;</a></h2><p>Try using the following command to see which hosts respond:</p>
+<p><code>ansible PATTERN -m ping</code></p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Lab---for-Windows-users">Lab - for Windows users<a class="anchor-link" href="#Lab---for-Windows-users">&#182;</a></h1><p>Update the <code>inventory</code> file to create/modify some groups and variables</p>
 <p>Check your updates using <code>vagrant all -m debug var=VARNAME</code></p>
 <h2 id="Use-different-patterns-to-target-different-sets-of-your-infrastructure.">Use different patterns to target different sets of your infrastructure.<a class="anchor-link" href="#Use-different-patterns-to-target-different-sets-of-your-infrastructure.">&#182;</a></h2><p>Try using the following command to see which hosts respond:</p>
 <p><code>ansible PATTERN -m ping</code></p>
