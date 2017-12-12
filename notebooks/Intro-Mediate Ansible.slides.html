@@ -15,8 +15,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <!-- General and theme style sheets -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.1.0/css/reveal.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.1.0/css/theme/simple.css" id="theme">
+<link rel="stylesheet" href="reveal.js/css/reveal.css">
+<link rel="stylesheet" href="reveal.js/css/theme/simple.css" id="theme">
 
 <!-- If the query includes 'print-pdf', include the PDF print sheet -->
 <script>
@@ -24,14 +24,14 @@ if( window.location.search.match( /print-pdf/gi ) ) {
         var link = document.createElement( 'link' );
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.1.0/css/print/pdf.css';
+        link.href = 'reveal.js/css/print/pdf.css';
         document.getElementsByTagName( 'head' )[0].appendChild( link );
 }
 
 </script>
 
 <!--[if lt IE 9]>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.1.0/lib/js/html5shiv.js"></script>
+<script src="reveal.js/lib/js/html5shiv.js"></script>
 <![endif]-->
 
 <!-- Loading the mathjax macro -->
@@ -12012,6 +12012,7 @@ a.anchor-link {
 <li><a href="./Roles.ipynb">Roles</a> (<a href="./Roles.slides.html">slides</a>)</li>
 <li><a href="./Modules.ipynb">Custom Modules</a> (<a href="./Modules.slides.html">slides</a>)</li>
 <li><a href="./Vault.ipynb">Using the Vault for Sensitive Data</a> (<a href="./Vault.slides.html">slides</a>)</li>
+<li><a href="./FactCache.ipynb">Fact Caching</a> (<a href="./FactCache.slides.html">slides</a>)</li>
 <li><p><a href="./PlaybookDebugging.ipynb">Playbook Debugging</a> (<a href="./PlaybookDebugging.slides.html">slides</a>)</p>
 <hr></li>
 <li><p><a href="./PlaybookDelegation.ipynb">Playbook Delegation</a> (<a href="./PlaybookDelegation.slides.html">slides</a>)</p>
@@ -12027,7 +12028,55 @@ a.anchor-link {
 
 </div>
 </div>
-</div></section></section>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Comparisons">Comparisons<a class="anchor-link" href="#Comparisons">&#182;</a></h3><p>Caveat: the below bullet points are generalizations; there are generally ways to do anything in any of these systems. The bullets below are the <em>common</em> way to do things.</p>
+<h4 id="Big-Config-Management-Systems">Big Config Management Systems<a class="anchor-link" href="#Big-Config-Management-Systems">&#182;</a></h4><p>Ansible</p>
+<ul>
+<li>push-based</li>
+<li>no agent required</li>
+<li>implemented in Python</li>
+<li>uses SSH to communicate with hosts</li>
+<li>config is via YAML+Jinja2</li>
+<li>ad-hoc commands are common</li>
+</ul>
+<p>Puppet</p>
+<ul>
+<li>pull-based</li>
+<li>requires agent</li>
+<li>implemented in Ruby</li>
+<li>config is via Ruby-like DSL</li>
+</ul>
+<p>Chef</p>
+<ul>
+<li>pull-based</li>
+<li>requires agent</li>
+<li>implemented in Ruby</li>
+<li>config is via Ruby (they call it a DSL)</li>
+</ul>
+<p>SaltStack</p>
+<ul>
+<li>pull-based (0MQ) - low latency, high scalability</li>
+<li>requires agent</li>
+<li>implemented in Python</li>
+<li>config is via YAML+Jinja2</li>
+<li>lots of teminology (Pillars, Masters/Minions, Mine)</li>
+</ul>
+<h4 id="Ad-hoc-systems">Ad-hoc systems<a class="anchor-link" href="#Ad-hoc-systems">&#182;</a></h4><p>Ruby</p>
+<ul>
+<li>capistrano</li>
+</ul>
+<p>Python</p>
+<ul>
+<li>fabric</li>
+</ul>
+
+</div>
+</div>
+</div>
 </div>
 </div>
 
@@ -12040,8 +12089,8 @@ require(
       waitSeconds: 15
     },
     [
-      "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.1.0/lib/js/head.min.js",
-      "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.1.0/js/reveal.js"
+      "reveal.js/lib/js/head.min.js",
+      "reveal.js/js/reveal.js"
     ],
 
     function(head, Reveal){
@@ -12056,9 +12105,9 @@ require(
 
             // Optional libraries used to extend on reveal.js
             dependencies: [
-                { src: "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.1.0/lib/js/classList.js",
+                { src: "reveal.js/lib/js/classList.js",
                   condition: function() { return !document.body.classList; } },
-                { src: "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.1.0/plugin/notes/notes.js",
+                { src: "reveal.js/plugin/notes/notes.js",
                   async: true,
                   condition: function() { return !!document.body.classList; } }
             ]

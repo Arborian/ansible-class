@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-<title>SourceControl slides</title>
+<title>Introduction to Ansible and DevOps slides</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11905,69 +11905,112 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Source-Control-Modules">Source Control Modules<a class="anchor-link" href="#Source-Control-Modules">&#182;</a></h1><p>Ansible supports various source control systems:</p>
-<ul>
-<li><code>git</code> - Git DVCS</li>
-<li><code>bzr</code> - Bazaar DVCS</li>
-<li><code>hg</code> - Mercurial DVCS</li>
-<li><code>subversion</code> - Subversion VCS</li>
-</ul>
-<p>Additionally, several Github and Gitlab modules are also included.</p>
+<h1 id="What-is-DevOps?">What is DevOps?<a class="anchor-link" href="#What-is-DevOps?">&#182;</a></h1><blockquote><p>DevOps (a clipped compound of "development" and "operations") is a software engineering culture and practice that aims at unifying software development (Dev) and software operation (Ops). The main characteristic of the DevOps movement is to strongly advocate automation and monitoring at all steps of software construction, from integration, testing, releasing to deployment and infrastructure management. DevOps aims at shorter development cycles, increased deployment frequency, more dependable releases, in close alignment with business objectives.</p>
+</blockquote>
+<p>&mdash; <a href="https://en.wikipedia.org/wiki/DevOps">Wikipedia</a></p>
 
 </div>
 </div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash 
-ansible-playbook playbooks/updated-repo.yaml
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-PLAY [web] *********************************************************************
-
-TASK [Gathering Facts] *********************************************************
-ok: [arborian-02.class.arborian.com]
-ok: [arborian-01.class.arborian.com]
-
-TASK [Get or update repo] ******************************************************
-changed: [arborian-02.class.arborian.com]
-changed: [arborian-01.class.arborian.com]
-
-PLAY RECAP *********************************************************************
-arborian-01.class.arborian.com : ok=2    changed=1    unreachable=0    failed=0   
-arborian-02.class.arborian.com : ok=2    changed=1    unreachable=0    failed=0   
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lab:-Update-your-checked-out-copy-of-this-repository-on-the-server">Lab: Update your checked-out copy of this repository on the server<a class="anchor-link" href="#Lab:-Update-your-checked-out-copy-of-this-repository-on-the-server">&#182;</a></h1>
+<h2 id="But-really?">But really?<a class="anchor-link" href="#But-really?">&#182;</a></h2><ul>
+<li>Development and operations are no longer separate organizations <ul>
+<li>developers deploy code</li>
+<li>operators develop code</li>
+</ul>
+</li>
+<li>Operations uses software development principles and tools to manage infrastructure<ul>
+<li>revision control (i.e, git)</li>
+<li>configuration management (i.e. Ansible/Puppet/Chef)</li>
+</ul>
+</li>
+</ul>
+<p>Executed well, your infrastructure has a <em>repeatable</em> and <em>revertable</em> configuration</p>
+<p>(Some even disable ssh for production machines...)</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="What-is-it-not?">What is it not?<a class="anchor-link" href="#What-is-it-not?">&#182;</a></h2><ul>
+<li>An excuse to give the workload of two people to just one </li>
+<li>An excuse to deploy sloppy code to production</li>
+</ul>
+<p>We want to bring the best of both worlds together, not the worst.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Why-and-How-of-Ansible">Why and How of Ansible<a class="anchor-link" href="#Why-and-How-of-Ansible">&#182;</a></h1><ul>
+<li>Configuration management tool (a-la Puppet, Chef)</li>
+<li>Ad-hoc management tool (some overlap with Fabric, Capistrano)</li>
+<li>Python library / tool</li>
+<li>"Push" model (generally via ssh)</li>
+<li>Managed hosts need minimal "bootstrapping"<ul>
+<li>Puppet, Chef, Salt, etc. all need an agent on the managed host.</li>
+<li>Ansible only needs sshd (Python is helpful, as well, but we can bootstrap that)</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Comparisons">Comparisons<a class="anchor-link" href="#Comparisons">&#182;</a></h3><p>Caveat: the below bullet points are generalizations; there are generally ways to do anything in any of these systems. The bullets below are the <em>common</em> way to do things.</p>
+<h4 id="Big-Config-Management-Systems">Big Config Management Systems<a class="anchor-link" href="#Big-Config-Management-Systems">&#182;</a></h4><p>Ansible</p>
+<ul>
+<li>push-based</li>
+<li>no agent required</li>
+<li>implemented in Python</li>
+<li>uses SSH to communicate with hosts</li>
+<li>config is via YAML+Jinja2</li>
+<li>ad-hoc commands are common</li>
+</ul>
+<p>Puppet</p>
+<ul>
+<li>pull-based</li>
+<li>requires agent</li>
+<li>implemented in Ruby</li>
+<li>config is via Ruby-like DSL</li>
+</ul>
+<p>Chef</p>
+<ul>
+<li>pull-based</li>
+<li>requires agent</li>
+<li>implemented in Ruby</li>
+<li>config is via Ruby (they call it a DSL)</li>
+</ul>
+<p>SaltStack</p>
+<ul>
+<li>pull-based (0MQ) - low latency, high scalability</li>
+<li>requires agent</li>
+<li>implemented in Python</li>
+<li>config is via YAML+Jinja2</li>
+<li>lots of teminology (Pillars, Masters/Minions, Mine)</li>
+</ul>
+<h4 id="Ad-hoc-systems">Ad-hoc systems<a class="anchor-link" href="#Ad-hoc-systems">&#182;</a></h4><p>Ruby</p>
+<ul>
+<li>capistrano</li>
+</ul>
+<p>Python</p>
+<ul>
+<li>fabric</li>
+</ul>
+
 </div>
 </div>
 </div></section></section>

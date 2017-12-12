@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-<title>SourceControl slides</title>
+<title>Vagrant slides</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11905,25 +11905,44 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Source-Control-Modules">Source Control Modules<a class="anchor-link" href="#Source-Control-Modules">&#182;</a></h1><p>Ansible supports various source control systems:</p>
-<ul>
-<li><code>git</code> - Git DVCS</li>
-<li><code>bzr</code> - Bazaar DVCS</li>
-<li><code>hg</code> - Mercurial DVCS</li>
-<li><code>subversion</code> - Subversion VCS</li>
-</ul>
-<p>Additionally, several Github and Gitlab modules are also included.</p>
+<h1 id="Vagrant">Vagrant<a class="anchor-link" href="#Vagrant">&#182;</a></h1><blockquote><p>Vagrant is a tool for building and managing virtual machine environments in a single workflow.</p>
+</blockquote>
+<p>&mdash; <a href="https://www.vagrantup.com">Vagrant Website</a></p>
 
 </div>
 </div>
 </div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Vagrant-is">Vagrant is<a class="anchor-link" href="#Vagrant-is">&#182;</a></h1><ul>
+<li>A system for defining virtual machine infrastructure through a <code>Vagrantfile</code><ul>
+<li>Virtualization providers (including Virtualbox and VMware)</li>
+<li>Provisioning tools</li>
+</ul>
+</li>
+<li>A convenient set of command-line tools to manage it</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Quick-demo">Quick demo<a class="anchor-link" href="#Quick-demo">&#182;</a></h1>
+</div>
+</div>
+</div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash 
-ansible-playbook playbooks/updated-repo.yaml
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+vagrant init ubuntu/trusty64
 </pre></div>
 
 </div>
@@ -11940,21 +11959,10 @@ ansible-playbook playbooks/updated-repo.yaml
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>
-PLAY [web] *********************************************************************
-
-TASK [Gathering Facts] *********************************************************
-ok: [arborian-02.class.arborian.com]
-ok: [arborian-01.class.arborian.com]
-
-TASK [Get or update repo] ******************************************************
-changed: [arborian-02.class.arborian.com]
-changed: [arborian-01.class.arborian.com]
-
-PLAY RECAP *********************************************************************
-arborian-01.class.arborian.com : ok=2    changed=1    unreachable=0    failed=0   
-arborian-02.class.arborian.com : ok=2    changed=1    unreachable=0    failed=0   
-
+<pre>A `Vagrantfile` has been placed in this directory. You are now
+ready to `vagrant up` your first virtual environment! Please read
+the comments in the Vagrantfile as well as documentation on
+`vagrantup.com` for more information on using Vagrant.
 </pre>
 </div>
 </div>
@@ -11962,15 +11970,171 @@ arborian-02.class.arborian.com : ok=2    changed=1    unreachable=0    failed=0
 </div>
 </div>
 
+</div></div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+vagrant up
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Bringing machine &#39;default&#39; up with &#39;virtualbox&#39; provider...
+==&gt; default: Importing base box &#39;ubuntu/trusty64&#39;...
+==&gt; default: Matching MAC address for NAT networking...
+==&gt; default: Checking if box &#39;ubuntu/trusty64&#39; is up to date...
+==&gt; default: Setting the name of the VM: notebooks_default_1513030228694_90664
+==&gt; default: Clearing any previously set forwarded ports...
+==&gt; default: Clearing any previously set network interfaces...
+==&gt; default: Preparing network interfaces based on configuration...
+    default: Adapter 1: nat
+==&gt; default: Forwarding ports...
+    default: 22 (guest) =&gt; 2222 (host) (adapter 1)
+==&gt; default: Booting VM...
+==&gt; default: Waiting for machine to boot. This may take a few minutes...
+    default: SSH address: 127.0.0.1:2222
+    default: SSH username: vagrant
+    default: SSH auth method: private key
+    default: 
+    default: Vagrant insecure key detected. Vagrant will automatically replace
+    default: this with a newly generated keypair for better security.
+    default: 
+    default: Inserting generated public key within guest...
+    default: Removing insecure key from the guest if it&#39;s present...
+    default: Key inserted! Disconnecting and reconnecting using new SSH key...
+==&gt; default: Machine booted and ready!
+==&gt; default: Checking for guest additions in VM...
+    default: The guest additions on this VM do not match the installed version of
+    default: VirtualBox! In most cases this is fine, but in rare cases it can
+    default: prevent things such as shared folders from working properly. If you see
+    default: shared folder errors, please make sure the guest additions within the
+    default: virtual machine match the version of VirtualBox you have installed on
+    default: your host and reload your VM.
+    default: 
+    default: Guest Additions Version: 4.3.36
+    default: VirtualBox Version: 5.1
+==&gt; default: Mounting shared folders...
+    default: /vagrant =&gt; /Users/rick446/src/Classes/Ansible/notebooks
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div></div></section></section><section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+vagrant destroy -f
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>==&gt; default: Forcing shutdown of VM...
+==&gt; default: Destroying VM and associated drives...
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rm</span> <span class="n">Vagrantfile</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div></div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Another-demo">Another demo<a class="anchor-link" href="#Another-demo">&#182;</a></h1><p>The Vagrantfile:</p>
+<div class="highlight"><pre><span></span><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">&quot;2&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="s2">&quot;ubuntu/trusty64&quot;</span>
+
+  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="s2">&quot;ansible&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">ansible</span><span class="o">|</span>
+    <span class="n">ansible</span><span class="o">.</span><span class="n">playbook</span> <span class="o">=</span> <span class="s2">&quot;playbooks/basic.yaml&quot;</span>
+  <span class="k">end</span>
+
+  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">define</span> <span class="s2">&quot;web&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">web</span><span class="o">|</span>
+    <span class="n">web</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="s2">&quot;shell&quot;</span><span class="p">,</span> <span class="ss">inline</span><span class="p">:</span> <span class="s2">&quot;echo Hello from web!&quot;</span>
+  <span class="k">end</span>
+
+  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">define</span> <span class="s2">&quot;db&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">db</span><span class="o">|</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="s2">&quot;shell&quot;</span><span class="p">,</span> <span class="ss">inline</span><span class="p">:</span> <span class="s2">&quot;echo Hello from db!&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+
+</div>
+</div>
 </div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lab:-Update-your-checked-out-copy-of-this-repository-on-the-server">Lab: Update your checked-out copy of this repository on the server<a class="anchor-link" href="#Lab:-Update-your-checked-out-copy-of-this-repository-on-the-server">&#182;</a></h1>
+<h1 id="Lab:-Getting-started-with-Vagrant-and-Ansible">Lab: Getting started with Vagrant and Ansible<a class="anchor-link" href="#Lab:-Getting-started-with-Vagrant-and-Ansible">&#182;</a></h1><h2 id="Install-Vagrant">Install Vagrant<a class="anchor-link" href="#Install-Vagrant">&#182;</a></h2><p><a href="https://www.vagrantup.com/docs/installation/">https://www.vagrantup.com/docs/installation/</a></p>
+<h2 id="Create-a-Vagrant-environment">Create a Vagrant environment<a class="anchor-link" href="#Create-a-Vagrant-environment">&#182;</a></h2><div class="highlight"><pre><span></span>mkdir <span class="nb">test</span>
+<span class="nb">cd</span> text
+vagrant init ubuntu/trusty64
+vagrant up
+vagrant ssh
+<span class="c1"># look around a bit, then exit</span>
+vagrant destroy
+</pre></div>
+<h2 id="Install-Ansible">Install Ansible<a class="anchor-link" href="#Install-Ansible">&#182;</a></h2><p><a href="http://docs.ansible.com/ansible/latest/intro_installation.html">http://docs.ansible.com/ansible/latest/intro_installation.html</a></p>
+<p>(For Python users, you can also just <code>pip install ansible</code>)</p>
+<h2 id="Clone-the-class-repository-&amp;-test-out-Vagrant-+-Ansible">Clone the class repository &amp; test out Vagrant + Ansible<a class="anchor-link" href="#Clone-the-class-repository-&amp;-test-out-Vagrant-+-Ansible">&#182;</a></h2><p><a href="https://github.com/Arborian/ansible-class">https://github.com/Arborian/ansible-class</a></p>
+<p><code>git clone https://github.com/Arborian/ansible-class.git</code></p>
+<p>Go to the directory where you cloned the class repo....</p>
+<h2 id="Create-a-Vagrant-environment">Create a Vagrant environment<a class="anchor-link" href="#Create-a-Vagrant-environment">&#182;</a></h2><div class="highlight"><pre><span></span>vagrant up
+ansible all -m ping
+ansible all -a whoami
+</pre></div>
+
 </div>
 </div>
-</div></section></section>
+</div>
 </div>
 </div>
 

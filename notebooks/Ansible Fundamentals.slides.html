@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-<title>SourceControl slides</title>
+<title>Ansible Fundamentals slides</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11905,72 +11905,164 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Source-Control-Modules">Source Control Modules<a class="anchor-link" href="#Source-Control-Modules">&#182;</a></h1><p>Ansible supports various source control systems:</p>
+<h1 id="Ansible-Fundamentals">Ansible Fundamentals<a class="anchor-link" href="#Ansible-Fundamentals">&#182;</a></h1><h2 id="DevelopIntelligence">DevelopIntelligence<a class="anchor-link" href="#DevelopIntelligence">&#182;</a></h2><p>Instructor: Rick Copeland <a href="mailto:rick@arborian.com">rick@arborian.com</a></p>
+<p>Class Repository: <a href="https://github.com/Arborian/ansible-class">https://github.com/Arborian/ansible-class</a></p>
+<p>Class Times</p>
 <ul>
-<li><code>git</code> - Git DVCS</li>
-<li><code>bzr</code> - Bazaar DVCS</li>
-<li><code>hg</code> - Mercurial DVCS</li>
-<li><code>subversion</code> - Subversion VCS</li>
+<li>09:00 - 05:00</li>
+<li>Lunch 11:45 - 12:45</li>
 </ul>
-<p>Additionally, several Github and Gitlab modules are also included.</p>
+<p>Class Format:</p>
+<ul>
+<li>Interactive demo / lecture</li>
+<li>Hands-on, with frequent labs</li>
+<li>In addition to lab times, breaks every 60 ~ 90 minutes</li>
+</ul>
 
 </div>
 </div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash 
-ansible-playbook playbooks/updated-repo.yaml
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-PLAY [web] *********************************************************************
-
-TASK [Gathering Facts] *********************************************************
-ok: [arborian-02.class.arborian.com]
-ok: [arborian-01.class.arborian.com]
-
-TASK [Get or update repo] ******************************************************
-changed: [arborian-02.class.arborian.com]
-changed: [arborian-01.class.arborian.com]
-
-PLAY RECAP *********************************************************************
-arborian-01.class.arborian.com : ok=2    changed=1    unreachable=0    failed=0   
-arborian-02.class.arborian.com : ok=2    changed=1    unreachable=0    failed=0   
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lab:-Update-your-checked-out-copy-of-this-repository-on-the-server">Lab: Update your checked-out copy of this repository on the server<a class="anchor-link" href="#Lab:-Update-your-checked-out-copy-of-this-repository-on-the-server">&#182;</a></h1>
+<h1 id="Getting-to-Know-You">Getting to Know You<a class="anchor-link" href="#Getting-to-Know-You">&#182;</a></h1><ul>
+<li>Name</li>
+<li>Programming / operations experience? (e.g. Chef, Puppet, Salt, Fabric?)</li>
+<li>Job role</li>
+<li>Specific thing you'd like to learn</li>
+</ul>
+
 </div>
 </div>
-</div></section></section>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Logistics">Logistics<a class="anchor-link" href="#Logistics">&#182;</a></h1><ul>
+<li>Please sign in each day!</li>
+<li>Each student will need to fill out a class evaluation via HIVE at the conclusion of the course</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="(Rough)-Outline">(Rough) Outline<a class="anchor-link" href="#(Rough)-Outline">&#182;</a></h1><h2 id="Day-1">Day 1<a class="anchor-link" href="#Day-1">&#182;</a></h2><ul>
+<li>Introduction to Ansible and Devops<ul>
+<li>What is Devops</li>
+<li>What is Ansible</li>
+<li>Comparison with other automation tools</li>
+</ul>
+</li>
+<li>Setting up Learning Environment<ul>
+<li>Vagrant overview / quick demo</li>
+<li>Additional Setup Tasks</li>
+</ul>
+</li>
+<li>Inventorying your Infrastructure<ul>
+<li>What is Hosts Inventory?</li>
+<li>Hosts and Groups</li>
+<li>Host/Group Variables</li>
+<li>Dynamic Inventory</li>
+<li>Building Patterns</li>
+<li>Grouping Hosts with Patterns</li>
+<li>Ansible Host Patterns &amp; Roles</li>
+</ul>
+</li>
+<li>Ad Hoc Server Management<ul>
+<li>Running one time tasks/commands</li>
+<li>Running commands in parallel</li>
+<li>Interesting Modules<ul>
+<li>File Transfer</li>
+<li>Managing Packages</li>
+<li>Managing Users</li>
+<li>Deploying from Source Control</li>
+<li>Managing Services</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Playbooks – the real magic<ul>
+<li>Introduction to Ansible Playbooks</li>
+<li>Plays</li>
+<li>Tasks</li>
+<li>Actions</li>
+<li>Modules</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Day-2">Day 2<a class="anchor-link" href="#Day-2">&#182;</a></h2><ul>
+<li>Roles for Modularizing Code<ul>
+<li>Playbook Roles and Include Statements</li>
+<li>Directory Layout for Modules</li>
+<li>Notifications and Handlers</li>
+</ul>
+</li>
+<li>Writing a simple module to install web server<ul>
+<li>Variables and Templates</li>
+<li>Variables and Facts</li>
+<li>Variable Precedence</li>
+<li>Registered Variables</li>
+<li>Metadata</li>
+<li>Static Contents Explosion</li>
+</ul>
+</li>
+<li>Using Dynamic Content with Templates<ul>
+<li>Templates Overview</li>
+<li>Jinja</li>
+</ul>
+</li>
+<li>Advanced topics</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Topic-List">Topic List<a class="anchor-link" href="#Topic-List">&#182;</a></h1><ul>
+<li><a href="./Introduction%20to%20Ansible%20and%20DevOps.ipynb">Introduction to Ansible</a> (<a href="./Introduction%20to%20Ansible%20and%20DevOps.slides.html">slides</a>)</li>
+<li><a href="./Vagrant.ipynb">Learning Environment</a> (<a href="./Vagrant.slides.html">slides</a>)</li>
+<li><a href="./Inventory-Hosts-Groups.ipynb">Inventory, Hosts, and Groups</a> (<a href="./Inventory-Hosts-Groups.slides.html">slides</a>)</li>
+<li><a href="./AdHoc.ipynb">Ad-Hoc Commands</a> (<a href="./Adhoc.slides.html">slides</a>)</li>
+<li><a href="./Playbooks.ipynb">Playbooks</a> (<a href="./Playbooks.slides.html">slides</a>)</li>
+<li><p><a href="./PlaybookDebugging.ipynb">Playbook Debugging</a> (<a href="./PlaybookDebugging.slides.html">slides</a>)</p>
+<hr></li>
+<li><p><a href="./Roles.ipynb">Roles</a> (<a href="./Roles.slides.html">slides</a>)</p>
+</li>
+<li><a href="./Modules.ipynb">Custom Modules</a> (<a href="./Modules.slides.html">slides</a>)</li>
+<li><a href="./Vault.ipynb">Using the Vault for Sensitive Data</a> (<a href="./Vault.slides.html">slides</a>)</li>
+<li><p><a href="./FactCache.ipynb">Fact Caching</a> (<a href="./FactCache.slides.html">slides</a>)</p>
+</li>
+<li><p><a href="./PlaybookDelegation.ipynb">Playbook Delegation</a> (<a href="./PlaybookDelegation.slides.html">slides</a>)</p>
+</li>
+<li><a href="./Galaxy.ipynb">Ansible Galaxy: Sharing Roles</a> (<a href="./Galaxy.slides.html">slides</a>)</li>
+<li><a href="./AnsibleAndDocker.ipynb">Ansible and Docker</a> (<a href="./AnsibleAndDocker.slides.html">slides</a>)</li>
+<li><a href="./AnsibleCloud.ipynb">Cloud Modules</a> (<a href="./AnsibleCloud.slides.html">slides</a>)</li>
+<li><a href="./Notifications.ipynb">Notifications</a> (<a href="./Notifications.slides.html">slides</a>)</li>
+<li><a href="./SourceControl.ipynb">Source Control</a> (<a href="./SourceControl.slides.html">slides</a>)</li>
+<li><a href="./Databases.ipynb">Databases</a> (<a href="./Databases.slides.html">slides</a>)</li>
+<li><a href="./Monitoring.ipynb">Monitoring</a> (<a href="./Monitoring.slides.html">monitor</a>)</li>
+</ul>
+
+</div>
+</div>
+</div>
 </div>
 </div>
 

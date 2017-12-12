@@ -1,4 +1,5 @@
 - hosts: all
+  become: true
   remote_user: root
   vars_prompt:
     - name: username

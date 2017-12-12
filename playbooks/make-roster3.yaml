@@ -1,4 +1,4 @@
-- hosts: arborian-01.class.arborian.com
+- hosts: web
   become: true
   vars:
     users:

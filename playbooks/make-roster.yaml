@@ -1,4 +1,4 @@
-- hosts: arborian-01.class.arborian.com
+- hosts: web
   tasks:
     - name: Ensure file exists
       file: path=~/roster.txt state=file

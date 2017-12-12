@@ -9,3 +9,7 @@ arborian-04.class.arborian.com
 [app]
 arborian-05.class.arborian.com
 arborian-06.class.arborian.com
+
+[webapp:children]
+web
+app
