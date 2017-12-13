@@ -1,6 +1,7 @@
 import os
 from ansible.module_utils.basic import AnsibleModule
 
+
 def run_module():
     module_args = dict(
         name=dict(type='str', required=True),
