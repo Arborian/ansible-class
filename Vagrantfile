@@ -3,7 +3,7 @@ Vagrant.configure("2") do |config|
   config.vm.box_check_update = false
 
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "playbooks/basic.yaml"
+    ansible.playbook = "playbooks/vagrant.yaml"
     ansible.groups = {
       "webdb" => ["web", "db"],
       "webdb:vars" => {"ntp_server" => "ntp.atlanta.example.com",

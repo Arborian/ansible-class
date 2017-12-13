@@ -22,8 +22,6 @@ def run_module():
     )
     result = dict(
         changed=False,
-        original_message='',
-        message='',
     )
     module = AnsibleModule(
         argument_spec=module_args,

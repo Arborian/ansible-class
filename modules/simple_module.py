@@ -1,4 +1,5 @@
 import os
+import sys
 from ansible.module_utils.basic import AnsibleModule
 
 
@@ -10,7 +11,8 @@ def run_module():
     result = dict(
         changed=False,
         original_message='',
-        message=''
+        message='',
+        python_location=sys.executable,
     )
     module = AnsibleModule(
         argument_spec=module_args,
@@ -21,6 +23,8 @@ def run_module():
     result['original_message'] = module.params['name']
     result['message'] = 'goodbye'
     result['num_files'] = len(os.listdir(os.environ['HOME']))
+    result['username'] = os.environ['USER']
+    result['version'] = sys.version
     if module.params['new']:
         result['changed'] = True
     if module.params['name'] == 'fail me':

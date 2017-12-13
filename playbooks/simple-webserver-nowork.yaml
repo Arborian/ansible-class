@@ -1,0 +1,33 @@
+- hosts: web
+  vars:
+    servers:
+{% for i in range(4) %}
+      - name: "test{{i}}"
+        path: "/home/vagrant/test{{i}}"
+        port: "{{8000 + i}}"
+{% endfor %}
+  tasks:
+    - name: Install supervisor
+      become: true
+      apt:
+        name: supervisor
+        state: installed
+        force: true
+    - name: Create directory
+      file:
+        path: "{{path}}"
+        state: directory
+      with_items: "{{servers}}"
+      notify: reload supervisor config
+    - name: Create config
+      become: true
+      webserver:
+        name: "{{name}}"
+        path: "{{path}}"
+        port: "{{port}}"
+      with_items: "{{servers}}"
+      notify: reload supervisor config
+  handlers:
+    - name: reload supervisor config
+      become: true
+      command: supervisorctl reload

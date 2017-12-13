@@ -1,4 +1,4 @@
-- hosts: db,arborian-01.class.arborian.com
+- hosts: all
   gather_facts: no
   become: yes
   tasks:

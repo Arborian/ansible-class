@@ -1,16 +1,16 @@
-- hosts: web
+- hosts: r-web
   gather_facts: false
   become: true
   roles:
     - role: bennojoy.nginx
-- hosts: db
+- hosts: r-db
   gather_facts: false
   become: true
   ignore_errors: true
   roles:
     - role: geerlingguy.mysql
       become: yes
-- hosts: app
+- hosts: r-app
   gather_facts: false
   become: true
   roles:
