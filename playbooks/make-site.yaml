@@ -6,21 +6,20 @@
   - name: Put a file in public_html
     file: path=~/public_html/index.html state=touch mode=644
   - name: Put a message in the file
-    lineinfile: line="Hello there {{ansible_ssh_user}}" dest=~/public_html/index.html
+    lineinfile: line="Hello there {{ansible_user}}" dest=~/public_html/index.html
 
   roles:
   - role: bennojoy.nginx
     become: on
     nginx_sites:
     - server:
-        file_name: "vagrant-site"
+        listen: 80
+        file_name: "{{ansible_user}}-site"
         location1:
           name: "/"
           root: "/usr/share/nginx/html"
         location2:
-          name: "/~vagrant"
-          alias: "/home/vagrant/public_html"
+          name: "/~{{ansible_user}}"
+          alias: "/home/{{ansible_user}}/public_html"
           try_files: "$uri $uri/ /index.html"
 
-  tasks:
-    - debug: var=ansible_ssh_user
