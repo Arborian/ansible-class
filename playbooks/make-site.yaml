@@ -13,12 +13,14 @@
     become: on
     nginx_sites:
     - server:
-        file_name: "{{ansible_ssh_user}}-site"
+        file_name: "vagrant-site"
         location1:
           name: "/"
           root: "/usr/share/nginx/html"
         location2:
-          name: "/~{{ansible_ssh_user}}"
-          alias: "/home/{{ansible_ssh_user}}/public_html"
+          name: "/~vagrant"
+          alias: "/home/vagrant/public_html"
           try_files: "$uri $uri/ /index.html"
 
+  tasks:
+    - debug: var=ansible_ssh_user
