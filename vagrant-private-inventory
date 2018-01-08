@@ -1,4 +1,4 @@
 [vagrant]
-web ansible_host=10.0.3.51 ansible_user='vagrant' ansible_ssh_private_key_file='/vagrant/.vagrant/machines/web/virtualbox/private_key'
-db ansible_host=10.0.3.52 ansible_user='vagrant' ansible_ssh_private_key_file='/vagrant/.vagrant/machines/db/virtualbox/private_key'
+web ansible_host=10.0.3.51 ansible_user='vagrant' ansible_ssh_private_key_file='/home/vagrant/web-private-key'
+db ansible_host=10.0.3.52 ansible_user='vagrant' ansible_ssh_private_key_file='/home/vagrant/db-private-key'
 
