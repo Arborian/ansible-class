@@ -3,4 +3,6 @@
   become: on
   tasks:
   - name: Boostrap Ansible requirements
-    raw: apt-get install -y python python-simplejson
+    raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+    register: output
+    changed_when: output.stdout != ""
