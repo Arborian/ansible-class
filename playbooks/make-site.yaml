@@ -1,17 +1,17 @@
 - hosts: web
   become: true
-  become_user: rick
+  strategy: debug
   pre_tasks:
   - name: Ensure I am the correct user
     command: whoami
   - name: Ensure I have the correct ansible_user
     debug: var=ansible_user
   - name: Ensure public_html exists
-    file: path={{ansible_user}}/public_html state=directory mode=755
+    file: path=~{{ansible_user}}/public_html state=directory mode=755
   - name: Put a file in public_html
-    file: path={{ansible_user}}/public_html/index.html state=touch mode=644
+    file: path=~{{ansible_user}}/public_html/index.html state=touch mode=644
   - name: Put a message in the file
-    lineinfile: line="Hello there {{ansible_user}}" dest={{ansible_user}}/public_html/index.html
+    lineinfile: line="Hello there {{ansible_user}}" dest=~{{ansible_user}}/public_html/index.html
 
   roles:
   - role: bennojoy.nginx
