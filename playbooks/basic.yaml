@@ -4,16 +4,16 @@
   tasks:
   - name: Say my name
     command: whoami
-    notify: "demo notify"
+    notify: "demo handler"
     register: whoami_result
   - name: Show some vars
     debug:
-      msg: I_am={{whoami_result}}
+      msg: I_am={{whoami_result.stdout}}
   - name: Get the system date and time
     command: date
-    notify: "demo notify"
+    notify: "demo handler"
   - name: Ping just for fun
-    ping: {}
+    ping:
   handlers:
-  - name: demo notify
+  - name: demo handler
     command: 'echo Running the demo notify'

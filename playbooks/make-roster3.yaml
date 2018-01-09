@@ -3,7 +3,7 @@
     users:
         - name: Rick Copeland
           email: rick@arborian.com
-          regexp: rick
+          regexp: opeland
         - name: Marc Benioff
           email: marc@salesforce.com
           regexp: marc
