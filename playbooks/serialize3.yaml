@@ -1,0 +1,17 @@
+- hosts: region_blr1
+  serial:
+    - 1
+    - 2
+    - 100%
+  tasks:
+    - name: Remove from load balancer
+      debug:
+        msg: "Remove host from load balancer"
+      delegate_to: localhost
+    - name: Actually deploy the code
+      debug:
+        msg: "Actually deploy the code on {{ansible_host}}"
+    - name: Add to load balancer
+      local_action:
+        module: debug
+        msg: "Add to load balancer"
