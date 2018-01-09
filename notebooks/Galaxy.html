@@ -12073,7 +12073,8 @@ ansible-galaxy install Arborian.arborian
 <li>Clone the github repository locally: <code>git clone &lt;&lt;repository url&gt;&gt; ROLENAME</code></li>
 <li>Run in the <em>parent directory</em> of ROLENAME: <code>ansible-galaxy init --force ROLENAME</code></li>
 <li>Edit <code>meta/main.yaml</code> in ROLENAME to have a few supported platforms</li>
-<li><code>git add . &amp;&amp; git commit -m 'initial commit' &amp;&amp; git push</code></li>
+<li><code>cd ROLENAME</code></li>
+<li><code>git add . &amp;&amp; git commit -m 'initial commit' &amp;&amp; git push origin master</code></li>
 <li>Verify that your github repository page looks (roughly) like <a href="https://github.com/rick446/ansible-role-testeroni">https://github.com/rick446/ansible-role-testeroni</a></li>
 <li>Log into galaxy.ansible.com with your github user (click the Github Octo-cat icon) and import your ROLENAME</li>
 </ul>

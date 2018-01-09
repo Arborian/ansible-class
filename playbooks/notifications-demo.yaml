@@ -1,6 +1,6 @@
-- hosts: all #web
+- hosts: region_blr1 # all #web
   gather_facts: false
-  serial: 1
+  # serial: 1
   tasks:
   - osx_say:
       msg: '{{ inventory_hostname }} is all done'

@@ -12445,6 +12445,11 @@ arborian-06.class.arborian.com : ok=2    changed=0    unreachable=0    failed=0
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Lab">Lab<a class="anchor-link" href="#Lab">&#182;</a></h1><p>Using <code>serial</code> and <code>delegate_to</code> (or <code>local_action</code>), write a playbook that simulates a rolling deployment of application servers.</p>
+<ul>
+<li>Start with playbooks/serialize2.yaml</li>
+<li>Add a local_action to add / remove servers from a load balancer (just use the debug module to print a message)</li>
+</ul>
+<p><code>ansible-playbook -i digital_ocean.py playbooks/serialize2.yaml</code></p>
 
 </div>
 </div>
@@ -12453,7 +12458,7 @@ arborian-06.class.arborian.com : ok=2    changed=0    unreachable=0    failed=0
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Some-additional-notes">Some additional notes<a class="anchor-link" href="#Some-additional-notes">&#182;</a></h1><p>A list of "magic" variables can be found at <a href="http://docs.ansible.com/ansible/latest/playbooks_variables.html">http://docs.ansible.com/ansible/latest/playbooks_variables.html</a></p>
+<h1 id="Some-additional-notes">Some additional notes<a class="anchor-link" href="#Some-additional-notes">&#182;</a></h1><p>A list of "magic" variables can be found at <a href="http://docs.ansible.com/ansible/latest/playbooks_variables.html#magic-variables-and-how-to-access-information-about-other-hosts">http://docs.ansible.com/ansible/latest/playbooks_variables.html#magic-variables-and-how-to-access-information-about-other-hosts</a></p>
 
 </div>
 </div>
