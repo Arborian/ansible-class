@@ -11824,7 +11824,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat</span> <span class="n">playbooks</span><span class="o">/</span><span class="n">notifications</span><span class="o">-</span><span class="n">demo</span><span class="o">.</span><span class="n">yaml</span>
@@ -11844,7 +11844,7 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>- hosts: web
+<pre>- hosts: all #web
   gather_facts: false
   serial: 1
   tasks:
@@ -11860,11 +11860,11 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible-playbook playbooks/notifications-demo.yaml
+ansible-playbook -i inventory playbooks/notifications-demo.yaml
 </pre></div>
 
 </div>
@@ -11881,21 +11881,7 @@ ansible-playbook playbooks/notifications-demo.yaml
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>
-PLAY [web] *********************************************************************
-
-TASK [osx_say] *****************************************************************
-ok: [arborian-01.class.arborian.com -&gt; localhost]
-
-PLAY [web] *********************************************************************
-
-TASK [osx_say] *****************************************************************
-ok: [arborian-02.class.arborian.com -&gt; localhost]
-
-PLAY RECAP *********************************************************************
-arborian-01.class.arborian.com : ok=1    changed=0    unreachable=0    failed=0   
-arborian-02.class.arborian.com : ok=1    changed=0    unreachable=0    failed=0   
-
+<pre>Process is interrupted.
 </pre>
 </div>
 </div>

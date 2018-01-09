@@ -11773,7 +11773,7 @@ div#notebook {
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">src</span><span class="o">/</span><span class="n">Classes</span><span class="o">/</span><span class="n">Ansible</span><span class="o">/</span>
@@ -11827,7 +11827,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>If you have a role defined, it cab be used in a play using the <code>roles:</code> key, e.g.:</p>
+<p>If you have a role defined, it can be used in a play using the <code>roles:</code> key, e.g.:</p>
 
 <pre><code>---
 - hosts: all
@@ -11877,7 +11877,7 @@ roles_path = ./roles</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
@@ -11886,57 +11886,6 @@ tree roles
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>roles
-└── bennojoy.nginx
-    ├── README.md
-    ├── defaults
-    │   └── main.yml
-    ├── files
-    │   └── epel.repo
-    ├── handlers
-    │   └── main.yml
-    ├── meta
-    │   └── main.yml
-    ├── tasks
-    │   └── main.yml
-    ├── templates
-    │   ├── default.conf.j2
-    │   ├── default.j2
-    │   ├── nginx.conf.j2
-    │   └── site.j2
-    └── vars
-        └── main.yml
-
-8 directories, 11 files
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> [WARNING]: - bennojoy.nginx (master) is already installed - use --force to
-change version to unspecified
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -11952,7 +11901,7 @@ change version to unspecified
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat</span> <span class="n">playbooks</span><span class="o">/</span><span class="n">setup</span><span class="o">-</span><span class="n">webservers</span><span class="o">.</span><span class="n">yaml</span>
@@ -11962,47 +11911,10 @@ change version to unspecified
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>- hosts: web
-  roles:
-    - role: nginx
-      nginx_http_params:
-        sendfile: &#39;on&#39;
-        access_log: &#39;/var/log/nginx/access.log&#39;
-      nginx_sites:
-       - server:
-          file_name: foo
-          listen: 8080
-          server_name: localhost
-          root: &#39;/tmp/site1&#39;
-          location1: {name: /, try_files: &#39;$uri $uri/ /index.html&#39;}
-          location2: {name: /images/, try_files: &#39;$uri $uri/ /index.html&#39;}
-       - server:
-          file_name: bar
-          listen: 9090
-          server_name: ansible
-          root: &#39;/tmp/site2&#39;
-          location1: {name: /, try_files: &#39;$uri $uri/ /index.html&#39;}
-          location2: {name: /images/, try_files: &#39;$uri $uri/ /index.html&#39;}</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
@@ -12010,24 +11922,6 @@ ansible-playbook playbooks/setup-webservers.yaml
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Process is interrupted.
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -12043,7 +11937,7 @@ ansible-playbook playbooks/setup-webservers.yaml
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat</span> <span class="n">playbooks</span><span class="o">/</span><span class="n">make</span><span class="o">-</span><span class="n">site</span><span class="o">.</span><span class="n">yaml</span>
@@ -12053,51 +11947,10 @@ ansible-playbook playbooks/setup-webservers.yaml
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>- hosts: web
-
-  pre_tasks:
-  - name: Ensure public_html exists
-    file: path=~/public_html state=directory mode=755
-  - name: Put a file in public_html
-    file: path=~/public_html/index.html state=touch mode=644
-  - name: Put a message in the file
-    lineinfile: line=&#34;Hello there {{ansible_ssh_user}}&#34; dest=~/public_html/index.html
-
-  roles:
-  - role: bennojoy.nginx
-    become: on
-    nginx_sites:
-    - server:
-        file_name: &#34;{{ansible_ssh_user}}-site&#34;
-        location1:
-          name: &#34;/&#34;
-          root: &#34;/usr/share/nginx/html&#34;
-        location2:
-          name: &#34;/~{{ansible_ssh_user}}&#34;
-          alias: &#34;/home/{{ansible_ssh_user}}/public_html&#34;
-          try_files: &#34;$uri $uri/ /index.html&#34;
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
@@ -12108,98 +11961,48 @@ ansible-playbook playbooks/make-site.yaml
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-PLAY [web] *********************************************************************
-
-TASK [Gathering Facts] *********************************************************
-fatal: [arborian-01.class.arborian.com]: UNREACHABLE! =&gt; {&#34;changed&#34;: false, &#34;msg&#34;: &#34;Failed to connect to the host via ssh: Permission denied (publickey).\r\n&#34;, &#34;unreachable&#34;: true}
-ok: [arborian-02.class.arborian.com]
-
-TASK [Ensure public_html exists] ***********************************************
-ok: [arborian-02.class.arborian.com]
-
-TASK [Put a file in public_html] ***********************************************
-changed: [arborian-02.class.arborian.com]
-
-TASK [Put a message in the file] ***********************************************
-ok: [arborian-02.class.arborian.com]
-
-TASK [bennojoy.nginx : Install the selinux python module] **********************
-skipping: [arborian-02.class.arborian.com]
-
-TASK [bennojoy.nginx : Copy the epel packages] *********************************
-skipping: [arborian-02.class.arborian.com]
-
-TASK [bennojoy.nginx : Install the nginx packages] *****************************
-skipping: [arborian-02.class.arborian.com] =&gt; (item=[]) 
-
-TASK [bennojoy.nginx : Install the nginx packages] *****************************
-ok: [arborian-02.class.arborian.com] =&gt; (item=[&#39;python-selinux&#39;, &#39;nginx&#39;])
-
-TASK [bennojoy.nginx : Create the directories for site specific configurations] ***
-ok: [arborian-02.class.arborian.com] =&gt; (item=sites-available)
-ok: [arborian-02.class.arborian.com] =&gt; (item=sites-enabled)
-
-TASK [bennojoy.nginx : Copy the nginx configuration file] **********************
-changed: [arborian-02.class.arborian.com]
-
-TASK [bennojoy.nginx : Copy the nginx default configuration file] **************
-changed: [arborian-02.class.arborian.com]
-
-TASK [bennojoy.nginx : Copy the nginx default site configuration file] *********
-changed: [arborian-02.class.arborian.com]
-
-TASK [bennojoy.nginx : Create the link for site enabled specific configurations] ***
-ok: [arborian-02.class.arborian.com]
-
-TASK [bennojoy.nginx : Create the configurations for sites] ********************
-fatal: [arborian-02.class.arborian.com]: FAILED! =&gt; {&#34;failed&#34;: true, &#34;msg&#34;: &#34;The task includes an option with an undefined variable. The error was: &#39;ansible.utils.unsafe_proxy.AnsibleUnsafeText object&#39; has no attribute &#39;server&#39;\n\nThe error appears to have been in &#39;/Users/rick446/src/Classes/Ansible/roles/bennojoy.nginx/tasks/main.yml&#39;: line 42, column 3, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n\n- name: Create the configurations for sites\n  ^ here\n\nexception type: &lt;class &#39;ansible.errors.AnsibleUndefinedVariable&#39;&gt;\nexception: &#39;ansible.utils.unsafe_proxy.AnsibleUnsafeText object&#39; has no attribute &#39;server&#39;&#34;}
-
-RUNNING HANDLER [bennojoy.nginx : restart nginx] *******************************
-	to retry, use: --limit @/Users/rick446/src/Classes/Ansible/playbooks/make-site.retry
-
-PLAY RECAP *********************************************************************
-arborian-01.class.arborian.com : ok=0    changed=0    unreachable=1    failed=0   
-arborian-02.class.arborian.com : ok=10   changed=4    unreachable=0    failed=1   
-
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> [WARNING]: could not parse environment value, skipping: [&#39;env&#39;]
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lab:-Install-a-per-user-nginx-site">Lab: Install a per-user nginx site<a class="anchor-link" href="#Lab:-Install-a-per-user-nginx-site">&#182;</a></h1><p>Ensure that your username is set in the ansible.cfg</p>
+<h1 id="Lab:-Install-a-per-user-nginx-site">Lab: Install a per-user nginx site<a class="anchor-link" href="#Lab:-Install-a-per-user-nginx-site">&#182;</a></h1><p>Update everything from github:</p>
+
+<pre><code>git reset --hard
+git pull</code></pre>
+<p>Ensure that your username and roles path is set in the ansible.cfg, e.g.:</p>
+
+<pre><code>remote_user = rick # or vagrant, or whatever
+roles_path = ./roles</code></pre>
+<p>If you don't have a user on your target machine, you should probably run</p>
+
+<pre><code>ansible-playbook playbooks/setup-user.yaml</code></pre>
 <p>Create your own personal home page using the make-site playbook:</p>
 
 <pre><code>ansible-playbook playbooks/make-site.yaml</code></pre>
-<p>Access your website: <a href="http://arborian-01.class.arborian.com/~rick/">http://arborian-01.class.arborian.com/~rick/</a> (use your username)</p>
+<p>Access your website: <a href="http://localhost:8080/~rick/">http://localhost:8080/~rick/</a> (use your username)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Problems-encountered">Problems encountered<a class="anchor-link" href="#Problems-encountered">&#182;</a></h1><ul>
+<li><strong>Problem</strong>: Vagrant <em>really</em> wants to use <code>vagrant</code> as the <code>ansible_user</code></li>
+<li><strong>Solution</strong>: Be explicit in the <code>ansible-playbook</code> command about which user to use:</li>
+</ul>
+<p><code>ansible-playbook -e ansible_user=rick -e ansible_ssh_private_key_file=./training-ssh-key playbooks/make-site.yaml</code></p>
+<ul>
+<li><strong>Problem</strong>: <code>bennojoy.nginx</code> is old (doesn't work with Py3 or Ansible 2.4)</li>
+<li><strong>Solution</strong>: <ul>
+<li>Lots of changes like <code>with_items: sites</code> ==&gt; <code>with_items: "{{sites}}"</code></li>
+<li>Change references to <code>.iteritems()</code> to <code>.items()</code> (this is a Python 2=&gt;3 change)</li>
+</ul>
+</li>
+</ul>
+<p>But probably, the best solution would be to use a different ansible-galaxy role</p>
 
 </div>
 </div>

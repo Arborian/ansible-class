@@ -11981,6 +11981,15 @@ PLAY RECAP *********************************************************************
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Aside">Aside<a class="anchor-link" href="#Aside">&#182;</a></h1><p><a href="https://github.com/openstack/ara">https://github.com/openstack/ara</a> is a nice tool for viewing playbook runs</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="(Aside)-Bootstrapping-without-Python">(Aside) Bootstrapping without Python<a class="anchor-link" href="#(Aside)-Bootstrapping-without-Python">&#182;</a></h1><p>To bootstrap your hosts in a playbook, you can do the following:</p>
 
 </div>
@@ -12158,8 +12167,8 @@ ansible-playbook playbooks/setup-user.yaml -e <span class="nv">username</span><s
 <h1 id="Lab:-Update-Ansible-to-update-your-user-on-the-remote-server">Lab: Update Ansible to update your user on the remote server<a class="anchor-link" href="#Lab:-Update-Ansible-to-update-your-user-on-the-remote-server">&#182;</a></h1><ul>
 <li><code>git pull</code> to update your checkout of the <code>ansible-class</code> repository</li>
 <li>Use the playbook in <code>playbooks/setup-user.yaml</code> to update your user account on the class server (<code>ansible-playbook playbooks/setup-user.yaml -e username=YOUR-USER-NAME</code>)</li>
-<li>[windows] (because you should be in the ~/ansible-class/windows directory...) <code>ansible-playbook ../playbooks/setup-user.yaml</code></li>
 </ul>
+<p>Mainly, just run <code>ansible-playbook playbooks/setup-user.yaml</code></p>
 
 </div>
 </div>
@@ -13181,6 +13190,15 @@ web                        : ok=0    changed=0    unreachable=0    failed=1
 <li><code>with_filetree</code> - iterate over all files in a tree</li>
 <li><code>register</code> - the result of this task gets put in a variable to be used in a later task</li>
 </ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Information-on-organizing-playbooks,-vars,-and-roles">Information on organizing playbooks, vars, and roles<a class="anchor-link" href="#Information-on-organizing-playbooks,-vars,-and-roles">&#182;</a></h1><p><a href="http://docs.ansible.com/ansible/latest/playbooks_best_practices.html">http://docs.ansible.com/ansible/latest/playbooks_best_practices.html</a></p>
 
 </div>
 </div>

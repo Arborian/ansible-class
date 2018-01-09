@@ -11868,7 +11868,7 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
-ansible-playbook playbooks/delegate-demo.yaml
+ansible-playbook -i inventory playbooks/delegate-demo.yaml
 </pre></div>
 
 </div>
@@ -11886,11 +11886,11 @@ ansible-playbook playbooks/delegate-demo.yaml
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
-PLAY [web] *********************************************************************
+PLAY [r-web] *******************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [arborian-01.class.arborian.com]
 ok: [arborian-02.class.arborian.com]
+ok: [arborian-01.class.arborian.com]
 
 TASK [Remove host from load balancer] ******************************************
 ok: [arborian-01.class.arborian.com -&gt; arborian-06.class.arborian.com] =&gt; {

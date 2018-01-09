@@ -11967,6 +11967,7 @@ ansible web -m debug -a <span class="s1">&#39;var=proxy&#39;</span>
 <ul>
 <li><code>-m MODULE_NAME</code> (default is command)</li>
 <li><code>-a MODULE_ARGS</code></li>
+<li><code>--list</code> (list matching hosts)</li>
 </ul>
 <p>Frequently used host patterns</p>
 <ul>
@@ -12014,10 +12015,19 @@ Ansible, however, gives us <a href="http://docs.ansible.com/ansible/latest/intro
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lab---for-Windows-users">Lab - for Windows users<a class="anchor-link" href="#Lab---for-Windows-users">&#182;</a></h1><p>Update the <code>inventory</code> file to create/modify some groups and variables</p>
-<p>Check your updates using <code>vagrant all -m debug var=VARNAME</code></p>
+<h1 id="Lab---for-Windows-users">Lab - for Windows users<a class="anchor-link" href="#Lab---for-Windows-users">&#182;</a></h1><p>Update the <code>vagrant-private-inventory</code> file to create/modify some groups and variables</p>
+<p>Check your updates using <code>ansible all -m debug -a var=VARNAME</code></p>
 <h2 id="Use-different-patterns-to-target-different-sets-of-your-infrastructure.">Use different patterns to target different sets of your infrastructure.<a class="anchor-link" href="#Use-different-patterns-to-target-different-sets-of-your-infrastructure.">&#182;</a></h2><p>Try using the following command to see which hosts respond:</p>
 <p><code>ansible PATTERN -m ping</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>More information on groups &amp; variables: <a href="http://docs.ansible.com/ansible/latest/intro_inventory.html#splitting-out-host-and-group-specific-data">http://docs.ansible.com/ansible/latest/intro_inventory.html#splitting-out-host-and-group-specific-data</a></p>
 
 </div>
 </div>
