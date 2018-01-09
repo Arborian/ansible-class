@@ -1,4 +1,4 @@
-- hosts: r-web
+- hosts: web
   become: true
   tasks:
     - name: Remove host from load balancer

@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: region_blr1
   serial:
     - 1
     - 20%
