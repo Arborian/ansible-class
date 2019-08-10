@@ -1,4 +1,4 @@
-- hosts: web
+- hosts: me
   vars:
     users:
         - name: Rick Copeland
