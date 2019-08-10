@@ -1,0 +1,12 @@
+- hosts: me
+  become: yes
+  vars_prompt:
+    - name: username
+      prompt: What is your username?
+  tasks:
+  - name: create user
+    user:
+        name: '{{username}}'
+        groups: sudo
+        generate_ssh_key: yes
+        shell: /bin/bash

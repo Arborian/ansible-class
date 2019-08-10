@@ -1,0 +1,11 @@
+- hosts: me
+  become: yes
+  vars:
+    username: ansible-is-awesome
+  tasks:
+  - name: create user
+    user:
+        name: '{{username}}'
+        groups: sudo
+        generate_ssh_key: yes
+        shell: /bin/bash
