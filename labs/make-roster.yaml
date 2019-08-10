@@ -4,7 +4,7 @@
       file: path=~/roster.txt state=file
     - name: Perform some dynamic includes
       loop: "{{hostvars | json_query('*')}}"
-      include_tasks: tasks/roster-user.yaml
+      include_tasks: ~/ansible-class/tasks/roster-user.yaml
       vars:
         name: "{{item.student_name}}"
         email: "{{item.student_email}}"
