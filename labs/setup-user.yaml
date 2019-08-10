@@ -1,0 +1,19 @@
+- hosts: me
+  become: true
+  remote_user: root
+  vars_prompt:
+    - name: username
+      prompt: What is your username?
+  tasks:
+  - name: Let the sudo group use sudo without a password
+    lineinfile: "dest=/etc/sudoers state=present regexp='^%sudo' line='%sudo ALL=(ALL) NOPASSWD: ALL'"
+  - name: create user
+    user:
+        name: '{{username}}'
+        groups: sudo
+        shell: /bin/bash
+  - name: Authorize the public key
+    authorized_key:
+      user: '{{username}}'
+      state: present
+      key: "{{lookup('file', '.ssh/authorized_keys'}}"
