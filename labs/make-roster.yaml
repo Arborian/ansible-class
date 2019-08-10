@@ -1,10 +1,11 @@
 - hosts: me
   tasks:
     - name: Ensure file exists
-      file: path=~/roster.txt state=touch
-    - name: Include rick
-      import_tasks: tasks/roster-user.yaml
+      file: path=~/roster.txt state=file
+    - name: Perform some dynamic includes
+      loop: {{hostvars | json_query("*")}}
+      include_tasks: tasks/roster-user.yaml
       vars:
-        name: "Rick Copeland"
-        email: "rick@arborian.com"
-        regexp: rick
+        name: "{{item.student_name}}"
+        email: "{{item.student_email}}"
+        regexp: "{{item.student_email}}"
