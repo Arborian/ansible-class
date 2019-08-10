@@ -1,0 +1,22 @@
+- hosts: web
+  vars:
+    users:
+        - name: Rick Copeland
+          email: rick@arborian.com
+          regexp: rick
+        - name: Marc Benioff
+          email: marc@salesforce.com
+          regexp: marc
+        - name: Patrick
+          email: pat@vmware.com
+          regexp: pat
+  tasks:
+    - name: Ensure file exists
+      file: path=~/roster.txt state=file
+    - name: Perform some dynamic includes
+      loop: '{{users}}'
+      import_tasks: tasks/roster-user.yaml
+      vars:
+        name: "{{item.name}}"
+        email: "{{item.email}}"
+        regexp: "{{item.regexp}}"
