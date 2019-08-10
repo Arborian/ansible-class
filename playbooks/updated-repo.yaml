@@ -1,6 +1,0 @@
-- hosts: web
-  tasks:
-    - name: Get or update repo
-      git:
-        repo: https://github.com/Arborian/ansible-class.git
-        dest: ~/ansible-class

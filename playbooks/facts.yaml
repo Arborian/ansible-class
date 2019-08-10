@@ -1,5 +1,0 @@
-- hosts: all
-  tasks:
-  - name: debug
-    debug:
-      msg: The var is {{ansible_cmdline.root}}

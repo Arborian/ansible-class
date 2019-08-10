@@ -1,9 +1,0 @@
-- hosts: arborian-01.class.arborian.com
-  tasks:
-  - name: Ensure that virtualenv is installed
-    become: yes
-    apt: name=python-virtualenv
-  - name: Create a virtualenv with the packages we need
-    pip:
-      virtualenv: ~/env
-      name: ansible-container[docker]

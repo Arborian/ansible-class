@@ -1,8 +1,0 @@
-- hosts: region_blr1
-  serial:
-    - 1
-    - 20%
-    - 100%
-  tasks:
-    - name: Do something to each host, one at a time
-      debug: "I am on host {{ansible_host}}"

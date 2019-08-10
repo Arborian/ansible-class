@@ -1,7 +1,0 @@
-- hosts: web
-  strategy: debug
-  tasks:
-  - name: Install a webserver
-    apt:
-      name: engine-x
-      state: latest
