@@ -15,7 +15,7 @@
       file: path=~/roster.txt state=file
     - name: Perform some dynamic includes
       loop: '{{users}}'
-      import_tasks: tasks/roster-user.yaml
+      include_tasks: tasks/roster-user.yaml
       vars:
         name: "{{item.name}}"
         email: "{{item.email}}"
