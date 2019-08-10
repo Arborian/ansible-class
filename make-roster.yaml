@@ -1,0 +1,10 @@
+- hosts: me
+  tasks:
+    - name: Ensure file exists
+      file: path=~/roster.txt state=touch
+    - name: Include rick
+      import_tasks: roster-user.yaml
+      vars:
+        name: "Rick Copeland"
+        email: "rick@arborian.com"
+        regexp: rick
