@@ -27,10 +27,3 @@
       copy:
         src: index.html
         dest: /usr/share/nginx/html/index.html
-  # handlers:
-  #   - name: restart nginx
-  #     service:
-  #       name: nginx
-  #       state: restarted
-
-
