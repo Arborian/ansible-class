@@ -1,4 +1,5 @@
 - hosts: me
+  gather_facts: false
   tasks:
     - name: Ensure file exists
       file: path=~/roster.txt state=file
