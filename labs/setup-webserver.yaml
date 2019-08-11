@@ -21,3 +21,16 @@
               html_file_name: index.html
               autoindex: false
           http_demo_conf: false
+  tasks:
+    - name: Install a new index.html
+      notify: restart nginx
+      file:
+        src: labs/index.html
+        dest: /usr/share/nginx/html/index.html
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+
+
