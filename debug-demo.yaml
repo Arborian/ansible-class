@@ -1,6 +1,6 @@
 - hosts: me
   gather_facts: false
-  stategy: debug
+  strategy: debug
   tasks:
   - name: Create a file using some facts
     template:
