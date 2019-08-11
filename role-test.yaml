@@ -1,3 +1,4 @@
 - hosts: me
+  gather_facts: false
   roles:
     - rick446.testrole
