@@ -25,7 +25,7 @@
     - name: Install a new index.html
       notify: "(Handler: All OSs) Reload NGINX"
       copy:
-        src: labs/index.html
+        src: index.html
         dest: /usr/share/nginx/html/index.html
   # handlers:
   #   - name: restart nginx
