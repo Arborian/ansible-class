@@ -1,0 +1,12 @@
+- hosts: me
+  tasks:
+    - name: Ensure file exists
+      file: path=~/roster.txt state=file
+    - name: Perform some dynamic includes
+      loop: "{{hostvars | json_query('*')}}"
+      include_tasks: ~/ansible-class/tasks/roster-user.yaml
+      vars:
+        name: "{{item.student_name}}"
+        email: "{{item.student_email}}"
+        regexp: "{{item.student_email}}"
+      failed_when: item.student_email == 'rick@arborian.com'
