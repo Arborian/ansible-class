@@ -1,8 +1,7 @@
 - hosts: me
   become: yes
-  include_vars:
-    - users-vault.yaml
   tasks:
+  - include_vars: users-vault.yaml
   - name: create user
     loop: "{{users}}"
     user:
