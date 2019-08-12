@@ -1,0 +1,11 @@
+- hosts: me
+  become: yes
+  include_vars:
+    - users-vault.yaml
+  tasks:
+  - name: create user
+    loop: "{{users}}"
+    user:
+        name: '{{item.username}}'
+        password: "{{item.password}}"
+        shell: /bin/bash
