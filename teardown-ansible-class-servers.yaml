@@ -1,0 +1,13 @@
+- hosts: ansible.training.arborian.com
+  gather_facts: no
+  become: yes
+  tasks:
+  - name: Teardown student servers
+    loop: "{{users}}"
+    become: no
+    local_action:
+      module: ec2_instance
+      region: "{{region}}"
+      state: absent
+      filters:
+        "tag:Name": "{{item.username}}-instance"
