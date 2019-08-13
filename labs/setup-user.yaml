@@ -1,12 +1,15 @@
 - hosts: me
   become: true
-  remote_user: root
   vars_prompt:
     - name: username
       prompt: What is your username?
   tasks:
+  # - name: Let the sudo group use sudo without a password
+  #   lineinfile: "dest=/etc/sudoers state=present regexp='^%sudo' line='%sudo ALL=(ALL) NOPASSWD: ALL'"
   - name: Let the sudo group use sudo without a password
-    lineinfile: "dest=/etc/sudoers state=present regexp='^%sudo' line='%sudo ALL=(ALL) NOPASSWD: ALL'"
+    copy:
+      src: ansible_sudoers
+      dest: /etc/sudoers.d/ansible_sudoers
   - name: create user
     user:
         name: '{{username}}'
