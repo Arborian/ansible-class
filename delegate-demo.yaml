@@ -1,0 +1,14 @@
+- hosts: me
+  become: true
+  tasks:
+    - name: Remove host from load balancer
+      debug:
+        msg: "This would probably be a custom module or the ec2_elb module"
+      delegate_to: localhost
+    - name: Deploy some code on all the nodes
+      debug:
+        msg: "Hey, I'm deploying code!"
+    - name: Re-add host to load balancer
+      debug:
+        msg: "This would probably be a custom module or the ec2_elb module"
+      delegate_to: localhost

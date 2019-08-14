@@ -1,0 +1,5 @@
+- hosts: all
+  serial: 4
+  tasks:
+    - name: Do something to each host, one at a time
+      debug: "I am on host {{ansible_host}}"

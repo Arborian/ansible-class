@@ -1,7 +1,7 @@
 - hosts: me
   tasks:
     - name: Ensure file exists
-      file: path=~/roster.txt state=file
+      file: path=~/roster.txt state=touch
     - name: Perform some dynamic includes
       loop: "{{hostvars | json_query('*')}}"
       include_tasks: ~/ansible-class/tasks/roster-user.yaml

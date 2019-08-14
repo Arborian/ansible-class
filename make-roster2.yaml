@@ -7,7 +7,7 @@
         - name: Marc Benioff
           email: marc@salesforce.com
           regexp: marc
-        - name: Patrick
+        - name: Patrick P. Gelsinger
           email: pat@vmware.com
           regexp: pat
   tasks:
