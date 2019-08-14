@@ -5,5 +5,5 @@
     - 20%
     - 100%
   tasks:
-    - name: Do something to each host, four at a time
+    - name: Do something to each host, a few at a time
       debug: "I am on host {{ansible_host}}"
