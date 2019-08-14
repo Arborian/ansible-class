@@ -1,5 +1,6 @@
 - hosts: all
+  gather_facts: off
   serial: 4
   tasks:
-    - name: Do something to each host, one at a time
+    - name: Do something to each host, four at a time
       debug: "I am on host {{ansible_host}}"
