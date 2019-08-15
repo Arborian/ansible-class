@@ -1,0 +1,10 @@
+---
+# tasks file for roles/rick446.molecule-role
+- name: Molecule Hello World!
+  debug:
+    msg: Hello, Standard World!
+- name: Install yummy packages
+  yum:
+    name:
+      - chrony
+      - lsof
