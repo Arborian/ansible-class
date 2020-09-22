@@ -4,6 +4,5 @@
   tasks:
   - name: Create a file using some facts
     template:
-      # fail because of missing src/dest
       src: templates/dump-facts.txt.j2
       dest: ~/dump-facts.txt

@@ -23,7 +23,7 @@
           http_demo_conf: false
   tasks:
     - name: Install a new index.html
-      notify: "(Handler: All OSs) Reload NGINX"
+      notify: "(Handler) Run NGINX"
       copy:
         src: index.html
         dest: /usr/share/nginx/html/index.html
