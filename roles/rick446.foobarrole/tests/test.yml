@@ -1,5 +1,0 @@
----
-- hosts: localhost
-  remote_user: root
-  roles:
-    - ansible-class-repo/roles/rick446.foobarrole
