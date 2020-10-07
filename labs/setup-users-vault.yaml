@@ -1,8 +1,11 @@
 - hosts: me
   become: yes
   gather_facts: no
+  vars_files:
+    - users.yaml
+    - users-vault.yaml
   tasks:
-  - include_vars: users-vault.yaml
+  - debug: var=users
   - name: create user
     loop: "{{users}}"
     user:

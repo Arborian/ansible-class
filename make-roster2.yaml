@@ -12,7 +12,7 @@
           regexp: pat
   tasks:
     - name: Ensure file exists
-      file: path=~/roster.txt state=file
+      file: path=~/roster.txt state=touch
     - name: Perform some dynamic includes
       loop: '{{users}}'
       include_tasks: tasks/roster-user.yaml

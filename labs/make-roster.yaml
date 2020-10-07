@@ -1,11 +1,13 @@
 - hosts: me
+  gather_facts: false
   tasks:
     - name: Ensure file exists
       file: path=~/roster.txt state=touch
+    - debug: var=roster
     - name: Perform some dynamic includes
       loop: "{{roster}}"
       include_tasks: ../tasks/roster-user.yaml
       vars:
-        name: "{{item.student_name}}"
-        email: "{{item.student_email}}"
-        regexp: "{{item.student_email}}"
+        name: "{{item.name}}"
+        email: "{{item.email}}"
+        regexp: "{{item.email}}"
