@@ -976,7 +976,7 @@ Sometimes we need access to various facts about a host (IP addresses, OS configu
 the `setup` module:
 
 ```bash
-$ ansible rick -m setup
+$ ansible me -m setup
 ... lots of output ...
         "ansible_userspace_architecture": "x86_64",
         "ansible_userspace_bits": "64",
