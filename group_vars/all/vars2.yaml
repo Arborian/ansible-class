@@ -1,0 +1,4 @@
+custom_var_2: We can do other vars here
+custom_var_3:
+  - name1: value1
+    name2: value2
