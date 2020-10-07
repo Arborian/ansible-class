@@ -531,7 +531,7 @@ ip-172-30-1-191.ec2.internal
 Host of the modules will require that we have a version of Python already installed on the target system(s). If you need to "bootstrap" a system, you can use the `raw` module:
 
 ```bash
-$ ansible rick --become -m raw -a "yum install -y python3"
+$ ansible me --become -m raw -a "yum install -y python3"
 ... (lots of output) ...
 Dependency Installed:
   python3-libs.x86_64 0:3.6.8-13.el7         python3-pip.noarch 0:9.0.3-7.el7_7
@@ -549,7 +549,7 @@ Generally, it's safer to use the `command` module, but if you want to use the sh
 use the `shell` module:
 
 ```bash
-$ ansible rick -m shell -a 'echo $(hostname) $USER'
+$ ansible me -m shell -a 'echo $(hostname) $USER'
 rick | CHANGED | rc=0 >>
 ip-172-30-1-102.ec2.internal centos
 ```
@@ -562,7 +562,7 @@ ip-172-30-1-102.ec2.internal centos
 The `file` module is used to create/modify file permissions, directories, and symlinks. It does *not* change the contents of files.
 
 ```bash
-$ ansible rick -m file -a "name=test state=touch"
+$ ansible me -m file -a "name=test state=touch"
 rick | CHANGED => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python"
@@ -583,7 +583,7 @@ rick | CHANGED => {
 ---
 
 ```bash
-$ ansible rick -m file -a "name=test1 state=directory"
+$ ansible me -m file -a "name=test1 state=directory"
 rick | CHANGED => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python"
@@ -608,7 +608,7 @@ rick | CHANGED => {
 The `copy` module can be used to copy the contents of a (local) file to the remote server:
 
 ```bash
-$ ansible rick -m copy -a 'src=ansible.cfg dest=/tmp/ansible.cfg'
+$ ansible me -m copy -a 'src=ansible.cfg dest=/tmp/ansible.cfg'
 rick | CHANGED => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python"
@@ -639,23 +639,23 @@ Most of the time, we may want to customize the contents of a file. For this, we 
 `templates/host_info.txt.j2`:
 
 ```jinja2
-The host and port are 
+The host is {{ansible_host}}
 
-{{ansible_host}}:{{port}} 
+The port is {{port}}
 ```
 
 ---
 
 ```bash
-$ ansible rick -m template -a 'src=templates/host_info.txt.j2 dest=host_info.txt'
-rick | CHANGED => {
+$ ansible web-0 -m template -a 'src=templates/host_info.txt.j2 dest=host_info.txt'
+web-0 | CHANGED => {
     "ansible_facts": {
 ...
-$ ansible rick -m command -a 'cat host_info.txt'
-rick | CHANGED | rc=0 >>
-The host and port are
+$ ansible web-0 -a 'cat host_info.txt'
+web-0 | CHANGED | rc=0 >>
+The host is 54.144.11.23
 
-3.92.73.102:80
+The port is 80
 ```
 
 [jinja2]: https://jinja.palletsprojects.com/en/2.10.x/templates/
@@ -665,7 +665,7 @@ The host and port are
 ## Ansible Packaging modules: `apt`, `yum`, etc.
 
 ```bash
-$ ansible all --become -m yum -a name=git
+$ ansible me --become -m yum -a name=git
 rick | CHANGED => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python"
@@ -681,7 +681,7 @@ rick | CHANGED => {
 The `user` module can be used to create a user on the remote host. 
 
 ```bash
-$ ansible --become rick -m user -a 'name=rick shell=/bin/bash'
+$ ansible --become me -m user -a 'name=rick shell=/bin/bash'
 rick | CHANGED => {
 	...
     "home": "/home/rick",
@@ -699,7 +699,8 @@ rick | CHANGED => {
 The `authorized_key` module can be used to add a (public) ssh key to the user's .ssh directory.
 
 ```bash
-$ ansible --become rick -m authorized_key -a 'user=rick key={{lookup("file", "../class-keypair-public")}}'
+$ ansible --become me -m authorized_key \
+    -a 'user=rick key={{lookup("file", "keys/class-keypair.pem.pub")}}'
 rick | CHANGED => {
 	...
     "state": "present",
@@ -715,7 +716,7 @@ rick | CHANGED => {
 We can use the `git` module to check out a repository (or a particular version) on the host:
 
 ```bash
-$ ansible rick -m git -a 'repo=https://github.com/ansible/ansible.git dest=ansible'
+$ ansible me -m git -a 'repo=https://github.com/ansible/ansible.git dest=ansible'
 rick | CHANGED => {
     "after": "e6e98407178556c1eb60101abef1df08c753d31d",
     "ansible_facts": {
@@ -734,13 +735,13 @@ You can use the `service` module to start/stop system services. Let's start by
 installing nginx:
 
 ```bash
-$ ansible rick --become -m yum -a 'name=epel-release'
+$ ansible me --become -m yum -a 'name=epel-release'
 rick | CHANGED => {
 ...
 ```
 
 ```bash
-$ ansible rick --become -m yum -a 'name=nginx'
+$ ansible me --become -m yum -a 'name=nginx'
 rick | CHANGED => {
 ...
 ```
