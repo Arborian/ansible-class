@@ -1,0 +1,7 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+  - terraform:
+      project_path: '{{ project_dir }}'
+      state: present
+      # workspace: dev, etc.

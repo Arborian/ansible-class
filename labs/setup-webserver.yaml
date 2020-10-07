@@ -1,7 +1,7 @@
 - hosts: me
   become: true
   roles:
-    - role: nginxinc.nginx
+    - role: nginxinc.nginx_config
   vars:
     nginx_http_template_enable: true
     nginx_http_template:

@@ -1,0 +1,10 @@
+Role_app:
+  vars:
+    name: app-server
+Role_db:
+  vars:
+    name: db-server
+Role_web:
+  vars:
+    name: web-server
+    port: 80

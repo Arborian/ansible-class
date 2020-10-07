@@ -6,6 +6,6 @@
   - name: create user
     user:
         name: '{{username}}'
-        groups: sudo
+        groups: wheel
         generate_ssh_key: yes
         shell: /bin/bash

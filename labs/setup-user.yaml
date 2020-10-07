@@ -15,10 +15,10 @@
   - name: create user
     user:
         name: '{{username}}'
-        groups: sudo
+        groups: wheel
         shell: /bin/bash
   - name: Authorize the public key
     authorized_key:
       user: '{{username}}'
       state: present
-      key: "{{lookup('file', '~/.ssh/authorized_keys')}}"
+      key: "{{lookup('file', 'class-keypair-public')}}"

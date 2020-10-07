@@ -1,0 +1,15 @@
+plugin: aws_ec2
+aws_access_key: AKIAUS3N6HXSQA74RVMW
+aws_secret_key: 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
+regions:
+  - us-east-1
+keyed_groups:
+  - key: tags.Role
+    prefix: Role_
+    separator: ""
+filters:
+  tag:Cluster: AnsibleFundamentals
+hostnames: 
+- tag:Name
+compose:
+  ansible_host: public_ip_address

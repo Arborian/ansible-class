@@ -5,7 +5,7 @@
     - name: Ensure file exists
       file: path=~/roster.txt state=file
     - name: Perform some dynamic includes
-      loop: "{{hostvars | json_query('*')}}"
+      loop: "{{roster}}"
       include_tasks: ~/ansible-class/tasks/roster-user-error.yaml
       vars:
         name: "{{item.student_name}}"
