@@ -4,14 +4,6 @@
     - name: username
       prompt: What is your username?
   tasks:
-  # While you *can* do this with the following task, it is extremely dangerous (if you introduce
-  #   a syntax error into /etc/sudoers, then sudo will not work FOR ANY USER ON THE SYSTEM
-  # - name: Let the sudo group use sudo without a password
-  #   lineinfile: "dest=/etc/sudoers state=present regexp='^%sudo' line='%sudo ALL=(ALL) NOPASSWD: ALL'"
-  - name: Let the sudo group use sudo without a password
-    copy:
-      src: ansible_sudoers
-      dest: /etc/sudoers.d/ansible_sudoers
   - name: create user
     user:
         name: '{{username}}'
@@ -22,3 +14,11 @@
       user: '{{username}}'
       state: present
       key: "{{lookup('file', 'class-keypair-public')}}"
+  # While you *can* do this with the following task, it is extremely dangerous (if you introduce
+  #   a syntax error into /etc/sudoers, then sudo will not work FOR ANY USER ON THE SYSTEM
+  # - name: Let the sudo group use sudo without a password
+  #   lineinfile: "dest=/etc/sudoers state=present regexp='^%sudo' line='%sudo ALL=(ALL) NOPASSWD: ALL'"
+  - name: Let the sudo group use sudo without a password
+    copy:
+      src: files/ansible_sudoers
+      dest: /etc/sudoers.d/ansible_sudoers
