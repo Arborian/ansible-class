@@ -26,16 +26,14 @@ Class Times: 09:00 - 05:00 / Lunch 12:00-1:00
 - Introduction to Ansible and DevOps
 - Setting up learning environment
 - Inventory your infrastructure
-- Ansible Playbooks
 - Ad Hoc Server Management
-  - Running one time tasks/commands
-  - Running commands in parallel
+- Survey of useful ansible modules
 
 ---
 
 ## Outline (cont'd)
 
-- Survey of useful ansible modules
+- Ansible Playbooks
 - Templating with Jinja2
 - Roles for modularizing code
 - Orchestration with cloud modules
@@ -137,7 +135,11 @@ instructions [here][install].
 
 ## Learning environment
 
-Once you've cloned the repo, verify your ansible installation by navingating to
+Once you've cloned the repo, you'll need to edit the file aws_ec2.yaml to
+include the `aws_access_key` and `aws_secret_key` given in class (or use a new
+`aws_profile`).
+
+Once you've done that, verify your ansible installation by navingating to
 the repository and executing the following command:
 
 ```bash
@@ -286,6 +288,22 @@ $ ansible-inventory --graph
 
 ---
 
+## Lab: Create a group of one for your own server
+
+- Edit the `inventory.yaml` file to add a new group `"me"` that contains just
+  your server. In my case, I added the following lines:
+
+```yaml
+me:
+  hosts: 
+    rick:
+```
+
+- Verify that the group creation worked by executing `ansible me -m ping`. Only
+  your host should respond.
+
+---
+
 ## Ad-hoc Commands
 
 Ansible command line
@@ -367,6 +385,7 @@ Role_web:
     name: web-server
     port: 80
 ```
+[yaml]: https://yaml.org/
 
 ---
 
@@ -403,11 +422,34 @@ In larger infrastructures, we may want to split our variables out of the invento
 If you place a file (using YAML syntax) into the host_vars or group_vars directory, then that file defines
 the variables for that host/group.
 
+
+host_vars/somehost.yaml
+```yaml
+var1: value1
+var2: [1,2,3]
+```
+
+group_vars/somegroup.yaml
+```yaml
+var3: groupvar3
+```
+
 ---
 
 ### Option 2: Use subdirectories for hosts/groups
 
-If you create a subdirectory under host_vars or group_vars, then *all files* in that subdirectory are used to define the host/group variables.
+If you create a subdirectory under host_vars or group_vars, then *all files* in
+that subdirectory are used to define the host/group variables:
+
+host_vars/somehost/vars1.yaml
+```yaml
+var1: value1
+```
+
+host_vars/somehost/vars2.yaml
+```yaml
+var2: value2
+```
 
 ---
 
@@ -419,6 +461,30 @@ If you create a subdirectory under host_vars or group_vars, then *all files* in 
 - Create a `group_vars` directory with a subdirectory `all`
   - Create a few files inside `group_vars/all` and verify that the variables are applied
     to all hosts using `ansible all -m debug ...`
+
+---
+
+## Ad-hoc server management
+
+Sometimes we might want to just run a simple one-off command on a server (or a
+group). For that, we can use the *command* module:
+
+```bash
+$ ansible me -m command -a 'whoami'
+rick | CHANGED | rc=0 >>
+centos
+```
+
+For the special case of the command, module, we can leave off the `-m command`
+as well:
+<!-- .element: class="fragment" -->
+
+```bash
+$ ansible me -a 'whoami'
+rick | CHANGED | rc=0 >>
+centos
+```
+<!-- .element: class="fragment" -->
 
 ---
 
@@ -490,29 +556,6 @@ ip-172-30-1-102.ec2.internal centos
 
 ---
 
-## Ansible Module: `setup`
-
-Sometimes we need access to various facts about a host (IP addresses, OS configuration, etc.). For that, we can use
-the `setup` module:
-
-```bash
-$ ansible rick -m setup
-... lots of output ...
-        "ansible_userspace_architecture": "x86_64",
-        "ansible_userspace_bits": "64",
-        "ansible_virtualization_role": "guest",
-        "ansible_virtualization_type": "kvm",
-        "discovered_interpreter_python": "/usr/bin/python",
-        "gather_subset": [
-            "all"
-        ],
-        "module_setup": true
-    },
-    "changed": false
-}
-```
-
----
 
 ## Ansible Module: `file`
 
@@ -918,6 +961,30 @@ TASK [Gathering Facts] *********************************************************
   - Allow any user in the `wheel` group to execute `sudo` without a password
     - Hint: Use the `template` or `copy` module to create a file in /etc/sudoers.d/
 - Run your playbook and ensure that you can ssh into your host and `sudo` without a password
+
+---
+
+## Ansible Module: `setup`
+
+Sometimes we need access to various facts about a host (IP addresses, OS configuration, etc.). For that, we can use
+the `setup` module:
+
+```bash
+$ ansible rick -m setup
+... lots of output ...
+        "ansible_userspace_architecture": "x86_64",
+        "ansible_userspace_bits": "64",
+        "ansible_virtualization_role": "guest",
+        "ansible_virtualization_type": "kvm",
+        "discovered_interpreter_python": "/usr/bin/python",
+        "gather_subset": [
+            "all"
+        ],
+        "module_setup": true
+    },
+    "changed": false
+}
+```
 
 ---
 
