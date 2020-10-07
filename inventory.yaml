@@ -1,6 +1,11 @@
 Role_app:
   vars:
     name: app-server
+    newvar1: The thing
+    newvar2:
+      - one
+      - two
+      - three
 Role_db:
   vars:
     name: db-server
