@@ -16,3 +16,14 @@ Role_web:
 me:
   hosts:
     rick:
+  vars:
+    roster:
+    - name: Rick Copeland
+      email: rick@arborian.com
+      regexp: rick
+    - name: Marc Benioff
+      email: marc@salesforce.com
+      regexp: marc
+    - name: Patrick P. Gelsinger
+      email: pat@vmware.com
+      regexp: pat
