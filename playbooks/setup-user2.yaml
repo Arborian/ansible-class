@@ -3,10 +3,13 @@
   vars_prompt:
     - name: username
       prompt: What is your username?
+  vars:
+    mygroups: 
+        - wheel
   tasks:
   - name: create user
     user:
         name: '{{username}}'
-        groups: wheel
+        groups: '{{mygroups}}'
         generate_ssh_key: yes
         shell: /bin/bash

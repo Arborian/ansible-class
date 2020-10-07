@@ -816,7 +816,7 @@ A simple playbook with one play:
 ## Running the playbook
 
 ```bash
-$ ansible-playbook ansible-class-repo/first-play.yaml
+$ ansible-playbook playbooks/first-play.yaml
 
 PLAY [First play] **************************************************************************************
 
@@ -844,7 +844,7 @@ rick                       : ok=5    changed=3    unreachable=0    failed=0    s
 ## Running the playbook (verbose)
 
 ```bash
-$ ansible-playbook ansible-class-repo/first-play.yaml -v
+$ ansible-playbook playbooks/first-play.yaml -v
 Using /home/rick446/src/arborian-classes/data/ansible-examples/ansible.cfg as config file
 
 PLAY [First play] **************************************************************************************
@@ -901,12 +901,14 @@ This playbook uses a `username` variable:
 - hosts: me
   become: yes
   vars:
-    username: ansible-is-awesome
+    username: ansible-is-so-awesome
+    mygroups: 
+        - wheel
   tasks:
   - name: create user
     user:
         name: '{{username}}'
-        groups: wheel
+        groups: '{{mygroups}}'
         generate_ssh_key: yes
         shell: /bin/bash
 ```
@@ -923,11 +925,14 @@ We can also prompt the user running Ansible for values of various variables usin
   vars_prompt:
     - name: username
       prompt: What is your username?
+  vars:
+    mygroups: 
+        - wheel
   tasks:
   - name: create user
     user:
         name: '{{username}}'
-        groups: wheel
+        groups: '{{mygroups}}'
         generate_ssh_key: yes
         shell: /bin/bash
 ```
@@ -937,12 +942,12 @@ We can also prompt the user running Ansible for values of various variables usin
 This will prompt us for a username **if** no variable has been defined elsewhere called `username`:
 
 ```bash
-$ ansible-playbook ansible-class-repo/setup-user2.yaml
+$ ansible-playbook playbooks/setup-user2.yaml
 What is your username?:
 ```
 
 ```bash
-$ ansible-playbook ansible-class-repo/setup-user2.yaml -e username=ansible-is-awesome
+$ ansible-playbook playbooks/setup-user2.yaml -e username=ansible-is-awesome
 
 [no prompt]
 
