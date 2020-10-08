@@ -1,0 +1,3 @@
+---
+# tasks file for roles/rick446.testrole
+- debug: msg="You included the test role!!!"
