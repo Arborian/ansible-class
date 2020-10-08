@@ -1,0 +1,7 @@
+- hosts: me
+  become: true
+  roles:
+    - geerlingguy.docker
+  vars:
+    docker_users:
+      - rick
