@@ -1705,22 +1705,31 @@ nginx_enable: true
 nginx_install: true
 ...
 ```
-```
 
+---
+
+## Ansible Galaxy: Creating your own role
+
+You can use the `ansible-galaxy` tool to create your *own* roles, as well,
+generating all the boilerplate:
+
+```bash
+$ ansible-galaxy role init roles/classrole
+- Role roles/classrole was created successfully
+```
 ---
 
 ## Lab: Using a Ansible Galaxy role
 
-- Use `ansible-galaxy` to install the `nginxinc.nginx_config` role
-- Install the nginx role on your server. Use the "default_converge.yml" file in
-  the [README][nginx-readme] as a basis.
-- Update your playbook to upload a new index.html identifying yourself. Make
-  sure you restart the webserver using a handler. (You may find the following
-variable useful:) ```yaml server_name: "{{ansible_host}}" ```
-- Verify that your server is running the nginx server by using the `curl`
-  command with your server's IP address,
+- Use `ansible-galaxy` to install the `geerlingguy.docker` role
+- Use the role to create a (simple) playbook which will (on your server)
+  - install docker using the role
+  - add your user to the list of docker_users (use a var)
 
-[nginx-readme]: https://galaxy.ansible.com/nginxinc/nginx_config
+Hint: configuration information on the role is available on the 
+[readme page][docker-readme]
+
+[docker-readme]: https://galaxy.ansible.com/geerlingguy/docker
 
 ---
 
