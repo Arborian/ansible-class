@@ -1085,10 +1085,10 @@ We can also use variables and loops when doing our includes via the `loop` key, 
 
 ## Lab: Playbook loops
 
+Add a new variable for your server "roster" which contains several users (you
+can use the inventory.yaml file for this)
+
 Create a playbook that will add several users to the roster. 
-
-Use the 'roster' variable (which should be available on your server).
-
 
 ---
 
@@ -1123,6 +1123,8 @@ A play has several different keys which may be present:
 ## Best practices for organizing playbooks, vars, and roles
 
 <http://docs.ansible.com/ansible/latest/playbooks_best_practices.html>
+
+<https://docs.ansible.com/ansible/2.9/user_guide/playbooks_best_practices.html>
 
 ---
 
@@ -1205,7 +1207,7 @@ ansible_default_ipv4:
 Running the above playbook generates the following file:
 
 ```bash
-rick@ansible:~/ansible-class$ ansible-playbook ansible-class-repo/dump-facts.yaml
+rick@ansible:~/ansible-class$ ansible-playbook playbooks/dump-facts.yaml
 ...
 $ ansible me -m command -a 'cat dump-facts.txt'
 rick | CHANGED | rc=0 >>
@@ -1266,12 +1268,14 @@ One useful technique when working with templates and filters is to use the `msg`
 parameter with the `debug` module:
 
 ```bash
-$ ansible me -m debug -a msg="{{hostvars |
-json_query('*.roster[*].student_email')}}"
+$ ansible me -m debug -a \
+    msg="{{hostvars | json_query('*.roster[*].email')}}"
 rick | SUCCESS => {
     "msg": [
         [
-            "rick@arorian.com"
+            "rick@arborian.com",
+            "marc@salesforce.com",
+            "pat@vmware.com"
         ]
     ]
 }
@@ -1291,17 +1295,7 @@ What do you do when everything doesn't "just work?"
 - Detect missing/invalid arguments for tasks
 
 ```bash
-$ ansible me -m debug -a msg="{{hostvars |
-json_query('*.roster[*].student_email')}}"
-rick | SUCCESS => {
-    "msg": [
-        [
-            "rick@arorian.com"
-        ]
-    ]
-}
-(classes) (master) rick446@theodin:~/src/arborian-classes/data/ansible-examples
-$ ansible-playbook --check ansible-class-repo/dump-facts.yaml
+$ ansible-playbook --check playbooks/dump-facts.yaml
 
 PLAY [me]
 **********************************************************************************************
@@ -1328,38 +1322,33 @@ skipped=0    rescued=0    ignored=0
 - View commands (if commands are run)
 
 ```bash
-$ ansible-playbook  ansible-class-repo/dump-facts.yaml -vv
+$ ansible-playbook  playbooks/dump-facts.yaml -vv
 ansible-playbook 2.9.13
-  config file =
-/home/rick446/src/arborian-classes/data/ansible-examples/ansible.cfg
-  configured module search path =
-['/home/rick446/src/arborian-classes/data/ansible-examples/modules']
-  ansible python module location =
-/home/rick446/.virtualenvs/classes/lib/python3.8/site-packages/ansible
+  config file = /home/rick446/src/ansible-class/ansible.cfg
+  configured module search path = ['/home/rick446/src/ansible-class/modules']
+  ansible python module location = /home/rick446/.virtualenvs/classes/lib/python3.8/site-packages/ansible
   executable location = /home/rick446/.virtualenvs/classes/bin/ansible-playbook
   python version = 3.8.2 (default, Jul 16 2020, 14:00:26) [GCC 9.3.0]
-Using /home/rick446/src/arborian-classes/data/ansible-examples/ansible.cfg as
-config file
+Using /home/rick446/src/ansible-class/ansible.cfg as config file
 
-PLAYBOOK: dump-facts.yaml
-******************************************************************************
-1 plays in ansible-class-repo/dump-facts.yaml
+PLAYBOOK: dump-facts.yaml **********************************************************************************************************************
+1 plays in playbooks/dump-facts.yaml
 
-PLAY [me]
-**********************************************************************************************
+PLAY [me] **************************************************************************************************************************************
 
-TASK [Gathering Facts]
-*********************************************************************************
-task path:
-/home/rick446/src/arborian-classes/data/ansible-examples/ansible-class-repo/dump-facts.yaml:1
+TASK [Gathering Facts] *************************************************************************************************************************
+task path: /home/rick446/src/ansible-class/playbooks/dump-facts.yaml:1
 ok: [rick]
 META: ran handlers
 
-TASK [Create a file using some facts]
-******************************************************************
-task path:
-/home/rick446/src/arborian-classes/data/ansible-examples/ansible-class-repo/dump-facts.yaml:3
-...
+TASK [Create a file using some facts] **********************************************************************************************************
+task path: /home/rick446/src/ansible-class/playbooks/dump-facts.yaml:3
+ok: [rick] => {"changed": false, "checksum": "6df5e0a8a454bf392c167cf3c451b95656cd1c44", "dest": "/home/centos/dump-facts.txt", "gid": 1000, "group": "centos", "mode": "0664", "owner": "centos", "path": "/home/centos/dump-facts.txt", "secontext": "unconfined_u:object_r:user_home_t:s0", "size": 467, "state": "file", "uid": 1000}
+META: ran handlers
+META: ran handlers
+
+PLAY RECAP *************************************************************************************************************************************
+rick                       : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
 ```
 
@@ -1367,10 +1356,10 @@ task path:
 
 ## Use the playbook debugger
 
-Use `strategy: debug` in your play to drop into a debugger on errors:
+Use `debugger: on_failed` in your play or task to drop into a debugger on errors:
 
 ```
-$ ansible-playbook  ansible-class-repo/debug-demo.yaml
+$ ansible-playbook  playbooks/debug-demo.yaml
 
 PLAY [me]
 **********************************************************************************************
@@ -1415,7 +1404,7 @@ EOF  c  continue  h  help  p  pprint  q  quit  r  redo  u  update_task
 ---
 
 ```bash
-$ ansible-playbook  --ask-vault-pass ansible-class-repo/vault-demo2.yaml
+$ ansible-playbook  --ask-vault-pass playbooks/vault-demo2.yaml
 Vault password:
 
 PLAY [localhost]
@@ -1439,7 +1428,7 @@ skipped=0    rescued=0    ignored=0
 ## Single-stepping
 
 ```bash
-$ ansible-playbook  --step ansible-class-repo/make-roster.yaml
+$ ansible-playbook  --step playbooks/make-roster.yaml
 
 PLAY [me]
 **********************************************************************************************
@@ -1560,7 +1549,7 @@ may instead have Ansible mark *all* hosts failed by including the
 
 - Update your playbook from the previous lab to cause an error whenever your own name is added to the roster
 - Run the playbook in `--check` mode to ensure it works
-- Run the playbook with `strategy: debug` to ensure you get the debugger
+- Run the playbook with `debugger: on_failed` to ensure you get the debugger
 
 ---
 
@@ -1637,7 +1626,7 @@ To activate a role for a play, just add it to the `roles` section of the play:
 ---
 
 ```bash
-$ ansible-playbook ansible-class-repo/role-test.yaml
+$ ansible-playbook playbooks/role-test.yaml
 
 PLAY [me] **********************************************************************************************
 

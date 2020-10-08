@@ -6,7 +6,7 @@
     - debug: var=roster
     - name: Perform some dynamic includes
       loop: "{{roster}}"
-      include_tasks: ../tasks/roster-user.yaml
+      include_tasks: ../playbooks/tasks/roster-user.yaml
       vars:
         name: "{{item.name}}"
         email: "{{item.email}}"

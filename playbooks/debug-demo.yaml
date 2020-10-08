@@ -1,6 +1,6 @@
 - hosts: me
   gather_facts: false
-  strategy: debug
+  debugger: on_failed
   tasks:
   - name: Create a file using some facts
     template:
