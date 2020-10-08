@@ -1,0 +1,14 @@
+all:
+    vars:
+        ansible_user: ubuntu
+        ansible_python_interpreter: /usr/bin/python3
+    hosts:
+{% for server in student_servers.results %}
+        "{{server.instances[0].tags.Name}}":
+            ansible_host: "{{server.instances[0].public_ip_address}}"
+            student_email: "{{server.instances[0].tags.student_email}}"
+            student_name: "{{server.instances[0].tags.student_name}}"
+{% endfor %}
+me:
+    hosts:
+        "{{item.username}}-instance":
