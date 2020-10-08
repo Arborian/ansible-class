@@ -8,6 +8,8 @@
   - name: Get the system date and time
     command: date
     notify: "demo notify"
+    register: date_output
+  - debug: var=date_output
   - name: Ping just for fun
     ping:
   handlers:

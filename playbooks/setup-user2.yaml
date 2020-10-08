@@ -4,7 +4,7 @@
     - name: username
       prompt: What is your username?
   vars:
-    mygroups: 
+    mygroups:
         - wheel
   tasks:
   - name: create user

@@ -1,0 +1,14 @@
+- name: Test host vars
+  hosts: 
+    - Role_db
+    - Role_web
+    - Role_app
+  tasks:
+    - template:
+        src: aconfigfile.j2
+        dest: aconfigfile
+      notify: "debug"
+  handlers:
+    - name: debug
+      debug: msg="Running handler"
+

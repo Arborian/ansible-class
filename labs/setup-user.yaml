@@ -3,17 +3,23 @@
   vars_prompt:
     - name: username
       prompt: What is your username?
+  vars:
+    mygroups:
+      - wheel
   tasks:
+
   - name: create user
     user:
         name: '{{username}}'
-        groups: wheel
+        groups: '{{mygroups}}'
         shell: /bin/bash
+
   - name: Authorize the public key
     authorized_key:
       user: '{{username}}'
       state: present
-      key: "{{lookup('file', 'class-keypair-public')}}"
+      key: "{{lookup('file', '../keys/class-keypair.pem.pub')}}"
+
   # While you *can* do this with the following task, it is extremely dangerous (if you introduce
   #   a syntax error into /etc/sudoers, then sudo will not work FOR ANY USER ON THE SYSTEM
   # - name: Let the sudo group use sudo without a password
