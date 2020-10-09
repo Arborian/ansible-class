@@ -1,4 +1,11 @@
-- hosts: me
-  gather_facts: false
-  roles:
-    - rick446.testrole
+- hosts: ansible
+  become: yes
+  vars:
+    greeting: "First greeting"
+  roles: 
+   - rick446.testrole
+   - community.zabbix.zabbix_web
+  tasks:
+    - debug: msg="This is the playbook task"
+      #     - import_role:
+      # name: community.zabbix.zabbix_web

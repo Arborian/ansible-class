@@ -1,9 +1,10 @@
 ansible_cmdline:
+{#
 {{ ansible_cmdline }}
-{# {% for k, v in ansible_cmdline.items() %}
+{% for k, v in ansible_cmdline.items() %}
     {{ k }}: {{ v }}
 {% endfor %}
- #}
+#}
 
 ansible_default_ipv4:
 {% for k, v in ansible_default_ipv4.items() %}

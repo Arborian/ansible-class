@@ -1,0 +1,36 @@
+- hosts: all
+  gather_facts: no
+  vars:
+    region: us-east-1
+    image: ami-0ac019f4fcb7cb7e6 
+    instance_type: t2.micro 
+    subnet: subnet-16cf245f 
+    key_name: class-keypair 
+  tasks:
+    - name: Launch instance
+      register: instances
+      local_action:
+        module: ec2
+        wait: yes
+        region: "{{region}}"
+        image: "{{image}}"
+        instance_type: "{{instance_type}}"
+        vpc_subnet_id: "{{subnet}}"
+        key_name: "{{key_name}}"
+        exact_count: 1
+        count_tag:
+           Name: "{{inventory_hostname}}"
+        instance_tags:
+           Name: "{{inventory_hostname}}"
+    - name: Associate EIP
+      local_action:
+        module: ec2_eip
+        ip: "{{ansible_host}}"
+        region: "{{region}}"
+        device_id: "{{instances.tagged_instances[0].id}}"
+        allow_reassociation: true
+    - name: Remove old known_hosts entry
+      local_action:
+        module: known_hosts
+        name: "{{ansible_host}}"
+        state: absent

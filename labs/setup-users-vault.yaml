@@ -10,5 +10,5 @@
     loop: "{{users}}"
     user:
         name: '{{item.username}}'
-        password: "{{item.password | password_hash('sha512', 'mysecretsalt') }}"
+        password: "{{item.password | password_hash('sha512') }}"
         shell: /bin/bash

@@ -1,1 +1,4 @@
 custom_var_1: This is the var for the 'all' group
+credentials:
+  username: frodo
+  password: '{{SECRET_password}}'

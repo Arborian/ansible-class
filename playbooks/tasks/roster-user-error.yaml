@@ -5,4 +5,4 @@
     line: '"{{name}}" <{{email}}>'
     dest: ~/roster.txt
     regexp: "{{regexp}}"
-  failed_when: email == 'rick@arborian.com'
+  failed_when: 'email == "rick@arborian.com"'

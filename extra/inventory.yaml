@@ -1,0 +1,37 @@
+all:
+  vars:
+      company: Salesforce
+Role_app:
+  vars:
+    name: app-server
+    my_new_variable_name: my-new-variable-value
+Role_db:
+  vars:
+    name: db-server
+Role_web:
+  vars:
+    name: web-server
+    port: 80
+Role_student:
+  vars:
+    name: student-server
+    roster:
+      - student_name: Rick Copeland
+        student_email: rick@arborian.com
+      - student_name: Marc Benioff
+        student_email: marc.benioff@salesforce.com
+    port: 80
+me:
+  hosts:
+    rick:
+  vars:
+    roster:
+      - name: Rick
+        email: rick@arborian.com
+      - name: Marc
+        email: marc@salesforce.com
+      - name: Pat
+        email: pat@vmware.com
+      - name: Jack
+        email: jack@twitter.com
+    

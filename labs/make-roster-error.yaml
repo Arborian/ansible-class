@@ -1,13 +1,13 @@
 - hosts: me
   gather_facts: false
-  strategy: debug
+  debugger: on_failed
   tasks:
     - name: Ensure file exists
       file: path=~/roster.txt state=touch
     - debug: var=roster
     - name: Perform some dynamic includes
       loop: "{{roster}}"
-      include_tasks: ../tasks/roster-user-error.yaml
+      include_tasks: ../playbooks/tasks/roster-user-error.yaml
       vars:
         name: "{{item.name}}"
         email: "{{item.email}}"

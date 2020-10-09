@@ -1,7 +1,9 @@
 - hosts: me
   become: true
-  roles:
-    - geerlingguy.docker
-  vars:
-    docker_users:
-      - rick
+  tasks:
+    - import_role:
+        name: geerlingguy.docker
+      vars:
+        docker_users:
+          - rick
+          - rick446
